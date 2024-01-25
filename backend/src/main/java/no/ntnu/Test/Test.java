@@ -10,7 +10,7 @@ public class Test {
 
     @GetMapping("first")
     public String greet() {
-        return "Hello World";
+        return "Hello From Spring Boot!\nThe first get request on this app!";
     }
     
 }

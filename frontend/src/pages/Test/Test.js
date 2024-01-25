@@ -6,18 +6,22 @@ function Test() {
 
     const [value, setValue] = useState('');
 
-    useEffect(async () => {
-        const http = XMLHttpRequest();
-        const url = "/test/first"
-        setValue(p);
-    });
+    useEffect(() => {
+        axios.get("http://localhost:8080/test/first").then((r) => {
+            setValue(r.data);
+        });
+    }, []);
 
     return (
-        <div className="Test">
-            Hei
-            {value}
+        <div className="TestPage">
+            <div className='TestPageElement'>
+                <h1>The first Test </h1>
+                <div className='TestContent'>
+                    {value}
+                </div>
+            </div>
         </div>
-      );
+    );
 }
 
 export default Test;
