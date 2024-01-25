@@ -28,3 +28,8 @@
     text-align: center;
     font-size: 35px;
 }
+
+.testImage {
+    height: 100%;
+    width: auto;
+}
