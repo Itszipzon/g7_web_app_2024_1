@@ -27,13 +27,13 @@ function Test() {
     return (
         <div className="TestPage">
             <div className='TestPageElement'>
-                <h1>The first Test </h1>
+                <h1>The first Test</h1>
                 <div className='TestContent'>
                     {testValue}
                 </div>
             </div>
             <div className='TestPageElement'>
-                <h1>The Image Test </h1>
+                <h1>The Image Test</h1>
                 <div className='TestContent'>
                     {image && <img src={image} alt='Astronaut' className='testImage' />}
                 </div>
@@ -41,5 +41,14 @@ function Test() {
         </div>
     );
 }
+
+/*
+<div className='TestPageElement'>
+    <h1>The header of the test</h1>
+    <div className='TestContent'>
+        Put the content of the test in here
+    </div>
+</div>
+ */
 
 export default Test;
