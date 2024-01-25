@@ -38,6 +38,12 @@ function Test() {
                     {image && <img src={image} alt='Astronaut' className='testImage' />}
                 </div>
             </div>
+            <div className='TestPageElement'>
+                <h1>Next Test?</h1>
+                <div className='TestContent'>
+                    
+                </div>
+            </div>
         </div>
     );
 }
