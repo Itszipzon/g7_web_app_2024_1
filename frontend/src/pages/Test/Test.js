@@ -4,11 +4,11 @@ import axios from 'axios';
 
 function Test() {
 
-    const [value, setValue] = useState('');
+    const [testValue, setTestValue] = useState('');
 
     useEffect(() => {
         axios.get("http://localhost:8080/test/first").then((r) => {
-            setValue(r.data);
+            setTestValue(r.data);
         });
     }, []);
 
@@ -17,7 +17,7 @@ function Test() {
             <div className='TestPageElement'>
                 <h1>The first Test </h1>
                 <div className='TestContent'>
-                    {value}
+                    {testValue}
                 </div>
             </div>
         </div>
