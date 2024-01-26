@@ -15,7 +15,7 @@ public class Main {
     }
 
     public static String getCorrectUrl(String url) {
-        if (url.charAt(0) == '/') {
+        if (System.getProperty("os.name").contains("Windows")) {
             url = url.substring(1);
         }
 
