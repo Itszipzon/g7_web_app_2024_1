@@ -13,4 +13,12 @@ public class Main {
     public URL getResource(String resource) {
         return this.getClass().getResource(resource);
     }
+
+    public static String getCorrectUrl(String url) {
+        if (url.charAt(0) == '/') {
+            url = url.substring(1);
+        }
+
+        return url;
+    }
 }

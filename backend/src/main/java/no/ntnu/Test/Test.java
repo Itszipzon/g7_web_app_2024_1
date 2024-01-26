@@ -40,17 +40,20 @@ public class Test {
     @PostMapping("upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
         String uploadDir = new Main().getResource("/static").getPath();
+        System.out.println("\nUpload dir before:" + uploadDir);
+
         if (file.isEmpty()) {
             return new ResponseEntity<>("No file selected", HttpStatus.BAD_REQUEST);
         }
-
+        uploadDir = Main.getCorrectUrl(uploadDir);
         try {
             byte[] bytes = file.getBytes();
             if (!Files.exists(Path.of(uploadDir + "/upload"))) {
                 Files.createDirectories(Path.of(uploadDir + "/upload"));
             }
 
-            uploadDir = new Main().getResource("/static/upload/").getPath(); 
+            uploadDir = new Main().getResource("/static/upload/").getPath();
+            uploadDir = Main.getCorrectUrl(uploadDir);
 
             String fileName = file.getOriginalFilename().replace(" ", "-");
 
