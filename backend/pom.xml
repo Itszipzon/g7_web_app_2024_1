@@ -11,13 +11,11 @@
 	</parent>
 
 
-
 	<groupId>no.ntnu</groupId>
 	<artifactId>backend</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<name>CarRental</name>
 	<description>Car Rental Backend</description>
-
 
 
 	<dependencies>
@@ -33,8 +31,15 @@
 			<scope>test</scope>
 		</dependency>
 
-	</dependencies>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.14.0</version>
+		</dependency>
 
+
+	</dependencies>
 
 
 	<properties>

@@ -27,8 +27,7 @@ function Test() {
     const handleUpload = () => {
         const formData = new FormData();
         formData.append('file', file);
-        axios.post("http://localhost:8080/test/upload", formData);
-        document.getElementsByClassName("testFileInput").value = null;
+        axios.post("http://localhost:8080/test/upload", formData).then(window.location.href = `/`);
     }
 
     useEffect(() => {
@@ -55,7 +54,7 @@ function Test() {
                 </div>
             </div>
             <div className='TestPageElement'>
-                <h1>Upload test (Not Working)</h1>
+                <h1>Upload test</h1>
                 <div className='TestContent'>
                     <input type='file' onChange={handleFileChange} className='testFileInput' />
                     <button onClick={handleUpload} className='testFileButton'>Upload</button>

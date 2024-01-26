@@ -1,10 +1,12 @@
 package no.ntnu.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -23,11 +25,21 @@ import no.ntnu.Main;
 @RequestMapping("test")
 public class Test {
 
+    /**
+     * Sends text over http.
+     *
+     * @return the text.
+     */
     @GetMapping("first")
     public String greet() {
         return "Hello From Spring Boot!<br/>The first get request on this app!";
     }
 
+    /**
+     * Sends a image to the frontend.
+     * @param imageName image to be sent.
+     * @return the image.
+     */
     @GetMapping("image/{imageName}")
     public ResponseEntity<Resource> image(@PathVariable String imageName) {
         Resource r = new ClassPathResource("static/img/" + imageName);
@@ -37,11 +49,14 @@ public class Test {
                 .body(r);
     }
 
+    /**
+     * Upload files to the backend.
+     * @param file the file to upload.
+     * @return the upload status.
+     */
     @PostMapping("upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
         String uploadDir = new Main().getResource("/static").getPath();
-        System.out.println("\nUpload dir before:" + uploadDir);
-
         if (file.isEmpty()) {
             return new ResponseEntity<>("No file selected", HttpStatus.BAD_REQUEST);
         }
@@ -55,12 +70,10 @@ public class Test {
             uploadDir = new Main().getResource("/static/upload/").getPath();
             uploadDir = Main.getCorrectUrl(uploadDir);
 
-            String fileName = file.getOriginalFilename().replace(" ", "-");
-
+            String fileName = randomizeFileName(file.getOriginalFilename().replace(" ", "-"));
             Path filePath = Paths.get(uploadDir + fileName);
+            System.out.println("Uploading " + fileName + " to server");
             Files.write(filePath, bytes);
-
-            System.out.println(filePath.toAbsolutePath());
 
             return new ResponseEntity<>("File uploaded successfully", HttpStatus.OK);
         } catch (IOException e) {
@@ -69,4 +82,27 @@ public class Test {
         }
     }
 
+    private String randomizeFileName(String s) {
+        String name = "";
+        boolean duplicate = false;
+
+        File folder = new File(Main.getCorrectUrl(new Main().getResource("/static/upload/").getPath()));
+
+        for (File f : folder.listFiles()) {
+            if (f.getName().equals(s)) {
+                duplicate = true; 
+            }
+        }
+
+        if (duplicate) {
+            int format = s.lastIndexOf(".");
+            String stringFormat = s.substring(format, s.length());
+            name = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(12) , stringFormat);
+            System.out.println(name + stringFormat);
+        } else {
+            name = s;
+        }
+
+        return name;
+    }
 }
