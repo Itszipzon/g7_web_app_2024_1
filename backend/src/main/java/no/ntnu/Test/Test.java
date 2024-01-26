@@ -1,6 +1,5 @@
 package no.ntnu.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import no.ntnu.Main;
 
 @RestController
 @RequestMapping("test")
@@ -37,24 +37,27 @@ public class Test {
                 .body(r);
     }
 
-    private Path uploadDir = Paths.get("static", "upload");
-
     @PostMapping("upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        String uploadDir = new Main().getResource("/static").getPath();
         if (file.isEmpty()) {
             return new ResponseEntity<>("No file selected", HttpStatus.BAD_REQUEST);
         }
 
         try {
             byte[] bytes = file.getBytes();
-
-            if (!Files.exists(uploadDir)) {
-                Files.createDirectories(uploadDir);
+            if (!Files.exists(Path.of(uploadDir + "/upload"))) {
+                Files.createDirectories(Path.of(uploadDir + "/upload"));
             }
 
-            // Save the file to the server
-            Path filePath = Paths.get(uploadDir + file.getOriginalFilename());
+            uploadDir = new Main().getResource("/static/upload/").getPath(); 
+
+            String fileName = file.getOriginalFilename().replace(" ", "-");
+
+            Path filePath = Paths.get(uploadDir + fileName);
             Files.write(filePath, bytes);
+
+            System.out.println(filePath.toAbsolutePath());
 
             return new ResponseEntity<>("File uploaded successfully", HttpStatus.OK);
         } catch (IOException e) {
