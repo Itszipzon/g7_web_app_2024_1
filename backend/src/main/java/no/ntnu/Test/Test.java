@@ -44,8 +44,24 @@ public class Test {
     public ResponseEntity<Resource> image(@PathVariable String imageName) {
         Resource r = new ClassPathResource("static/img/" + imageName);
 
+        MediaType type = null;
+        String fileType = imageName.substring(imageName.lastIndexOf("."));
+
+        switch (fileType) {
+            case ".png":
+                type = MediaType.IMAGE_PNG;
+                break;
+            case ".jpg":
+                type = MediaType.IMAGE_JPEG;
+                break;
+            case ".gif":
+                type = MediaType.IMAGE_GIF;
+            default:
+                return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_PNG)
+                .contentType(type)
                 .body(r);
     }
 
@@ -63,16 +79,13 @@ public class Test {
         uploadDir = Main.getCorrectUrl(uploadDir);
         try {
             byte[] bytes = file.getBytes();
-            if (!Files.exists(Path.of(uploadDir + "/upload"))) {
-                Files.createDirectories(Path.of(uploadDir + "/upload"));
-            }
-
+            fileExist(uploadDir + "/upload");
             uploadDir = new Main().getResource("/static/upload/").getPath();
             uploadDir = Main.getCorrectUrl(uploadDir);
 
             String fileName = randomizeFileName(file.getOriginalFilename().replace(" ", "-"));
             Path filePath = Paths.get(uploadDir + fileName);
-            System.out.println("Uploading " + fileName + " to server");
+            System.out.println("Uploading " + fileName + " to server\nFile location: " + filePath.toString());
             Files.write(filePath, bytes);
 
             return new ResponseEntity<>("File uploaded successfully", HttpStatus.OK);
@@ -104,5 +117,15 @@ public class Test {
         }
 
         return name;
+    }
+
+    private String fileType(String fullFileName) {
+        return fullFileName.substring(fullFileName.lastIndexOf("."));
+    }
+
+    private void fileExist(String file) throws IOException {
+        if (!Files.exists(Path.of(file))) {
+            Files.createDirectories(Path.of(file));
+        }
     }
 }
