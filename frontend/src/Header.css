@@ -5,3 +5,7 @@
 .Header .headerLink {
     margin: 0 5px;
 }
+
+.headerLogo {
+    height: 50px;
+}
