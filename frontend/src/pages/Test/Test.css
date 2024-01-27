@@ -35,3 +35,7 @@
     height: 100%;
     width: auto;
 }
+
+.uploadFileDisplay {
+    height: 400px;
+}

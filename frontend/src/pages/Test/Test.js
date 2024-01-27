@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './Test.css';
 import axios from 'axios';
 
@@ -7,6 +7,8 @@ function Test() {
     const [testValue, setTestValue] = useState('');
     const [image, setImage] = useState(null);
     const [file, setFile] = useState(null);
+    const [displayImage, setDisplayImage] = useState(null);
+    const imageRef = useRef();
 
     const imageUrl = "http://localhost:8080/test/image/astronaut.png";
 
@@ -28,6 +30,18 @@ function Test() {
         const formData = new FormData();
         formData.append('file', file);
         axios.post("http://localhost:8080/test/upload", formData).then(window.location.href = `/`);
+    }
+
+    const handleDisplayImage = (e) => {
+        const file = e.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setDisplayImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
     }
 
     useEffect(() => {
@@ -61,8 +75,10 @@ function Test() {
                 </div>
             </div>
             <div className='TestPageElement'>
-                <h1>Next Test?</h1>
+                <h1>Preview image</h1>
                 <div className='TestContent'>
+                    {displayImage && <img src={displayImage} alt='preview' className='uploadFileDisplay' />}
+                    <input type='file' accept='image/*' onChange={handleDisplayImage} className='testFileDisplayInput' />
                 </div>
             </div>
         </div>
