@@ -9,6 +9,8 @@ function Test() {
     const [file, setFile] = useState(null);
     const [displayImage, setDisplayImage] = useState(null);
     const imageRef = useRef();
+    const [activeLi, setActiveLi] = useState(null);
+    const [activeLiLoop, setActiveLiLoop] = useState(null);
 
     const imageUrl = "http://localhost:8080/test/image/astronaut.png";
 
@@ -32,6 +34,15 @@ function Test() {
         axios.post("http://localhost:8080/test/upload", formData).then(window.location.href = `/`);
     }
 
+    const list = [
+        "Hello",
+        "Hello",
+        "Hello",
+        "Hello",
+        "Hello",
+        "Hello"
+    ];
+
     const handleDisplayImage = (e) => {
         const file = e.target.files[0];
 
@@ -42,6 +53,14 @@ function Test() {
             };
             reader.readAsDataURL(file);
         }
+    }
+
+    const handleListActive = (e) => {
+        setActiveLi(e);
+    }
+
+    const handleListActiveLoop = (e) => {
+        setActiveLiLoop(e);
     }
 
     useEffect(() => {
@@ -57,7 +76,8 @@ function Test() {
             <div className='TestPageElement'>
                 <h1>The first Test</h1>
                 <div className='TestContent'>
-                    {testValue}
+                    {/* Use dangerouslySetInnerHTML carefully */}
+                    <p dangerouslySetInnerHTML={{ __html: testValue }}></p>
                 </div>
             </div>
             <div className='TestPageElement'>
@@ -79,6 +99,27 @@ function Test() {
                 <div className='TestContent'>
                     {displayImage && <img src={displayImage} alt='preview' className='uploadFileDisplay' />}
                     <input type='file' accept='image/*' onChange={handleDisplayImage} className='testFileDisplayInput' />
+                </div>
+            </div>
+            <div className='TestPageElement'>
+                <h1>Active test</h1>
+                <div className='TestContent'>
+                    <ul className='testUl'>
+                        <li className={activeLi === 1 ? 'testListActive' : ''} onClick={() => handleListActive(1)}>Hello</li>
+                        <li className={activeLi === 2 ? 'testListActive' : ''} onClick={() => handleListActive(2)}>Hello</li>
+                        <li className={activeLi === 3 ? 'testListActive' : ''} onClick={() => handleListActive(3)}>Hello</li>
+                        <li className={activeLi === 4 ? 'testListActive' : ''} onClick={() => handleListActive(4)}>Hello</li>
+                    </ul>
+                </div>
+            </div>
+            <div className='TestPageElement'>
+                <h1>Active test with loop</h1>
+                <div className='TestContent'>
+                    <ul className='testUl'>
+                        {list.map((s, index) => 
+                            <li className={activeLiLoop === index ? 'testListActive' : ''} onClick={() => handleListActiveLoop(index)}>{s}</li>
+                        )}
+                    </ul>
                 </div>
             </div>
         </div>

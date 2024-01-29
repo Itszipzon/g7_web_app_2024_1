@@ -39,3 +39,18 @@
 .uploadFileDisplay {
     height: 400px;
 }
+
+.testUl li {
+    text-decoration: none;
+    display: inline;
+    margin: 0 10px;
+}
+
+.testUl li:hover {
+    border-bottom: 1px solid darkgray;
+    cursor: pointer;
+}
+
+.testListActive {
+    border-bottom: 2px solid black;
+}
