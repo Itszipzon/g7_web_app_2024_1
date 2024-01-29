@@ -11,6 +11,8 @@ function Test() {
     const imageRef = useRef();
     const [activeLi, setActiveLi] = useState(null);
     const [activeLiLoop, setActiveLiLoop] = useState(null);
+    const [searchItem, setSearchItem] = useState('');
+    const [searchContent, setSearchContent] = useState([]);
 
     const imageUrl = "http://localhost:8080/test/image/astronaut.png";
 
@@ -24,6 +26,31 @@ function Test() {
         setImage(imageObjectURL);
     };
 
+    const list = [
+        "Hello",
+        "No",
+        "Yes",
+        "Test",
+        "Home",
+        "There"
+    ];
+
+    let validItems = [];
+
+    const handleSearchInputChange = (e) => {
+        let searchTerm = e.target.value;
+        let validItemCounter = 0;
+        validItems = [];
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].toLowerCase().includes(searchTerm.toLowerCase())) {
+                validItems[validItemCounter] = list[i];
+                validItemCounter++;
+            }
+        }
+        setSearchItem(searchTerm);
+        setSearchContent(validItems);
+    }
+
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
     };
@@ -33,15 +60,6 @@ function Test() {
         formData.append('file', file);
         axios.post("http://localhost:8080/test/upload", formData).then(window.location.href = `/`);
     }
-
-    const list = [
-        "Hello",
-        "Hello",
-        "Hello",
-        "Hello",
-        "Hello",
-        "Hello"
-    ];
 
     const handleDisplayImage = (e) => {
         const file = e.target.files[0];
@@ -116,10 +134,25 @@ function Test() {
                 <h1>Active test with loop</h1>
                 <div className='TestContent'>
                     <ul className='testUl'>
-                        {list.map((s, index) => 
+                        {list.map((s, index) =>
                             <li className={activeLiLoop === index ? 'testListActive' : ''} onClick={() => handleListActiveLoop(index)}>{s}</li>
                         )}
                     </ul>
+                </div>
+            </div>
+            <div className='TestPageElement'>
+                <h1>Search test</h1>
+                <div className='TestContent'>
+                    <div className='searchInputTestHolder'>
+                        <input className='searchInput' type='text' value={searchItem} onChange={handleSearchInputChange} placeholder='Search...' />
+                        <div className='searchContentDiv'>
+                            <ul>
+                                {searchItem && searchContent.map((s, i) =>
+                                    <li className='searchLi'>{s}</li>
+                                )}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
