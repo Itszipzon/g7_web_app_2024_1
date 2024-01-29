@@ -101,8 +101,8 @@ function Test() {
             <div className='TestPageElement'>
                 <h1>The Image Test</h1>
                 <div className='TestContent'>
-                    {image && <img src={imageUrl} alt='Astronaut' className='testImage' />}
-                    <p>This image is uploaded from the server</p>
+                    {image && (<img src={imageUrl} alt='Astronaut' className='testImage' />)}
+                    {image && <p>This image is uploaded from the server</p>}
                 </div>
             </div>
             <div className='TestPageElement'>
@@ -115,8 +115,10 @@ function Test() {
             <div className='TestPageElement'>
                 <h1>Preview image</h1>
                 <div className='TestContent'>
-                    {displayImage && <img src={displayImage} alt='preview' className='uploadFileDisplay' />}
-                    <input type='file' accept='image/*' onChange={handleDisplayImage} className='testFileDisplayInput' />
+                    <div className='block'>
+                        {displayImage && <img src={displayImage} alt='preview' className='uploadFileDisplay' />}
+                        <input type='file' accept='image/*' onChange={handleDisplayImage} className='testFileDisplayInput' />
+                    </div>
                 </div>
             </div>
             <div className='TestPageElement'>

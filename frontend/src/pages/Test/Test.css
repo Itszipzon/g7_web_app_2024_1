@@ -37,13 +37,20 @@
 }
 
 .uploadFileDisplay {
-    height: 400px;
+    min-height: 200px;
+    max-height: 400px;
+    max-width: 100%;
+    margin-bottom: 20px;
 }
 
 .testUl li {
     text-decoration: none;
     display: inline;
     margin: 0 10px;
+}
+
+.block {
+    display: grid;
 }
 
 .testUl li:hover {
@@ -68,5 +75,5 @@
 }
 
 .searchContentDiv .searchLi {
-    
+
 }
