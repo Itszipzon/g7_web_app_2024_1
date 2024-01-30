@@ -54,10 +54,14 @@ function Test() {
         let searchTerm = e.target.value;
         let validItemCounter = 0;
         validItems = [];
-        for (let i = 0; i < searchList.length; i++) {
-            if (searchList[i].toLowerCase().includes(searchTerm.toLowerCase())) {
-                validItems[validItemCounter] = searchList[i];
-                validItemCounter++;
+        if (searchTerm === "*") {
+            validItems = searchList;
+        } else {
+            for (let i = 0; i < searchList.length; i++) {
+                if (searchList[i].toLowerCase().includes(searchTerm.toLowerCase())) {
+                    validItems[validItemCounter] = searchList[i];
+                    validItemCounter++;
+                }
             }
         }
         validItems.sort();
