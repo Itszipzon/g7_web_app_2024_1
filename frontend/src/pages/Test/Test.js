@@ -164,12 +164,9 @@ function Test() {
                         {searchItem && <div className='searchContentDiv'>
                             <ul className='searchUl'>
                                 {searchItem && searchContent.map((s, i) => (
-                                    i < searchContent.length - 1 ? (
                                         <li className='searchLi' key={i}>{s}</li>
-                                    ) : (
-                                        <li className='searchLi lastSearchLi' key={i}>{s}</li>
                                     )
-                                ))}
+                                )}
                             </ul>
                         </div>}
                     </div>
