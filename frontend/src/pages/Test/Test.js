@@ -119,8 +119,10 @@ function Test() {
             <div className='TestPageElement'>
                 <h1>The Image Test</h1>
                 <div className='TestContent'>
-                    {image && (<img src={imageUrl} alt='Astronaut' className='testImage' />)}
-                    {image && <p>This image is uploaded from the server</p>}
+                    <div className='testImageGet'>
+                        {image && (<img src={imageUrl} alt='Astronaut' className='testImage' />)}
+                        {image && <p>This image is uploaded from the server</p>}
+                    </div>
                 </div>
             </div>
             <div className='TestPageElement'>
@@ -133,8 +135,9 @@ function Test() {
             <div className='TestPageElement'>
                 <h1>Preview image</h1>
                 <div className='TestContent'>
-                    <div className='block'>
+                    <div className='displayImageHolder'>
                         {displayImage && <img src={displayImage} alt='preview' className='uploadFileDisplay' />}
+                        <br/>
                         <input type='file' accept='image/*' onChange={handleDisplayImage} className='testFileDisplayInput' />
                     </div>
                 </div>
@@ -168,8 +171,8 @@ function Test() {
                         {searchItem && <div className='searchContentDiv'>
                             <ul className='searchUl'>
                                 {searchItem && searchContent.map((s, i) => (
-                                        <li className='searchLi' key={i}>{s}</li>
-                                    )
+                                    <li className='searchLi' key={i}>{s}</li>
+                                )
                                 )}
                             </ul>
                         </div>}
