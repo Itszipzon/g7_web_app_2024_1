@@ -111,6 +111,11 @@
     color: white;
 }
 
+.searchContentDiv .searchUl .searchLi:hover {
+    background-color: rgb(99, 99, 99);
+    cursor: pointer;
+}
+
 .lastSearchLi {
     border-bottom: 1px solid black;
 }
