@@ -26,13 +26,26 @@ function Test() {
         setImage(imageObjectURL);
     };
 
+    const searchList = [
+        "apple", "banana", "orange", "grape", "kiwi",
+        "pineapple", "strawberry", "blueberry", "watermelon", "peach",
+        "pear", "cherry", "mango", "lemon", "lime",
+        "avocado", "plum", "raspberry", "blackberry", "pomegranate",
+        "ocean", "mountain", "sunshine", "breeze", "meadow",
+        "river", "rainbow", "whisper", "serenade", "harmony",
+        "guitar", "piano", "symphony", "lullaby", "novel",
+        "poetry", "canvas", "sculpture", "sunset", "twilight",
+        "moonlight", "candlelight", "cappuccino", "chocolate", "macaroon",
+        "galaxy", "constellation", "adventure", "journey", "discovery"
+    ];
+
     const list = [
         "Hello",
         "No",
         "Yes",
+        "There",
         "Test",
-        "Home",
-        "There"
+        "Home"
     ];
 
     let validItems = [];
@@ -41,12 +54,13 @@ function Test() {
         let searchTerm = e.target.value;
         let validItemCounter = 0;
         validItems = [];
-        for (let i = 0; i < list.length; i++) {
-            if (list[i].toLowerCase().includes(searchTerm.toLowerCase())) {
-                validItems[validItemCounter] = list[i];
+        for (let i = 0; i < searchList.length; i++) {
+            if (searchList[i].toLowerCase().includes(searchTerm.toLowerCase())) {
+                validItems[validItemCounter] = searchList[i];
                 validItemCounter++;
             }
         }
+        validItems.sort();
         setSearchItem(searchTerm);
         setSearchContent(validItems);
     }
@@ -147,13 +161,17 @@ function Test() {
                 <div className='TestContent'>
                     <div className='searchInputTestHolder'>
                         <input className='searchInput' type='text' value={searchItem} onChange={handleSearchInputChange} placeholder='Search...' />
-                        <div className='searchContentDiv'>
-                            <ul>
-                                {searchItem && searchContent.map((s, i) =>
-                                    <li className='searchLi'>{s}</li>
-                                )}
+                        {searchItem && <div className='searchContentDiv'>
+                            <ul className='searchUl'>
+                                {searchItem && searchContent.map((s, i) => (
+                                    i < searchContent.length - 1 ? (
+                                        <li className='searchLi' key={i}>{s}</li>
+                                    ) : (
+                                        <li className='searchLi lastSearchLi' key={i}>{s}</li>
+                                    )
+                                ))}
                             </ul>
-                        </div>
+                        </div>}
                     </div>
                 </div>
             </div>
