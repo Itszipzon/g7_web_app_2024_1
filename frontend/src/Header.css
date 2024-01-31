@@ -1,11 +1,39 @@
 .Header {
     display: flex;
-}
-
-.Header .headerLink {
-    margin: 0 5px;
-}
-
-.headerLogo {
     height: 50px;
+}
+
+.Header .headerLinks {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.Header .headerLinks .headerLink {
+    margin: auto 5px;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+    position: relative;
+}
+
+.Header .headerLinks .headerLink::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    border-bottom: 2px solid #000000;
+    transition: width 0.3s ease;
+}
+.Header .headerLinks .headerLink:hover::before {
+    width: 100%;
+}
+
+.Header .headerLogo {
+    height: 50px;
+    position: absolute;
+    left: 180px;
 }

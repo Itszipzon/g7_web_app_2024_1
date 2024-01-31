@@ -1,42 +1,28 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Test.css';
 import axios from 'axios';
 
 function Test() {
 
     const [testValue, setTestValue] = useState('');
-    const [image, setImage] = useState(null);
     const [file, setFile] = useState(null);
     const [displayImage, setDisplayImage] = useState(null);
-    const imageRef = useRef();
     const [activeLi, setActiveLi] = useState(null);
     const [activeLiLoop, setActiveLiLoop] = useState(null);
     const [searchItem, setSearchItem] = useState('');
     const [searchContent, setSearchContent] = useState([]);
+    const [connected, setConnected] = useState(false);
 
     const imageUrl = "http://localhost:8080/test/image/astronaut.png";
 
-    /**
-     * Ikke brukt
-     */
-    const fetchImage = async () => {
-        const res = await fetch(imageUrl);
-        const imageBlob = await res.blob();
-        const imageObjectURL = URL.createObjectURL(imageBlob);
-        setImage(imageObjectURL);
-    };
-
     const searchList = [
-        "apple", "banana", "orange", "grape", "kiwi",
-        "pineapple", "strawberry", "blueberry", "watermelon", "peach",
-        "pear", "cherry", "mango", "lemon", "lime",
-        "avocado", "plum", "raspberry", "blackberry", "pomegranate",
-        "ocean", "mountain", "sunshine", "breeze", "meadow",
-        "river", "rainbow", "whisper", "serenade", "harmony",
-        "guitar", "piano", "symphony", "lullaby", "novel",
-        "poetry", "canvas", "sculpture", "sunset", "twilight",
-        "moonlight", "candlelight", "cappuccino", "chocolate", "macaroon",
-        "galaxy", "constellation", "adventure", "journey", "discovery"
+        "apple", "banana", "orange", "grape", "strawberry", "melon", "kiwi", "peach", "plum", "pear",
+        "dog", "cat", "rabbit", "hamster", "turtle", "fish", "bird", "snake", "elephant", "lion",
+        "computer", "keyboard", "mouse", "monitor", "printer", "laptop", "tablet", "smartphone", "camera", "headphones",
+        "guitar", "piano", "violin", "drums", "trumpet", "flute", "saxophone", "clarinet", "accordion", "harmonica",
+        "mountain", "ocean", "river", "forest", "desert", "island", "canyon", "valley", "hill", "plain",
+        "red", "blue", "green", "yellow", "orange", "purple", "pink", "brown", "gray", "black",
+        "happy", "sad", "angry", "excited", "calm", "surprised", "confused", "proud", "afraid", "curious",
     ];
 
     const list = [
@@ -63,10 +49,6 @@ function Test() {
                     validItemCounter++;
                 }
             }
-        }
-
-        for (let s in validItems ) {
-
         }
         validItems.sort((a, b) => customSort(a, b, searchTerm));
         setSearchItem(searchTerm);
@@ -104,11 +86,11 @@ function Test() {
     }
 
     useEffect(() => {
-        axios.get("http://localhost:8080/test/first").then((r) => {
-            setTestValue(r.data);
-        });
-
-        fetchImage();
+            axios.get("http://localhost:8080/test/first", {
+            }).then((r) => {
+                setTestValue(r.data);
+                setConnected(true);
+            }).catch(console.log("Could not connect to server"));
     }, []);
 
     return (
@@ -124,8 +106,8 @@ function Test() {
                 <h1>The Image Test</h1>
                 <div className='TestContent'>
                     <div className='testImageGet'>
-                        {image && (<img src={imageUrl} alt='Astronaut' className='testImage' />)}
-                        {image && <p>This image is uploaded from the server</p>}
+                        {connected && (<img src={imageUrl} alt='Astronaut' className='testImage' />)}
+                        {connected && <p>This image is uploaded from the server</p>}
                     </div>
                 </div>
             </div>
@@ -162,7 +144,7 @@ function Test() {
                 <div className='TestContent'>
                     <ul className='testUl'>
                         {list.map((s, index) =>
-                            <li className={activeLiLoop === index ? 'testListActive' : ''} onClick={() => handleListActiveLoop(index)}>{s}</li>
+                            <li className={activeLiLoop === index ? 'testListActive' : ''} key={s + index} onClick={() => handleListActiveLoop(index)}>{s}</li>
                         )}
                     </ul>
                 </div>

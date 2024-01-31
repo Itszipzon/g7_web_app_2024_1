@@ -1,4 +1,4 @@
-import { Link, useActionData } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Header.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -13,15 +13,18 @@ function Header() {
         });
     }, []);
 
-    return(
+    return (
         <div className="Header">
-            <Link to="/" className="headerLink" >
-                <div>Home</div>
-            </Link>
-            <Link to="/test" className="headerLink" >
-                <div>Test</div>
-            </Link>
-            {logo && <img src="http://localhost:8080/test/image/logo.png" alt="logo" className="headerLogo"/>}
+            {logo && <img src="http://localhost:8080/test/image/logo.png" alt="logo" className="headerLogo" />}
+            <div className="headerLinks">
+                <Link to="/" className="headerLink" >
+                    <div>Home</div>
+                </Link>
+                <Link to="/test" className="headerLink" >
+                    <div>Test</div>
+                </Link>
+                
+            </div>
         </div>
     );
 }
