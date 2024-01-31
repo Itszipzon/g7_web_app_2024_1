@@ -64,7 +64,11 @@ function Test() {
                 }
             }
         }
-        validItems.sort();
+
+        for (let s in validItems ) {
+
+        }
+        validItems.sort((a, b) => customSort(a, b, searchTerm));
         setSearchItem(searchTerm);
         setSearchContent(validItems);
     }
@@ -193,3 +197,13 @@ function Test() {
  */
 
 export default Test;
+
+function customSort(a, b, searchString) {
+    if (a.startsWith(searchString) && !b.startsWith(searchString)) {
+        return -1;
+      } else if (!a.startsWith(searchString) && b.startsWith(searchString)) {
+        return 1;
+      } else {
+        return a.localeCompare(b);
+      }
+}
