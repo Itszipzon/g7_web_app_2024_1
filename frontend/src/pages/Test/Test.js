@@ -90,7 +90,7 @@ function Test() {
             }).then((r) => {
                 setTestValue(r.data);
                 setConnected(true);
-            }).catch(console.log("Could not connect to server"));
+            });
     }, []);
 
     return (
