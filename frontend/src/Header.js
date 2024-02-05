@@ -18,7 +18,9 @@ function Header() {
         <div className="Header">
             <div className="headerContainer">
                 <div className="headerContent">
-                    {logo && <img src={getUrl() + "test/image/logo.png"} alt="logo" className="headerLogo" />}
+                    <Link to="/">
+                        {logo && <img src={getUrl() + "test/image/logo.png"} alt="logo" className="headerLogo" />}
+                    </Link>
                     <div className="headerLinks">
                         <Link to="/" className="headerLink" >
                             <div>Home</div>
