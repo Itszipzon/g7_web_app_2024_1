@@ -17,14 +17,16 @@ function Header() {
     return (
         <div className="Header">
             <div className="headerContainer">
-                {logo && <img src={getUrl() + "test/image/logo.png"} alt="logo" className="headerLogo" />}
-                <div className="headerLinks">
-                    <Link to="/" className="headerLink" >
-                        <div>Home</div>
-                    </Link>
-                    <Link to="/test" className="headerLink" >
-                        <div>Test</div>
-                    </Link>
+                <div className="headerContent">
+                    {logo && <img src={getUrl() + "test/image/logo.png"} alt="logo" className="headerLogo" />}
+                    <div className="headerLinks">
+                        <Link to="/" className="headerLink" >
+                            <div>Home</div>
+                        </Link>
+                        <Link to="/test" className="headerLink" >
+                            <div>Test</div>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

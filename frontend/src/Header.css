@@ -1,17 +1,25 @@
 .Header {
     height: 50px;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    border-bottom: 1px solid black;
-    background-color: rgb(117, 117, 117);
 }
 
 .headerContainer {
     display: flex;
     position:fixed;
+    justify-content: center;
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid black;
+    background-color: rgb(117, 117, 117);
+}
+
+.headerContainer .headerContent {
+    display: flex;
+    position:fixed;
     width: 1200px;
     height: 50px;
+    border-bottom: 1px solid black;
+    background-color: rgb(117, 117, 117);
 }
 
 .Header .headerLinks {
