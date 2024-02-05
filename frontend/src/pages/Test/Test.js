@@ -14,6 +14,10 @@ function Test() {
     const [searchContent, setSearchContent] = useState([]);
     const [connected, setConnected] = useState(false);
 
+    const [seconds, setSeconds] = useState(0);
+    const [minutes, setMinutes] = useState(0);
+    const [hours, setHours] = useState(0);
+
     const imageUrl = getUrl() + "test/image/astronaut.png";
 
     const searchList = [
@@ -86,13 +90,39 @@ function Test() {
         setActiveLiLoop(e);
     }
 
+    const handleTime = (hours, minute, second) => {
+        let newSeconds = second;
+        let newMinutes = minute;
+
+        if (second >= 60) {
+            newMinutes += 1;
+            newSeconds = 0;
+        }
+    
+        if (minute >= 60) {
+            setHours(hours + 1);
+            newMinutes = 0;
+        }
+    
+        setMinutes(newMinutes);
+        setSeconds(newSeconds);
+    };
+
     useEffect(() => {
-            axios.get(getUrl() + "test/first", {
-            }).then((r) => {
-                setTestValue(r.data);
-                setConnected(true);
-            });
-    }, []);
+        axios.get(getUrl() + "test/first", {
+        }).then((r) => {
+            setTestValue(r.data);
+            setConnected(true);
+        });
+
+        const intervalId = setInterval(() => {
+            handleTime(hours, minutes, seconds + 1);
+        }, 1000);
+
+        return () => {
+            clearInterval(intervalId);
+        }
+    }, [hours, minutes, seconds]);
 
     return (
         <div className="TestPage">
@@ -124,7 +154,7 @@ function Test() {
                 <div className='TestContent'>
                     <div className='displayImageHolder'>
                         {displayImage && <img src={displayImage} alt='preview' className='uploadFileDisplay' />}
-                        <br/>
+                        <br />
                         <input type='file' accept='image/*' onChange={handleDisplayImage} className='testFileDisplayInput' />
                     </div>
                 </div>
@@ -166,6 +196,12 @@ function Test() {
                     </div>
                 </div>
             </div>
+            <div className='TestPageElement'>
+                <h1>I have been on this website for</h1>
+                <div className='TestContent'>
+                    {hours + " Hours " + minutes + " Minutes " + seconds + " Seconds"}
+                </div>
+            </div>
         </div>
     );
 }
@@ -184,9 +220,9 @@ export default Test;
 function customSort(a, b, searchString) {
     if (a.startsWith(searchString) && !b.startsWith(searchString)) {
         return -1;
-      } else if (!a.startsWith(searchString) && b.startsWith(searchString)) {
+    } else if (!a.startsWith(searchString) && b.startsWith(searchString)) {
         return 1;
-      } else {
+    } else {
         return a.localeCompare(b);
-      }
+    }
 }
