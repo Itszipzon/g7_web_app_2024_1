@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './Test.css';
 import axios from 'axios';
+import getUrl from '../../backend';
 
 function Test() {
 
@@ -13,7 +14,7 @@ function Test() {
     const [searchContent, setSearchContent] = useState([]);
     const [connected, setConnected] = useState(false);
 
-    const imageUrl = "http://localhost:8080/test/image/astronaut.png";
+    const imageUrl = getUrl() + "test/image/astronaut.png";
 
     const searchList = [
         "apple", "banana", "orange", "grape", "strawberry", "melon", "kiwi", "peach", "plum", "pear",
@@ -62,7 +63,7 @@ function Test() {
     const handleUpload = () => {
         const formData = new FormData();
         formData.append('file', file);
-        axios.post("http://localhost:8080/test/upload", formData).then(window.location.href = `/`);
+        axios.post(getUrl() + "test/upload", formData).then(window.location.href = `/`);
     }
 
     const handleDisplayImage = (e) => {
@@ -86,7 +87,7 @@ function Test() {
     }
 
     useEffect(() => {
-            axios.get("http://localhost:8080/test/first", {
+            axios.get(getUrl() + "test/first", {
             }).then((r) => {
                 setTestValue(r.data);
                 setConnected(true);

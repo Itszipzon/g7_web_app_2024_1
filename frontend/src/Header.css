@@ -1,5 +1,16 @@
 .Header {
+    height: 50px;
+    width: 100%;
     display: flex;
+    justify-content: center;
+    border-bottom: 1px solid black;
+    background-color: rgb(117, 117, 117);
+}
+
+.headerContainer {
+    display: flex;
+    position:fixed;
+    width: 1200px;
     height: 50px;
 }
 
@@ -34,6 +45,4 @@
 
 .Header .headerLogo {
     height: 50px;
-    position: absolute;
-    left: 180px;
 }
