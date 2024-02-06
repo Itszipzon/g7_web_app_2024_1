@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Test.css';
 import axios from 'axios';
-import getUrl from '../../backend';
 
 function Test() {
 
@@ -18,7 +17,10 @@ function Test() {
     const [minutes, setMinutes] = useState(0);
     const [hours, setHours] = useState(0);
 
-    const imageUrl = getUrl() + "test/image/astronaut.png";
+    const jsonData = require("../../information.json");
+
+    const imageUrl = jsonData.serverAddress + "test/image/astronaut.png";
+
 
     const searchList = [
         "apple", "banana", "orange", "grape", "strawberry", "melon", "kiwi", "peach", "plum", "pear",
@@ -67,7 +69,7 @@ function Test() {
     const handleUpload = () => {
         const formData = new FormData();
         formData.append('file', file);
-        axios.post(getUrl() + "test/upload", formData).then(window.location.href = `/`);
+        axios.post(jsonData.serverAddress + "test/upload", formData).then(window.location.href = `/`);
     }
 
     const handleDisplayImage = (e) => {
@@ -109,7 +111,7 @@ function Test() {
     };
 
     useEffect(() => {
-        axios.get(getUrl() + "test/first", {
+        axios.get(jsonData.serverAddress + "test/first", {
         }).then((r) => {
             setTestValue(r.data);
             setConnected(true);
