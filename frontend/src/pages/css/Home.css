@@ -1,0 +1,16 @@
+.Home {
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    justify-content: center;
+}
+
+.homeContainer {
+    width: 1200px;
+    height: 500px;
+    background-color: rgb(231, 230, 230);
+    margin-top: 50px;
+    border-radius: 25px;
+    border: 1px solid gray;
+}
