@@ -20,7 +20,12 @@ function Header() {
             <div className="headerContainer">
                 <div className="headerContent">
                     <Link to="/">
-                        {logo && <img src={jsonData.serverAddress + "test/image/logo.png"} alt="logo" className="headerLogo" />}
+                        {logo && 
+                            <div className="logoContainer">
+                                <p>Rental</p>
+                                <img src={jsonData.serverAddress + "test/image/logo.png"} alt="logo" className="headerLogo" />
+                                <p>Roulette</p>
+                            </div>}
                     </Link>
                     <div className="headerLinks">
                         <Link to="/" className="headerLink" >

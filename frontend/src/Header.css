@@ -10,7 +10,7 @@
     width: 100%;
     height: 50px;
     border-bottom: 1px solid black;
-    background-color: rgb(117, 117, 117);
+    background-color: white;
 }
 
 .headerContainer .headerContent {
@@ -19,7 +19,7 @@
     width: 1200px;
     height: 50px;
     border-bottom: 1px solid black;
-    background-color: rgb(117, 117, 117);
+    background-color: white;
 }
 
 .Header .headerLinks {
@@ -53,4 +53,12 @@
 
 .Header .headerLogo {
     height: 50px;
+}
+
+.Header .logoContainer {
+    position: absolute;
+    left: 0;
+    display: flex;
+    color: black;
+    font-size: large;
 }
