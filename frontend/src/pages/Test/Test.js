@@ -100,22 +100,17 @@ function Test() {
             newMinutes += 1;
             newSeconds = 0;
         }
-    
+
         if (minute >= 60) {
             setHours(hours + 1);
             newMinutes = 0;
         }
-    
+
         setMinutes(newMinutes);
         setSeconds(newSeconds);
     };
 
     useEffect(() => {
-        axios.get(jsonData.serverAddress + "test/first", {
-        }).then((r) => {
-            setTestValue(r.data);
-            setConnected(true);
-        });
 
         const intervalId = setInterval(() => {
             handleTime(hours, minutes, seconds + 1);
@@ -125,6 +120,14 @@ function Test() {
             clearInterval(intervalId);
         }
     }, [hours, minutes, seconds]);
+
+    useEffect(() => {
+        axios.get(jsonData.serverAddress + "test/first", {
+        }).then((r) => {
+            setTestValue(r.data);
+            setConnected(true);
+        });
+    }, []);
 
     return (
         <div className="TestPage">
