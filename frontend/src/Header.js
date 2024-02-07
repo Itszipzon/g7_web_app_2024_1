@@ -10,7 +10,7 @@ function Header() {
     const jsonData = require("./information.json");
 
     useEffect(() => {
-        axios.get(jsonData.serverAddress + "test/image/logo.png").then((e) => {
+        axios.get(jsonData.serverAddress + "api/image/logo.png").then((e) => {
             setLogo(e.data);
         });
     }, []);
@@ -23,7 +23,7 @@ function Header() {
                         {logo && 
                             <div className="logoContainer">
                                 <p>Rental</p>
-                                <img src={jsonData.serverAddress + "test/image/logo.png"} alt="logo" className="headerLogo" />
+                                <img src={jsonData.serverAddress + "api/image/logo.png"} alt="logo" className="headerLogo" />
                                 <p>Roulette</p>
                             </div>}
                     </Link>
