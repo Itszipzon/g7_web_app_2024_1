@@ -28,9 +28,9 @@ function Header() {
                     <Link to="/">
                         {logo &&
                             <div className="logoContainer">
-                                <p>Rental</p>
+                                <p className="headerLogoName">Rental</p>
                                 <img src={jsonData.serverAddress + "api/image/logo.png"} alt="logo" className="headerLogo" />
-                                <p>Roulette</p>
+                                <p className="headerLogoName">Roulette</p>
                             </div>}
                     </Link>
                     <div className="headerLinks">
