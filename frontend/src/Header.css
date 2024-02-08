@@ -39,13 +39,16 @@
     position: relative;
 }
 
+.Header .headerLinks .headerLinkActive {
+    border-bottom: 2px solid #000000;
+}
+
 .Header .headerLinks .headerLink::before {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 0;
     width: 0;
-    height: 2px;
+    height: 0;
     border-bottom: 2px solid #000000;
     transition: width 0.3s ease;
 }

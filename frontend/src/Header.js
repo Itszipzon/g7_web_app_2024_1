@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -6,6 +6,8 @@ import axios from "axios";
 function Header() {
 
     const [logo, setLogo] = useState(null);
+    const [activeHeader, setActiveHeader] = useState("");
+    const location = useLocation();
 
     const jsonData = require("./information.json");
 
@@ -15,12 +17,16 @@ function Header() {
         });
     }, []);
 
+    useEffect(() => {
+        setActiveHeader(window.location.pathname);
+    }, [location]);
+
     return (
         <div className="Header">
             <div className="headerContainer">
                 <div className="headerContent">
                     <Link to="/">
-                        {logo && 
+                        {logo &&
                             <div className="logoContainer">
                                 <p>Rental</p>
                                 <img src={jsonData.serverAddress + "api/image/logo.png"} alt="logo" className="headerLogo" />
@@ -28,10 +34,10 @@ function Header() {
                             </div>}
                     </Link>
                     <div className="headerLinks">
-                        <Link to="/" className="headerLink" >
+                        <Link to="/" className={"headerLink " + (activeHeader === "/" ? 'headerLinkActive' : '')}>
                             <div>Home</div>
                         </Link>
-                        <Link to="/test" className="headerLink" >
+                        <Link to="/test" className={"headerLink " + (activeHeader.includes("/test") ? 'headerLinkActive' : '')}>
                             <div>Test</div>
                         </Link>
                     </div>
