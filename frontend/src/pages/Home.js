@@ -79,22 +79,25 @@ function Home() {
         <div className="Home">
             <div className="homeContainer">
                 <div className="searchForCarContainer">
-                    <input type="text" placeholder="Car name" value={carNameValue} onFocus={handleInputFocus} onBlur={handleInputBlur}  onChange={handleSearchInputChange} />
+                    <div style={{"width" : "240px"}}>
+                        <input type="text" placeholder="Car name" value={carNameValue} onFocus={handleInputFocus} onBlur={handleInputBlur} onChange={handleSearchInputChange} />
+                        <div className="searchContentContainer" style={carinputMarked ? { "display": "flex" } : { "display": "none" }}>
+                            <ul className="searchContentHomeUl">
+                                {carsearchItems.map((item, index) =>
+                                    <li className="searchContentHomeLi" key={index} onClick={() => handleCarNameClick(item.name)} >
+                                        <div className="searchHomeNameContainer">
+                                            <img src={item.image} alt={item.name} className="searchHomeImage" />
+                                            <p>{item.name}</p>
+                                        </div>
+                                    </li>
+                                )}
+                            </ul>
+                        </div>
+                    </div>
                     <input type="text" placeholder="Location" />
                     <input type="date" />
                     <div className="searchButton" style={{ "marginLeft": "10px", "marginTop": "-2px" }} onClick={handleSearchButtonClick}>Search</div>
-                </div>
-                <div className="searchContentContainer" style={carinputMarked ? { "display": "flex" } : { "display": "none" }}>
-                    <ul className="searchContentHomeUl">
-                        {carsearchItems.map((item, index) =>
-                            <li className="searchContentHomeLi" key={index} onClick={() => handleCarNameClick(item.name)} >
-                                <div className="searchHomeNameContainer">
-                                    <img src={item.image} alt={item.name} className="searchHomeImage" />
-                                    <p>{item.name}</p>
-                                </div>
-                            </li>
-                        )}
-                    </ul>
+
                 </div>
             </div>
         </div>

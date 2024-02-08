@@ -26,6 +26,7 @@
 .Home .homeContainer .searchForCarContainer input {
     height: 25px;
     font-size: larger;
+    width: 230px;
 }
 
 .Home .homeContainer .searchForCarContainer .searchButton {
@@ -45,13 +46,13 @@
 }
 
 .Home .homeContainer .searchContentContainer {
-    position:relative;
+    position: relative;
     background-color: white;
     border: 1px solid darkgray;
     border-radius: 10px;
     justify-content: center;
     width: 256px;
-    bottom: 100px;
+    top: 15px;
     overflow-y: scroll;
     min-height: fit-content;
     max-height: 200px;
