@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./css/Home.css";
-import { Link } from "react-router-dom";
-
 function Home() {
 
     const [carinputMarked, setCarinputMarked] = useState(false);
@@ -15,14 +13,14 @@ function Home() {
     const handleInputBlur = () => {
         setTimeout(() => {
             setCarinputMarked(false);
-        }, 150);
+        }, 110);
     }
 
     const handleCarNameClick = (e) => {
         setCarNameValue(e);
     }
 
-    const carList = [
+    const carList = useMemo(() => [
         {
             name: "Bmw",
             image: "none",
@@ -48,13 +46,13 @@ function Home() {
             image: "none",
             link: "mclaren"
         },
-    ]
+    ], []) 
 
     let validCarNames = [];
 
     useEffect(() => {
         setCarsearchItems(carList);
-    }, []);
+    }, [carList]);
 
     const handleSearchInputChange = (e) => {
         let searchTerm = e.target.value;
@@ -79,7 +77,7 @@ function Home() {
         <div className="Home">
             <div className="homeContainer">
                 <div className="searchForCarContainer">
-                    <div style={{"width" : "240px"}}>
+                    <div style={{ "width": "240px" }}>
                         <input type="text" placeholder="Car name" value={carNameValue} onFocus={handleInputFocus} onBlur={handleInputBlur} onChange={handleSearchInputChange} />
                         <div className="searchContentContainer" style={carinputMarked ? { "display": "flex" } : { "display": "none" }}>
                             <ul className="searchContentHomeUl">
@@ -94,7 +92,9 @@ function Home() {
                             </ul>
                         </div>
                     </div>
-                    <input type="text" placeholder="Location" />
+                    <div style={{ "width": "240px" }}>
+                        <input type="text" placeholder="Location" />
+                    </div>
                     <input type="date" />
                     <div className="searchButton" style={{ "marginLeft": "10px", "marginTop": "-2px" }} onClick={handleSearchButtonClick}>Search</div>
 

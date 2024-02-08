@@ -15,7 +15,7 @@ function Header() {
         axios.get(jsonData.serverAddress + "api/image/logo.png").then((e) => {
             setLogo(e.data);
         });
-    }, []);
+    }, [jsonData.serverAddress]);
 
     useEffect(() => {
         setActiveHeader(window.location.pathname);
