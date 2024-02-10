@@ -277,8 +277,6 @@ function open(timeAsString) {
 
         if (Number(openTotal[0]) > time || Number(closedTotal[0]) < time) {
             return false;
-        } else if (Number(openTotal[0]) < time && Number(closedTotal[0]) < time) {
-            return true;
         } else if ((Number(openTotal[0]) === time && Number(openTotal[1]) > minute) 
             || (Number(closedTotal[0]) === time && Number(closedTotal[1]) < minute)) {
                 return false;
