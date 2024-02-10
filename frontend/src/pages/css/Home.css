@@ -95,3 +95,20 @@
     width: 60px;
     margin-left: 10px;
 }
+
+.searchHomeLocationContainer {
+    display: grid;
+    margin-left: 10px;
+}
+
+.searchHomeLocationContainerTop {
+
+}
+
+.searchHomeLocationContainerMid {
+    font-size: 10px;
+}
+
+.searchHomeLocationContainerBot {
+    font-size: 10px;
+}
