@@ -1,15 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import "./css/Home.css";
+
 function Home() {
 
     const [carinputMarked, setCarinputMarked] = useState(false);
     const [carsearchItems, setCarsearchItems] = useState([]);
     const [carNameValue, setCarNameValue] = useState("");
 
-    
-    const [LocationinputMarked, setLocationinputMarked] = useState(false);
-    const [LocationsearchItems, setLocationsearchItems] = useState([]);
-    const [LocationValue, setLocationValue] = useState("");
+
+    const [locationinputMarked, setLocationinputMarked] = useState(false);
+    const [locationsearchItems, setLocationsearchItems] = useState([]);
+    const [locationValue, setLocationValue] = useState("");
+
+    const [emptyFieldMessage, setEmptyFieldMessage] = useState("");
 
     const handleCarNameInputFocus = () => {
         setCarinputMarked(true);
@@ -18,7 +21,7 @@ function Home() {
     const handleCarNameInputBlur = () => {
         setTimeout(() => {
             setCarinputMarked(false);
-        }, 110);
+        }, 120);
     }
 
     const handleCarNameClick = (e) => {
@@ -32,11 +35,11 @@ function Home() {
     const handleLocationInputBlur = () => {
         setTimeout(() => {
             setLocationinputMarked(false);
-        }, 110);
+        }, 120);
     }
 
-    const handleLocationClick = (e) => {
-        setLocationValue(e);
+    const handleLocationClick = (val, adr) => {
+        setLocationValue(val);
     }
 
     const carList = useMemo(() => [
@@ -65,7 +68,7 @@ function Home() {
             image: "none",
             link: "mclaren"
         },
-    ], []) 
+    ], [])
 
     const locationList = useMemo(() => [
         {
@@ -74,7 +77,7 @@ function Home() {
             postalCode: "6003",
             state: "Ålesund",
             country: "Norway",
-            open: [ 
+            open: [
                 "07-23",
                 "07-23",
                 "07-23",
@@ -90,7 +93,7 @@ function Home() {
             postalCode: "6018",
             state: "Ålesund",
             country: "Norway",
-            open: [ 
+            open: [
                 "Closed",
                 "08-22",
                 "08-22",
@@ -106,7 +109,7 @@ function Home() {
             postalCode: "6018",
             state: "Ålesund",
             country: "Norway",
-            open: [ 
+            open: [
                 "Closed",
                 "07-21",
                 "07-21",
@@ -122,7 +125,7 @@ function Home() {
             postalCode: "7047",
             state: "Trondheim",
             country: "Norway",
-            open: [ 
+            open: [
                 "Closed",
                 "07:30-16:30",
                 "07:30-16:30",
@@ -138,7 +141,7 @@ function Home() {
             postalCode: "7080",
             state: "Heimdal",
             country: "Norway",
-            open: [ 
+            open: [
                 "Closed",
                 "07-16",
                 "07-16",
@@ -192,8 +195,16 @@ function Home() {
         setLocationValue(searchTerm);
     }
 
+    //"/testCar?car=" + carNameValue + "&location=" + LocationValue + "&date="
     const handleSearchButtonClick = () => {
-
+        if (carNameValue && locationValue) {
+            window.location.href = "/testCar?car=" + carNameValue + "&location=" + locationValue + "&date=";
+        } else {
+            setEmptyFieldMessage("Please fill in all the fields");
+            setTimeout(() => {
+                setEmptyFieldMessage("");
+            }, 5000);
+        }
     }
 
     return (
@@ -216,14 +227,14 @@ function Home() {
                         </div>
                     </div>
                     <div style={{ "width": "240px" }}>
-                        <input type="text" placeholder="Location" value={LocationValue} onFocus={handleLocationInputFocus} onBlur={handleLocationInputBlur} onChange={handleLocationSearchInputChange} />
-                        <div className="searchContentContainer" style={LocationinputMarked ? { "display": "flex" } : { "display": "none" }}>
+                        <input type="text" placeholder="Location" value={locationValue} onFocus={handleLocationInputFocus} onBlur={handleLocationInputBlur} onChange={handleLocationSearchInputChange} />
+                        <div className="searchContentContainer" style={locationinputMarked ? { "display": "flex" } : { "display": "none" }}>
                             <ul className="searchContentHomeUl">
-                                {LocationsearchItems.map((item) =>
+                                {locationsearchItems.map((item) =>
                                     <li className="searchContentHomeLi" key={item.street + ", " + item.postalCode + " " + item.state} onClick={() => {
                                         handleLocationClick(item.name);
                                         console.log("IT WORKED");
-                                        }} >
+                                    }} >
                                         <div className="searchHomeNameContainer">
                                             <div className="searchHomeLocationContainer">
                                                 <div className="searchHomeLocationContainerTop">
@@ -243,8 +254,10 @@ function Home() {
                         </div>
                     </div>
                     <input type="date" />
-                    <div className="searchButton" style={{ "marginLeft": "10px", "marginTop": "-2px" }} onClick={handleSearchButtonClick}>Search</div>
-                    
+                    <div className="searchButtonContainer">
+                        <div className="searchButton" style={{ "marginLeft": "10px", "marginTop": "-2px" }} onClick={handleSearchButtonClick}>Search</div>
+                        <p className="emptyFieldMessage">{emptyFieldMessage}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -273,16 +286,16 @@ function open(timeAsString) {
     let date = new Date();
     let time = date.getHours();
     let minute = date.getMinutes();
-    
+
     if (closed.includes(":") || open.includes(":")) {
         let closedTotal = closed.split(":");
         let openTotal = open.split(":");
 
         if (Number(openTotal[0]) > time || Number(closedTotal[0]) < time) {
             return false;
-        } else if ((Number(openTotal[0]) === time && Number(openTotal[1]) > minute) 
+        } else if ((Number(openTotal[0]) === time && Number(openTotal[1]) > minute)
             || (Number(closedTotal[0]) === time && Number(closedTotal[1]) < minute)) {
-                return false;
+            return false;
         } else {
             return true;
         }

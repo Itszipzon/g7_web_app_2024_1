@@ -127,7 +127,7 @@ function Test() {
             setTestValue(r.data);
             setConnected(true);
         });
-    }, []);
+    }, [jsonData]);
 
     return (
         <div className="TestPage">

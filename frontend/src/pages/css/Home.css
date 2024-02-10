@@ -112,3 +112,13 @@
 .searchHomeLocationContainerBot {
     font-size: 10px;
 }
+
+.searchButtonContainer {
+    display: grid;
+}
+
+.searchButtonContainer .emptyFieldMessage {
+    position:absolute;
+    color: red;
+    top: 170px;
+}
