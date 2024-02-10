@@ -12,6 +12,8 @@ function Home() {
     const [locationsearchItems, setLocationsearchItems] = useState([]);
     const [locationValue, setLocationValue] = useState("");
 
+    const [date, setDate] = useState("");
+
     const [emptyFieldMessage, setEmptyFieldMessage] = useState("");
 
     const handleCarNameInputFocus = () => {
@@ -21,7 +23,7 @@ function Home() {
     const handleCarNameInputBlur = () => {
         setTimeout(() => {
             setCarinputMarked(false);
-        }, 120);
+        }, 130);
     }
 
     const handleCarNameClick = (e) => {
@@ -35,10 +37,10 @@ function Home() {
     const handleLocationInputBlur = () => {
         setTimeout(() => {
             setLocationinputMarked(false);
-        }, 120);
+        }, 130);
     }
 
-    const handleLocationClick = (val, adr) => {
+    const handleLocationClick = (val) => {
         setLocationValue(val);
     }
 
@@ -68,8 +70,9 @@ function Home() {
             image: "none",
             link: "mclaren"
         },
-    ], [])
+    ], []);
 
+    //open sunday-saturday
     const locationList = useMemo(() => [
         {
             name: "XY 7-Eleven Ysteneset",
@@ -132,7 +135,7 @@ function Home() {
                 "07:30-16:30",
                 "07:30-16:30",
                 "07:30-16:30",
-                "10:30-14:30",
+                "10-14",
             ]
         },
         {
@@ -195,10 +198,14 @@ function Home() {
         setLocationValue(searchTerm);
     }
 
+    const handleDateInputChange = (e) => {
+        setDate(e.target.value);
+    }
+
     //"/testCar?car=" + carNameValue + "&location=" + LocationValue + "&date="
     const handleSearchButtonClick = () => {
-        if (carNameValue && locationValue) {
-            window.location.href = "/testCar?car=" + carNameValue + "&location=" + locationValue + "&date=";
+        if (carNameValue && locationValue && date) {
+            window.location.href = "/testCar?car=" + carNameValue + "&location=" + locationValue + "&date=" + date;
         } else {
             setEmptyFieldMessage("Please fill in all the fields");
             setTimeout(() => {
@@ -253,7 +260,7 @@ function Home() {
                             </ul>
                         </div>
                     </div>
-                    <input type="date" />
+                    <input type="date" date onChange={handleDateInputChange} value={date} />
                     <div className="searchButtonContainer">
                         <div className="searchButton" style={{ "marginLeft": "10px", "marginTop": "-2px" }} onClick={handleSearchButtonClick}>Search</div>
                         <p className="emptyFieldMessage">{emptyFieldMessage}</p>
@@ -281,8 +288,6 @@ function open(timeAsString) {
     const open = timeAsString.split("-")[0];
     const closed = timeAsString.split("-")[1];
 
-    let openNow = false;
-
     let date = new Date();
     let time = date.getHours();
     let minute = date.getMinutes();
@@ -301,10 +306,8 @@ function open(timeAsString) {
         }
     } else {
         if (Number(open) < time && Number(closed) > time) {
-            openNow = true;
+            return true;
         }
     }
-
-    return openNow;
 
 }
