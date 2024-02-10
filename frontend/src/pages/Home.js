@@ -220,7 +220,10 @@ function Home() {
                         <div className="searchContentContainer" style={LocationinputMarked ? { "display": "flex" } : { "display": "none" }}>
                             <ul className="searchContentHomeUl">
                                 {LocationsearchItems.map((item) =>
-                                    <li className="searchContentHomeLi" key={item.street + ", " + item.postalCode + " " + item.state} onClick={() => handleLocationClick(item.name)} >
+                                    <li className="searchContentHomeLi" key={item.street + ", " + item.postalCode + " " + item.state} onClick={() => {
+                                        handleLocationClick(item.name);
+                                        console.log("IT WORKED");
+                                        }} >
                                         <div className="searchHomeNameContainer">
                                             <div className="searchHomeLocationContainer">
                                                 <div className="searchHomeLocationContainerTop">

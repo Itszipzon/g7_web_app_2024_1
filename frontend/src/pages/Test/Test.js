@@ -207,6 +207,13 @@ function Test() {
                     {hours + " Hours " + minutes + " Minutes " + seconds + " Seconds"}
                 </div>
             </div>
+            <div className='TestPageElement'>
+                <h1>Key Check</h1>
+                <div className='TestContent'>
+                    <div className='KeyCheck' key="Hello World">
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
