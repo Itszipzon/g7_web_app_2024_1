@@ -286,7 +286,7 @@ function open(timeAsString) {
             return true;
         }
     } else {
-        if (Number(closed) > time && Number(open) < time) {
+        if (Number(open) < time && Number(closed) > time) {
             openNow = true;
         }
     }
