@@ -295,11 +295,15 @@ function open(timeAsString) {
     if (closed.includes(":") || open.includes(":")) {
         let closedTotal = closed.split(":");
         let openTotal = open.split(":");
+        let openHour = Number(openTotal[0]);
+        let openMinute = Number(openTotal[1]);
+        let closedHour = Number(closedTotal[0])
+        let closedMinute = Number(closedTotal[1]);
 
-        if (Number(openTotal[0]) > time || Number(closedTotal[0]) < time) {
+        if (openHour > time || closedHour < time) {
             return false;
-        } else if ((Number(openTotal[0]) === time && Number(openTotal[1]) > minute)
-            || (Number(closedTotal[0]) === time && Number(closedTotal[1]) < minute)) {
+        } else if ((openHour === time && openMinute > minute)
+            || (closedHour === time && closedMinute < minute)) {
             return false;
         } else {
             return true;
