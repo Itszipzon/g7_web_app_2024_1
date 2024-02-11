@@ -166,7 +166,28 @@ function Home() {
         setCarsearchItems(carList);
     }, [carList, locationList]);
 
+    const handleSearchEnter = (e) => {
+        if (e.key === "Enter") {
+            if (carinputMarked) {
+                handleCarNameInputBlur();
+                setCarNameValue(carsearchItems[0].name);
+            } else if (locationinputMarked) {
+                handleLocationInputBlur();
+                setLocationValue(locationsearchItems[0].name);
+            }
+            
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener("keypress", handleSearchEnter);
+        return(() => {
+            document.removeEventListener("keypress", handleSearchEnter);
+        });
+    });
+
     const handleCarNameSearchInputChange = (e) => {
+        handleCarNameInputFocus();
         let searchTerm = e.target.value;
         let validItemCounter = 0;
         validCarNames = [];
@@ -184,6 +205,7 @@ function Home() {
     var validLocation = [];
 
     const handleLocationSearchInputChange = (e) => {
+        handleLocationInputFocus();
         let searchTerm = e.target.value;
         let validItemCounter = 0;
         validLocation = [];
@@ -260,7 +282,7 @@ function Home() {
                             </ul>
                         </div>
                     </div>
-                    <input type="date" date onChange={handleDateInputChange} value={date} />
+                    <input type="date" onChange={handleDateInputChange} value={date} />
                     <div className="searchButtonContainer">
                         <div className="searchButton" style={{ "marginLeft": "10px", "marginTop": "-2px" }} onClick={handleSearchButtonClick}>Search</div>
                         <p className="emptyFieldMessage">{emptyFieldMessage}</p>
