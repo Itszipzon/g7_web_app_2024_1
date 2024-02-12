@@ -77,55 +77,7 @@ function Home() {
             name: "McLaren",
             image: "none",
             link: "mclaren"
-        },{
-            name: "Bmw",
-            image: "none",
-            link: "bmw"
-        },
-        {
-            name: "Audi",
-            image: "none",
-            link: "audi"
-        },
-        {
-            name: "Skoda",
-            image: "none",
-            link: "skoda"
-        },
-        {
-            name: "Toyota",
-            image: "none",
-            link: "toyota"
-        },
-        {
-            name: "McLaren",
-            image: "none",
-            link: "mclaren"
-        },{
-            name: "Bmw",
-            image: "none",
-            link: "bmw"
-        },
-        {
-            name: "Audi",
-            image: "none",
-            link: "audi"
-        },
-        {
-            name: "Skoda",
-            image: "none",
-            link: "skoda"
-        },
-        {
-            name: "Toyota",
-            image: "none",
-            link: "toyota"
-        },
-        {
-            name: "McLaren",
-            image: "none",
-            link: "mclaren"
-        },
+        }
     ], []);
 
     //open sunday-saturday
@@ -222,29 +174,13 @@ function Home() {
         setCarsearchItems(carList);
     }, [carList, locationList]);
 
-    const scrollDownIfNeeded = (listRef, selectedIndex) => {
-        if (listRef.current && selectedIndex >= 0) {
+    const scrollIfNeeded = (listRef, index) => {
+        if (listRef.current && index >= 0) {
+            const listBoxHeight = listRef.current.offsetHeight;
             const listItemHeight = listRef.current.children[0].offsetHeight;
-            const visibleItems = Math.floor(listRef.current.offsetHeight / listItemHeight);
 
-            if (selectedIndex % visibleItems === 0 && selectedIndex > 0) {
-                const scrollAmount = visibleItems*listItemHeight;
-                listRef.current.parentElement.scrollTop += scrollAmount;
-            }
-        }
-    };
-
-    const scrollUpIfNeeded = (listRef, selectedIndex) => {
-        if (listRef.current && selectedIndex >= 0) {
-            const listItemHeight = listRef.current.children[0].offsetHeight;
-            const visibleItems = Math.floor(listRef.current.offsetHeight / listItemHeight);
-            
-            if (selectedIndex === 0) {
-                listRef.current.parentElement.scrollTop = 0;
-            } else if (selectedIndex%visibleItems === 0) {
-                const scrollAmount = visibleItems * listItemHeight;
-                listRef.current.parentElement.scrollTop -= scrollAmount;
-            }
+            const scrollAmount = index*listItemHeight - listBoxHeight/2;
+            listRef.current.parentElement.scrollTop = scrollAmount;
         }
     }
 
@@ -258,29 +194,31 @@ function Home() {
                 handleLocationInputBlur();
                 setLocationValue(locationsearchItems[locationSelected].name);
             }
-            
+
         } else if (e.key === "ArrowDown") {
             if (carinputMarked) {
                 if (carSelected < carsearchItems.length - 1) {
                     setCarSelected(carSelected + 1);
-                    scrollDownIfNeeded(carNameRef, carSelected);
+                    scrollIfNeeded(carNameRef, carSelected);
                 }
             } else if (locationinputMarked) {
                 if (locationSelected < locationsearchItems.length - 1) {
                     setLocationSelected(locationSelected + 1);
-                    scrollDownIfNeeded(locationRef, locationSelected);
+                    scrollIfNeeded(locationRef, locationSelected);
                 }
-                
+
             }
         } else if (e.key === "ArrowUp") {
             if (carinputMarked) {
-                if (carSelected > 0)
+                if (carSelected > 0){
                     setCarSelected(carSelected - 1);
-                    scrollUpIfNeeded(carNameRef, carSelected);
+                    scrollIfNeeded(carNameRef, carSelected);
+                }
+            
             } else if (locationinputMarked) {
                 if (locationSelected > 0) {
                     setLocationSelected(locationSelected - 1);
-                    scrollUpIfNeeded(locationRef, locationSelected);
+                    scrollIfNeeded(locationRef, locationSelected);
                 }
             }
         }
@@ -288,7 +226,7 @@ function Home() {
 
     useEffect(() => {
         document.addEventListener("keydown", handleButtonPress);
-        return(() => {
+        return (() => {
             document.removeEventListener("keydown", handleButtonPress);
         });
     });
