@@ -174,19 +174,19 @@ function Home() {
         setCarsearchItems(carList);
     }, [carList, locationList]);
 
+
     const scrollIfNeeded = (listRef, index) => {
         if (listRef.current && index >= 0) {
             const listBoxHeight = listRef.current.offsetHeight;
             const listItemHeight = listRef.current.children[0].offsetHeight;
 
-            const scrollAmount = index*listItemHeight - listBoxHeight/2;
+            const scrollAmount = index * listItemHeight - listBoxHeight / 2;
             listRef.current.parentElement.scrollTop = scrollAmount;
         }
     }
- 
+
     const handleButtonPress = (e) => {
         if (e.key === "Enter") {
-            console.log("ENTER")
             if (carinputMarked) {
                 handleCarNameInputBlur();
                 setCarNameValue(carsearchItems[carSelected].name);
@@ -198,27 +198,27 @@ function Home() {
         } else if (e.key === "ArrowDown") {
             if (carinputMarked) {
                 if (carSelected < carsearchItems.length - 1) {
+                    scrollIfNeeded(carNameRef, carSelected + 1);
                     setCarSelected(carSelected + 1);
-                    scrollIfNeeded(carNameRef, carSelected);
                 }
             } else if (locationinputMarked) {
                 if (locationSelected < locationsearchItems.length - 1) {
+                    scrollIfNeeded(locationRef, locationSelected + 1);
                     setLocationSelected(locationSelected + 1);
-                    scrollIfNeeded(locationRef, locationSelected);
                 }
 
             }
         } else if (e.key === "ArrowUp") {
             if (carinputMarked) {
-                if (carSelected > 0){
+                if (carSelected > 0) {
+                    scrollIfNeeded(carNameRef, carSelected - 1);
                     setCarSelected(carSelected - 1);
-                    scrollIfNeeded(carNameRef, carSelected);
                 }
-            
+
             } else if (locationinputMarked) {
                 if (locationSelected > 0) {
+                    scrollIfNeeded(locationRef, locationSelected - 1);
                     setLocationSelected(locationSelected - 1);
-                    scrollIfNeeded(locationRef, locationSelected);
                 }
             }
         }
@@ -393,6 +393,5 @@ function open(timeAsString) {
             return true;
         }
     }
-    console.log(time)
 
 }
