@@ -183,7 +183,7 @@ function Home() {
             listRef.current.parentElement.scrollTop = scrollAmount;
         }
     }
-
+ 
     const handleButtonPress = (e) => {
         if (e.key === "Enter") {
             console.log("ENTER")
