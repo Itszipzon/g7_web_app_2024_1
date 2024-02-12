@@ -29,6 +29,7 @@ function Home() {
         }, 130);
     }
 
+
     const handleCarNameClick = (e) => {
         setCarNameValue(e);
     }
@@ -170,7 +171,7 @@ function Home() {
         setCarsearchItems(carList);
     }, [carList, locationList]);
 
-    const handleSearchEnter = (e) => {
+    const handleButtonPress = (e) => {
         if (e.key === "Enter") {
             console.log("ENTER")
             if (carinputMarked) {
@@ -196,16 +197,16 @@ function Home() {
                     setCarSelected(carSelected - 1);
             } else if (locationinputMarked) {
                 if (locationSelected > 0) {
-                    setLocationSelected(locationSelected - 1)
+                    setLocationSelected(locationSelected - 1);
                 }
             }
         }
     }
 
     useEffect(() => {
-        document.addEventListener("keydown", handleSearchEnter);
+        document.addEventListener("keydown", handleButtonPress);
         return(() => {
-            document.removeEventListener("keydown", handleSearchEnter);
+            document.removeEventListener("keydown", handleButtonPress);
         });
     });
 
@@ -270,7 +271,7 @@ function Home() {
                         <div className="searchContentContainer" style={carinputMarked ? { "display": "flex" } : { "display": "none" }}>
                             <ul className="searchContentHomeUl">
                                 {carsearchItems.map((item, index) =>
-                                    <li className="searchContentHomeLi" key={index} onClick={() => handleCarNameClick(item.name)} >
+                                    <li className={"searchContentHomeLi " + ((index === carSelected) ? "liSelected" : "")} key={index} onClick={() => handleCarNameClick(item.name)} >
                                         <div className="searchHomeNameContainer">
                                             <img src={item.image} alt={item.name} className="searchHomeImage" />
                                             <p>{item.name}</p>
@@ -284,8 +285,8 @@ function Home() {
                         <input type="text" placeholder="Location" value={locationValue} onFocus={handleLocationInputFocus} onBlur={handleLocationInputBlur} onChange={handleLocationSearchInputChange} />
                         <div className="searchContentContainer" style={locationinputMarked ? { "display": "flex" } : { "display": "none" }}>
                             <ul className="searchContentHomeUl">
-                                {locationsearchItems.map((item) =>
-                                    <li className="searchContentHomeLi" key={item.street + ", " + item.postalCode + " " + item.state} onClick={() => {
+                                {locationsearchItems.map((item, index) =>
+                                    <li className={"searchContentHomeLi " + ((index === locationSelected) ? "liSelected" : "")} key={item.street + ", " + item.postalCode + " " + item.state} onClick={() => {
                                         handleLocationClick(item.name);
                                     }} >
                                         <div className="searchHomeNameContainer">
