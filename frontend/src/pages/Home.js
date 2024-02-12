@@ -6,17 +6,20 @@ function Home() {
     const [carinputMarked, setCarinputMarked] = useState(false);
     const [carsearchItems, setCarsearchItems] = useState([]);
     const [carNameValue, setCarNameValue] = useState("");
+    const [carSelected, setCarSelected] = useState(0);
 
 
     const [locationinputMarked, setLocationinputMarked] = useState(false);
     const [locationsearchItems, setLocationsearchItems] = useState([]);
     const [locationValue, setLocationValue] = useState("");
+    const [locationSelected, setLocationSelected] = useState(0);
 
     const [date, setDate] = useState("");
 
     const [emptyFieldMessage, setEmptyFieldMessage] = useState("");
 
     const handleCarNameInputFocus = () => {
+        setCarSelected(0);
         setCarinputMarked(true);
     }
 
@@ -31,6 +34,7 @@ function Home() {
     }
 
     const handleLocationInputFocus = () => {
+        setLocationSelected(0);
         setLocationinputMarked(true);
     }
 
@@ -168,26 +172,46 @@ function Home() {
 
     const handleSearchEnter = (e) => {
         if (e.key === "Enter") {
+            console.log("ENTER")
             if (carinputMarked) {
                 handleCarNameInputBlur();
-                setCarNameValue(carsearchItems[0].name);
+                setCarNameValue(carsearchItems[carSelected].name);
             } else if (locationinputMarked) {
                 handleLocationInputBlur();
-                setLocationValue(locationsearchItems[0].name);
+                setLocationValue(locationsearchItems[locationSelected].name);
             }
             
+        } else if (e.key === "ArrowDown") {
+            console.log("ARROW");
+            if (carinputMarked) {
+                if (carSelected < carsearchItems.length - 1) 
+                    setCarSelected(carSelected + 1);
+            } else if (locationinputMarked) {
+                if (locationSelected < locationsearchItems.length - 1)
+                    setLocationSelected(locationSelected + 1);
+            }
+        } else if (e.key === "ArrowUp") {
+            if (carinputMarked) {
+                if (carSelected > 0)
+                    setCarSelected(carSelected - 1);
+            } else if (locationinputMarked) {
+                if (locationSelected > 0) {
+                    setLocationSelected(locationSelected - 1)
+                }
+            }
         }
     }
 
     useEffect(() => {
-        document.addEventListener("keypress", handleSearchEnter);
+        document.addEventListener("keydown", handleSearchEnter);
         return(() => {
-            document.removeEventListener("keypress", handleSearchEnter);
+            document.removeEventListener("keydown", handleSearchEnter);
         });
     });
 
     const handleCarNameSearchInputChange = (e) => {
         handleCarNameInputFocus();
+        setLocationSelected(0);
         let searchTerm = e.target.value;
         let validItemCounter = 0;
         validCarNames = [];
@@ -206,6 +230,7 @@ function Home() {
 
     const handleLocationSearchInputChange = (e) => {
         handleLocationInputFocus();
+        setLocationSelected(0);
         let searchTerm = e.target.value;
         let validItemCounter = 0;
         validLocation = [];
@@ -262,7 +287,6 @@ function Home() {
                                 {locationsearchItems.map((item) =>
                                     <li className="searchContentHomeLi" key={item.street + ", " + item.postalCode + " " + item.state} onClick={() => {
                                         handleLocationClick(item.name);
-                                        console.log("IT WORKED");
                                     }} >
                                         <div className="searchHomeNameContainer">
                                             <div className="searchHomeLocationContainer">
