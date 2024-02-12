@@ -403,6 +403,13 @@ function Home() {
 
 export default Home;
 
+/**
+ * Sorts your list with the startwords matching first, then alphabetical.
+ * @param {*} a 
+ * @param {*} b 
+ * @param {*} searchString The search word.
+ * @returns sorted list.
+ */
 function customSort(a, b, searchString) {
     if (a.name.startsWith(searchString) && !b.name.startsWith(searchString)) {
         return -1;
@@ -413,6 +420,11 @@ function customSort(a, b, searchString) {
     }
 }
 
+/**
+ * Returns if the store is open or not.
+ * @param {*} timeAsString Time in the format 12:20-19:30, or 12-22
+ * @returns if the store is open.
+ */
 function open(timeAsString) {
     if (timeAsString.toLowerCase() === "closed") return false;
     const open = timeAsString.split("-")[0];
