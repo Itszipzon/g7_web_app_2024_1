@@ -1,7 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "./css/Home.css";
 
 function Home() {
+
+    const carNameRef = useRef(null);
+    const locationRef = useRef(null);
 
     const [carinputMarked, setCarinputMarked] = useState(false);
     const [carsearchItems, setCarsearchItems] = useState([]);
@@ -51,6 +54,54 @@ function Home() {
 
     const carList = useMemo(() => [
         {
+            name: "Bmw",
+            image: "none",
+            link: "bmw"
+        },
+        {
+            name: "Audi",
+            image: "none",
+            link: "audi"
+        },
+        {
+            name: "Skoda",
+            image: "none",
+            link: "skoda"
+        },
+        {
+            name: "Toyota",
+            image: "none",
+            link: "toyota"
+        },
+        {
+            name: "McLaren",
+            image: "none",
+            link: "mclaren"
+        },{
+            name: "Bmw",
+            image: "none",
+            link: "bmw"
+        },
+        {
+            name: "Audi",
+            image: "none",
+            link: "audi"
+        },
+        {
+            name: "Skoda",
+            image: "none",
+            link: "skoda"
+        },
+        {
+            name: "Toyota",
+            image: "none",
+            link: "toyota"
+        },
+        {
+            name: "McLaren",
+            image: "none",
+            link: "mclaren"
+        },{
             name: "Bmw",
             image: "none",
             link: "bmw"
@@ -171,6 +222,32 @@ function Home() {
         setCarsearchItems(carList);
     }, [carList, locationList]);
 
+    const scrollDownIfNeeded = (listRef, selectedIndex) => {
+        if (listRef.current && selectedIndex >= 0) {
+            const listItemHeight = listRef.current.children[0].offsetHeight;
+            const visibleItems = Math.floor(listRef.current.offsetHeight / listItemHeight);
+
+            if (selectedIndex % visibleItems === 0 && selectedIndex > 0) {
+                const scrollAmount = visibleItems*listItemHeight;
+                listRef.current.parentElement.scrollTop += scrollAmount;
+            }
+        }
+    };
+
+    const scrollUpIfNeeded = (listRef, selectedIndex) => {
+        if (listRef.current && selectedIndex >= 0) {
+            const listItemHeight = listRef.current.children[0].offsetHeight;
+            const visibleItems = Math.floor(listRef.current.offsetHeight / listItemHeight);
+            
+            if (selectedIndex === 0) {
+                listRef.current.parentElement.scrollTop = 0;
+            } else if (selectedIndex%visibleItems === 0) {
+                const scrollAmount = visibleItems * listItemHeight;
+                listRef.current.parentElement.scrollTop -= scrollAmount;
+            }
+        }
+    }
+
     const handleButtonPress = (e) => {
         if (e.key === "Enter") {
             console.log("ENTER")
@@ -183,21 +260,27 @@ function Home() {
             }
             
         } else if (e.key === "ArrowDown") {
-            console.log("ARROW");
             if (carinputMarked) {
-                if (carSelected < carsearchItems.length - 1) 
+                if (carSelected < carsearchItems.length - 1) {
                     setCarSelected(carSelected + 1);
+                    scrollDownIfNeeded(carNameRef, carSelected);
+                }
             } else if (locationinputMarked) {
-                if (locationSelected < locationsearchItems.length - 1)
+                if (locationSelected < locationsearchItems.length - 1) {
                     setLocationSelected(locationSelected + 1);
+                    scrollDownIfNeeded(locationRef, locationSelected);
+                }
+                
             }
         } else if (e.key === "ArrowUp") {
             if (carinputMarked) {
                 if (carSelected > 0)
                     setCarSelected(carSelected - 1);
+                    scrollUpIfNeeded(carNameRef, carSelected);
             } else if (locationinputMarked) {
                 if (locationSelected > 0) {
                     setLocationSelected(locationSelected - 1);
+                    scrollUpIfNeeded(locationRef, locationSelected);
                 }
             }
         }
@@ -269,7 +352,7 @@ function Home() {
                     <div style={{ "width": "240px" }}>
                         <input type="text" placeholder="Car name" value={carNameValue} onFocus={handleCarNameInputFocus} onBlur={handleCarNameInputBlur} onChange={handleCarNameSearchInputChange} />
                         <div className="searchContentContainer" style={carinputMarked ? { "display": "flex" } : { "display": "none" }}>
-                            <ul className="searchContentHomeUl">
+                            <ul className="searchContentHomeUl" ref={carNameRef}>
                                 {carsearchItems.map((item, index) =>
                                     <li className={"searchContentHomeLi " + ((index === carSelected) ? "liSelected" : "")} key={index} onClick={() => handleCarNameClick(item.name)} >
                                         <div className="searchHomeNameContainer">
@@ -284,7 +367,7 @@ function Home() {
                     <div style={{ "width": "240px" }}>
                         <input type="text" placeholder="Location" value={locationValue} onFocus={handleLocationInputFocus} onBlur={handleLocationInputBlur} onChange={handleLocationSearchInputChange} />
                         <div className="searchContentContainer" style={locationinputMarked ? { "display": "flex" } : { "display": "none" }}>
-                            <ul className="searchContentHomeUl">
+                            <ul className="searchContentHomeUl" ref={locationRef}>
                                 {locationsearchItems.map((item, index) =>
                                     <li className={"searchContentHomeLi " + ((index === locationSelected) ? "liSelected" : "")} key={item.street + ", " + item.postalCode + " " + item.state} onClick={() => {
                                         handleLocationClick(item.name);
