@@ -451,9 +451,10 @@ function open(timeAsString) {
             return true;
         }
     } else {
-        if (Number(open) < time && Number(closed) > time) {
+        if (Number(open) <= time && Number(closed) > time) {
             return true;
         }
     }
+    console.log(time)
 
 }
