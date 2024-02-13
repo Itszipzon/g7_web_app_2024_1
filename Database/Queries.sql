@@ -80,3 +80,29 @@ WHERE
     S.Price >= 600 AND C.Maker = "Tesla" AND C.Model = "Model 3"
 ORDER BY 
     S.Price ASC;
+
+SELECT
+    L.name AS Location_Name,
+    L.address AS Location_Address,
+    C.maker AS Car_Maker,
+    C.model AS Car_Model,
+    C.Year AS ,
+    C.Fuel AS fuel,
+    C.Transmission AS transmission
+    C.Seats AS seats,
+    C.Extras AS extras,
+    S.price AS Price,
+    P.startdate AS Start_Date,
+    P.enddate AS End_Date
+FROM 
+    Location L
+JOIN 
+    Storage S ON L.ID = S.LID
+JOIN
+    Car C ON S.CID = C.ID
+LEFT JOIN
+    PurchaseHistory P ON S.ID = P.SID
+WHERE 
+    C.maker = 'VolksVagen' AND C.model = 'Golf'
+    AND (P.startdate IS NULL OR P.enddate IS NULL OR DATE('now') > P.enddate OR DATE('now') < P.startdate OR P.ID IS NULL);
+
