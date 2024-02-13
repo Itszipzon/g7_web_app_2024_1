@@ -12,9 +12,9 @@ import no.ntnu.dbTables.Car;
 public class TestDB {
     
     public static void main(String[] args) {
-        String url = "jdbc:mysql://localhost:3306/your_database_name";
-        String username = "your_username";
-        String password = "your_password";
+        String url = "jdbc:mysql://localhost:3306/testcarrental";
+        String username = "testCarRental";
+        String password = "test";
     
         Connection con = null;
         ArrayList<Car> cars = new ArrayList<>();
@@ -56,7 +56,9 @@ public class TestDB {
             e.printStackTrace();
         }
 
-        System.out.println(cars.get(0).formatted());
+        for (Car c : cars) {
+            System.out.println("\n" + c.formatted() + "\n");
+        }
         
     }
 

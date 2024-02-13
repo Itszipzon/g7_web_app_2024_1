@@ -67,10 +67,10 @@ public class Car {
         + "\nFuel type: " + this.fuelType
         + "\nTransmission: " + this.transmission
         + "\nAmount of seats: " + this.seats
-        + "Extras:";
+        + "\nExtras:";
 
         for (String s : this.extras) {
-            returnString += "\n   -" + s;
+            returnString += "\n   - " + s;
         }
 
         return returnString;
