@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "./TestCar.css";
 
 function TestCar() {
@@ -20,7 +21,7 @@ function TestCar() {
         <div className="CarListPage">
             {cars.map((car) => {
                 return (
-                    <div key={car.id} className="carDiv">
+                    <Link to={"/TestCarPage/" + car.maker + " " + car.model} key={car.id} className="carDiv">
                         <h1 className="carName">{car.maker + " " + car.model}</h1>
                         <div className="carInfoContainer">
                             <p>{car.year}</p>
@@ -33,7 +34,7 @@ function TestCar() {
                                 ))}
                             </ul>
                         </div>
-                    </div>
+                    </Link>
                 );
             })}
         </div>

@@ -12,8 +12,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -45,6 +48,7 @@ public class Test {
 
     /**
      * Sends a image to the frontend.
+     * 
      * @param imageName image to be sent.
      * @return the image.
      */
@@ -75,6 +79,7 @@ public class Test {
 
     /**
      * Upload files to the backend.
+     * 
      * @param file the file to upload.
      * @return the upload status.
      */
@@ -111,14 +116,14 @@ public class Test {
 
         for (File f : folder.listFiles()) {
             if (f.getName().equals(s)) {
-                duplicate = true; 
+                duplicate = true;
             }
         }
 
         if (duplicate) {
             int format = s.lastIndexOf(".");
             String stringFormat = s.substring(format, s.length());
-            name = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(12) , stringFormat);
+            name = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(12), stringFormat);
             System.out.println(name + stringFormat);
         } else {
             name = s;
@@ -143,17 +148,16 @@ public class Test {
         String url = "jdbc:mysql://localhost:3306/testcarrental";
         String username = "testCarRental";
         String password = "test";
-    
+
         Connection con = null;
         ArrayList<String> cars = new ArrayList<>();
 
         try {
             con = DriverManager.getConnection(url, username, password);
             Statement statement = con.createStatement();
-            
+
             String query = "SELECT * FROM Car";
             ResultSet result = statement.executeQuery(query);
-
 
             while (result.next()) {
                 int id = result.getInt("ID");
@@ -175,7 +179,6 @@ public class Test {
                 cars.add(car.toJson());
             }
 
-
             result.close();
             statement.close();
             con.close();
@@ -185,5 +188,80 @@ public class Test {
         }
 
         return new ResponseEntity<>(cars, HttpStatus.OK);
+    }
+
+    @GetMapping("cars/get/{name}")
+    public ResponseEntity<ArrayList<String>> getCarsByName(@PathVariable String name) {
+
+        String url = "jdbc:mysql://localhost:3306/testcarrental";
+        String username = "testCarRental";
+        String password = "test";
+
+        String makerSelected = name.split(" ")[0];
+        String modelSelected = name.substring(name.indexOf(" ", 1) + 1);
+    
+        Connection con = null;
+        ArrayList<String> values = new ArrayList<>();
+
+        try {
+            con = DriverManager.getConnection(url, username, password);
+            Statement statement = con.createStatement();
+            
+            String query = "SELECT"
+            + " L.name AS Location_Name,"
+            + " L.address AS Location_Address,"
+            + " C.*,"
+            + " S.price AS Price,"
+            + " P.startdate,"
+            + " P.enddate"
+            + " FROM "
+                + " Location L"
+            + " JOIN" 
+                + " Storage S ON L.ID = S.LID"
+            + " JOIN"
+                + " Car C ON S.CID = C.ID"
+            + " LEFT JOIN"
+                + " PurchaseHistory P ON S.ID = P.SID"
+            + " WHERE"
+                + " C.maker = '" + makerSelected + "' AND C.model = '" + modelSelected
+                + "' AND (P.startdate IS NULL OR P.enddate IS NULL OR DATE('now') > P.enddate OR DATE('now') < P.startdate OR P.ID IS NULL);";
+
+            String q2 = "SELECT L.name AS Location_Name, L.address AS Location_Address, C.maker AS Car_Maker, C.model AS Car_Model, C.Year AS Year, C.Fuel AS fuel, C.Transmission AS transmission, C.Seats AS seats, C.Extras AS extras, S.price AS Price, P.startdate AS Start_Date, P.enddate AS End_Date FROM Location L JOIN Storage S ON L.ID = S.LID JOIN Car C ON S.CID = C.ID LEFT JOIN PurchaseHistory P ON S.ID = P.SID WHERE C.maker = " + makerSelected + " AND C.model = " + modelSelected + " AND (P.startdate IS NULL OR P.enddate IS NULL OR DATE('now') > P.enddate OR DATE('now') < P.startdate OR P.ID IS NULL);";
+            
+            ResultSet result = statement.executeQuery(query);
+
+
+            while (result.next()) {
+
+                JSONObject value = new JSONObject();
+                value.put("LocationName", result.getString("Location_Name"));
+                value.put("LocationAddress", result.getString("Location_Address"));
+                value.put("CarMaker", result.getString("C.maker"));
+                value.put("CarModel", result.getString("C.model"));
+                value.put("CarYear", result.getInt("C.year"));
+                value.put("CarFuel", result.getString("C.fuel"));
+                value.put("CarTransmission", result.getString("C.transmission"));
+                value.put("CarSeats", result.getInt("C.seats"));
+                
+                String e[] = result.getString("C.extras").split(", ");
+                JSONArray extras = new JSONArray();
+                for (String s : e) {
+                    extras.put(s);
+                }
+                value.put("CarExtras", extras);
+                value.put("Price", result.getInt("Price"));
+                values.add(value.toString());
+            }
+
+
+            result.close();
+            statement.close();
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(values, HttpStatus.OK);
     }
 }
