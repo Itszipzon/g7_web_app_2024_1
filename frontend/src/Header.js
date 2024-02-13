@@ -40,6 +40,9 @@ function Header() {
                         <Link to="/test" className={"headerLink " + (activeHeader.includes("/test") ? 'headerLinkActive' : '')}>
                             <div>Test</div>
                         </Link>
+                        <Link to="/testcar" className={"headerLink " + (activeHeader.includes("/test") ? 'headerLinkActive' : '')}>
+                            <div>Test Car</div>
+                        </Link>
                     </div>
                     <Link to="/">
                         <div className="headerLogin">

@@ -274,7 +274,7 @@ function Home() {
     //"/testCar?car=" + carNameValue + "&location=" + LocationValue + "&date="
     const handleSearchButtonClick = () => {
         if (carNameValue && locationValue && date) {
-            window.location.href = "/testCar?car=" + carNameValue + "&location=" + locationValue + "&date=" + date;
+            window.location.href = "/testcar?car=" + carNameValue + "&location=" + locationValue + "&date=" + date;
         } else {
             setEmptyFieldMessage("Please fill in all the fields");
             setTimeout(() => {
