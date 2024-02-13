@@ -2,6 +2,9 @@ package no.ntnu.dbTables;
 
 import java.util.LinkedList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class Car {
 
     private int id;
@@ -74,6 +77,23 @@ public class Car {
         }
 
         return returnString;
+    }
+
+    public String toJson() {
+        JSONObject json = new JSONObject();
+        json.put("id", this.id);
+        json.put("maker", this.maker);
+        json.put("model", this.model);
+        json.put("year", this.year);
+        json.put("fuel", this.fuelType);
+        json.put("transmission", this.transmission);
+        json.put("seats", this.seats);
+        JSONArray extras = new JSONArray();
+        for (String s : this.extras) {
+            extras.put(s);
+        }
+        json.put("extras", extras);
+        return json.toString();
     }
 
 }
