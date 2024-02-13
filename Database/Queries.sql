@@ -62,3 +62,21 @@ WHERE
     S.Price < 600
 ORDER BY 
     S.Price ASC;
+
+-- Gets All cars with price over or equal to 600, made by Tesla and is Model 3
+SELECT 
+    L.Name AS Location_Name,
+    L.Address AS Location_Address,
+    C.Maker AS Car_Maker,
+    C.Model AS Car_Model,
+    S.Price AS Price
+FROM 
+    Location L
+JOIN 
+    Storage S ON L.ID = S.LID
+JOIN 
+    Car C ON S.CID = C.ID
+WHERE 
+    S.Price >= 600 AND C.Maker = "Tesla" AND C.Model = "Model 3"
+ORDER BY 
+    S.Price ASC;
