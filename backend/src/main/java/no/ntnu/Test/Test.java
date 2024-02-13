@@ -5,6 +5,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.core.io.ClassPathResource;
@@ -20,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import no.ntnu.Main;
+import no.ntnu.dbTables.Car;
 
 @RestController
 @RequestMapping("test")
@@ -127,5 +135,55 @@ public class Test {
         if (!Files.exists(Path.of(file))) {
             Files.createDirectories(Path.of(file));
         }
+    }
+
+    @GetMapping("cars")
+    public ResponseEntity<ArrayList<String>> getCars() {
+
+        String url = "jdbc:mysql://localhost:3306/testcarrental";
+        String username = "testCarRental";
+        String password = "test";
+    
+        Connection con = null;
+        ArrayList<String> cars = new ArrayList<>();
+
+        try {
+            con = DriverManager.getConnection(url, username, password);
+            Statement statement = con.createStatement();
+            
+            String query = "SELECT * FROM Car";
+            ResultSet result = statement.executeQuery(query);
+
+
+            while (result.next()) {
+                int id = result.getInt("ID");
+                String maker = result.getString("Maker");
+                String model = result.getString("Model");
+                int year = result.getInt("Year");
+                String fuel = result.getString("Fuel");
+                String transmission = result.getString("Transmission");
+                int seats = result.getInt("Seats");
+                String extras = result.getString("Extras");
+
+                String e[] = extras.split(", ");
+                LinkedList<String> extraList = new LinkedList<>();
+                for (String s : e) {
+                    extraList.add(s);
+                }
+
+                Car car = new Car(id, maker, model, year, fuel, transmission, seats, extraList);
+                cars.add(car.toJson());
+            }
+
+
+            result.close();
+            statement.close();
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(cars, HttpStatus.OK);
     }
 }

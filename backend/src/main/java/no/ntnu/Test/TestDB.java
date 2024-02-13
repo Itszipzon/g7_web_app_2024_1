@@ -41,6 +41,7 @@ public class TestDB {
                 LinkedList<String> extraList = new LinkedList<>();
                 for (String s : e) {
                     extraList.add(s);
+                    System.out.println(s);
                 }
 
                 Car car = new Car(id, maker, model, year, fuel, transmission, seats, extraList);
@@ -56,10 +57,9 @@ public class TestDB {
             e.printStackTrace();
         }
 
-        for (Car c : cars) {
+/*         cars.forEach((c) -> {
             System.out.println("\n" + c.formatted() + "\n");
-        }
-        
+        }); */
     }
 
 }
