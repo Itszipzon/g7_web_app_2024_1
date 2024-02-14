@@ -236,6 +236,12 @@ function Test() {
                     })}
                 </div>
             </div>
+            <div className='TestPageElement'>
+                <h1>The header of the test</h1>
+                <div className='TestContent'>
+                    Put the content of the test in here
+                </div>
+            </div>
         </div>
     );
 }

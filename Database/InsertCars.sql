@@ -105,9 +105,7 @@ VALUES(
     "Diesel",
     "Manual",
     5,
-    "Glass window, Warming in the seats, Warming in the steering wheel,
-    Warming in the mirrors, Warming in the tires,
-    Warming under the rubber rugs, Warming 360"
+    "Glass window, Warming in the seats, Warming in the steering wheel, Warming in the mirrors, Warming in the tires, Warming under the rubber rugs, Warming 360"
 );
 
 INSERT INTO Car (Maker, Model, Year, Fuel, Transmission, Seats, Extras)

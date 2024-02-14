@@ -2,10 +2,12 @@ package no.ntnu;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 @RestController
 @RequestMapping("api")
@@ -50,34 +51,30 @@ public class Api {
                 .body(r);
     }
 
-    @GetMapping(value = {"search/location/", "search/location/{car}"})
+    @GetMapping(value = { "search/location/", "search/location/{car}" })
     public ResponseEntity<Set<String>> getLocation(@PathVariable(required = false) String car) {
-    
+
         String url = "jdbc:mysql://localhost:3306/testcarrental";
         String username = "root";
         String password = "";
-    
+
         Connection con = null;
         Set<String> jsonStringArray = new HashSet<>();
-    
+
+        Date now = new Date(System.currentTimeMillis());
+        System.out.println(now.toLocalDate());
+
         try {
             con = DriverManager.getConnection(url, username, password);
             Statement statement = con.createStatement();
-    
-            String query = "SELECT "
-                    + "L.name, "
-                    + "L.Address, "
-                    + "C.ID, "
-                    + "S.Price, "
-                    + "Case "
-                    + "WHEN "
-                    + "P.startdate IS NULL OR P.enddate IS NULL OR DATE('now') > "
-                    + "P.enddate OR DATE('now') < P.startdate OR P.ID IS NULL THEN TRUE "
-                    + "ELSE FALSE "
-                    + "END AS Is_Available " + "FROM Location L "
+
+            String query = "SELECT L.name, L.Address, C.ID, S.Price, " +
+                    "CASE WHEN P.startdate IS NULL OR P.enddate IS NULL OR " +
+                    LocalDate.now().toString() + " NOT BETWEEN P.enddate AND P.startdate THEN TRUE ELSE FALSE END AS Is_Available "
+                    + "FROM Location L "
                     + "JOIN Storage S ON L.ID = S.LID " + "JOIN Car C ON S.CID = C.ID "
                     + "LEFT JOIN PurchaseHistory P ON S.ID = P.SID";
-    
+
             if (car != null && !car.isBlank()) {
                 String maker = car.split(" ")[0];
                 String model = car.substring(car.indexOf(" ", 1) + 1);
@@ -89,32 +86,34 @@ public class Api {
             } else {
                 query += ";";
             }
-    
+
+            statement = con.prepareStatement(query);
+
             ResultSet result = statement.executeQuery(query);
-    
+
             while (result.next()) {
                 JSONObject json = new JSONObject();
-    
+
                 json.put("LocationName", result.getString("L.name"));
                 json.put("LocationAddress", result.getString("L.Address"));
                 json.put("IsAvailable", result.getBoolean("Is_Available"));
                 jsonStringArray.add(json.toString());
             }
-    
+
             result.close();
             statement.close();
             con.close();
-    
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
     }
- 
-    @GetMapping(value = {"search/car/", "search/car/{location}"})
+
+    @GetMapping(value = { "search/car/", "search/car/{location}" })
     public ResponseEntity<Set<String>> getCar(@PathVariable(required = false) String location) {
-    
+
         String url = "jdbc:mysql://localhost:3306/testcarrental";
         String username = "root";
         String password = "";
@@ -185,7 +184,7 @@ public class Api {
             ResultSet result = statement.executeQuery(query);
 
             while (result.next()) {
-                String[] imgList =  result.getString("images").split(", ");
+                String[] imgList = result.getString("images").split(", ");
                 for (String i : imgList) {
                     imgSet.add("api/image/" + maker + "_" + model.replace(" ", "_") + "/" + i);
                 }
@@ -223,7 +222,6 @@ public class Api {
             while (result.next()) {
                 img = result.getString("images");
             }
-            
 
             result.close();
             statement.close();

@@ -23,7 +23,7 @@ INSERT INTO Storage(LID, CID, Price)
 VALUES(
     4,
     2,
-    500 -- Tesla Tom
+    500
 );
 
 INSERT INTO Storage(LID, CID, Price)

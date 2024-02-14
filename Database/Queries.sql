@@ -110,9 +110,8 @@ SELECT
     Case
         WHEN P.startdate IS NULL
         OR P.enddate IS NULL
-        OR DATE('now') > P.enddate
-        OR DATE('now') < P.startdate
-        OR P.ID IS NULL THEN TRUE
+        OR DATE('now') IS NOT BETWEEN P.startdate AND P.enddate
+        THEN TRUE
         ELSE FALSE
     END AS Is_Available
 FROM
