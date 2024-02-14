@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
 import org.json.JSONObject;
 import no.ntnu.dbTables.Car;
 
@@ -16,7 +19,7 @@ public class TestDB {
     public static void main(String[] args) {
         TestDB test = new TestDB();
         //test.testCarQuery();
-        test.testLocationListQuery("");
+        test.testCarLocationQuery("");
 
     }
 
@@ -135,4 +138,55 @@ public class TestDB {
 
     }
 
+    public void testCarLocationQuery(String location) {
+        String url = "jdbc:mysql://localhost:3306/testcarrental";
+        String username = "root";
+        String password = "";
+
+        Connection con = null;
+        Set<String> jsonStringArray = new HashSet<>();
+
+        try {
+            con = DriverManager.getConnection(url, username, password);
+            Statement statement = con.createStatement();
+
+            String query = "SELECT "
+                    + "C.Maker, "
+                    + "C.Model, "
+                    + "C.images, "
+                    + "L.name, "
+                    + "S.Price, "
+                    + "Case "
+                    + "WHEN "
+                    + "P.startdate IS NULL OR P.enddate IS NULL OR DATE('now') > "
+                    + "P.enddate OR DATE('now') < P.startdate OR P.ID IS NULL THEN TRUE "
+                    + "ELSE FALSE "
+                    + "END AS Is_Available " + "FROM Car C "
+                    + "JOIN Storage S ON C.ID = S.CID " + "JOIN Location L ON S.LID = L.ID "
+                    + "LEFT JOIN PurchaseHistory P ON S.ID = P.SID";
+
+            if (location != null && !location.isBlank()) {
+                query += " WHERE L.name LIKE '%" + location + "%';";
+            } else {
+                query += ";";
+            }
+
+            ResultSet result = statement.executeQuery(query);
+
+            while (result.next()) {
+                JSONObject json = new JSONObject();
+                json.put("Maker", result.getString("C.Maker"));
+                json.put("Model", result.getString("C.Model"));
+                json.put("Image", result.getString("C.images").split(", ")[0]);
+                jsonStringArray.add(json.toString());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        jsonStringArray.forEach((s) -> {
+            System.out.println(s);
+        });
+
+    }
 }

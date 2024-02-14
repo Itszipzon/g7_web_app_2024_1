@@ -11,7 +11,7 @@ function Home() {
     const [carsearchItems, setCarsearchItems] = useState([]);
     const [carNameValue, setCarNameValue] = useState("");
     const [carSelected, setCarSelected] = useState(0);
-
+    const [carDb, setCarDb] = useState([]);
 
     const [locationinputMarked, setLocationinputMarked] = useState(false);
     const [locationsearchItems, setLocationsearchItems] = useState([]);
@@ -39,6 +39,10 @@ function Home() {
 
     const handleCarNameClick = (e) => {
         setCarNameValue(e);
+        axios.get(jsonValue.serverAddress + "api/search/location/" + e).then(response => {
+            const locationsParsed = response.data.map(l => JSON.parse(l));
+            setLocationDb(locationsParsed);
+        });
     }
 
     const handleLocationInputFocus = () => {
@@ -54,136 +58,36 @@ function Home() {
 
     const handleLocationClick = (val) => {
         setLocationValue(val);
+        axios.get(jsonValue.serverAddress + "api/search/car/" + val).then(response => {
+            const carsParsed = response.data.map(c => JSON.parse(c));
+            setCarDb(carsParsed);
+        });
     }
-
-    const carList = useMemo(() => [
-        {
-            name: "Bmw",
-            image: "none",
-            link: "bmw"
-        },
-        {
-            name: "Audi",
-            image: "none",
-            link: "audi"
-        },
-        {
-            name: "Skoda",
-            image: "none",
-            link: "skoda"
-        },
-        {
-            name: "Toyota",
-            image: "none",
-            link: "toyota"
-        },
-        {
-            name: "McLaren",
-            image: "none",
-            link: "mclaren"
-        }
-    ], []);
-
-    //open sunday-saturday
-    const locationList = useMemo(() => [
-        {
-            name: "XY 7-Eleven Ysteneset",
-            street: "Sundgata 22",
-            postalCode: "6003",
-            state: "Ålesund",
-            country: "Norway",
-            open: [
-                "07-23",
-                "07-23",
-                "07-23",
-                "07-23",
-                "07-23",
-                "07-23",
-                "07-23"
-            ]
-        },
-        {
-            name: "Moa",
-            street: "Moavegen 1",
-            postalCode: "6018",
-            state: "Ålesund",
-            country: "Norway",
-            open: [
-                "Closed",
-                "08-22",
-                "08-22",
-                "08-22",
-                "08-22",
-                "08-22",
-                "08-20",
-            ]
-        },
-        {
-            name: "Obs bygg",
-            street: "Smibakken 2",
-            postalCode: "6018",
-            state: "Ålesund",
-            country: "Norway",
-            open: [
-                "Closed",
-                "07-21",
-                "07-21",
-                "07-21",
-                "07-21",
-                "07-21",
-                "09-19",
-            ]
-        },
-        {
-            name: "Møller bil Trondheim",
-            street: "Ingvald Ystgaards veg 21",
-            postalCode: "7047",
-            state: "Trondheim",
-            country: "Norway",
-            open: [
-                "Closed",
-                "07:30-16:30",
-                "07:30-16:30",
-                "07:30-16:30",
-                "07:30-16:30",
-                "07:30-16:30",
-                "10-14",
-            ]
-        },
-        {
-            name: "Pilot utleie AS",
-            street: "Heggstadmoen 8",
-            postalCode: "7080",
-            state: "Heimdal",
-            country: "Norway",
-            open: [
-                "Closed",
-                "07-16",
-                "07-16",
-                "07-16",
-                "07-16",
-                "07-16",
-                "Closed",
-            ]
-        }
-    ], []);
-
-    const d = new Date();
-    let day = d.getDay();
 
     let validCarNames = [];
 
     useEffect(() => {
-        axios.get(jsonValue.serverAddress + "api/search/location/" + carNameValue).then(response => {
-            const locationsParsed = response.data.map(l => JSON.parse(l));
-            setLocationDb(locationsParsed);
-        });
+        if (!carNameValue) {
+            axios.get(jsonValue.serverAddress + "api/search/location/" + carNameValue).then(response => {
+                const locationsParsed = response.data.map(l => JSON.parse(l));
+                setLocationDb(locationsParsed);
+            });
+        }
     }, [carNameValue, jsonValue]);
 
     useEffect(() => {
-        setLocationsearchItems(locationList);
-        setCarsearchItems(carList);
-    }, [carList, locationList]);
+        if (!locationValue) {
+            axios.get(jsonValue.serverAddress + "api/search/car/" + locationValue).then(response => {
+                const carsParsed = response.data.map(c => JSON.parse(c));
+                setCarDb(carsParsed);
+            });
+        }
+    }, [locationValue, jsonValue]);
+
+    useEffect(() => {
+        setLocationsearchItems(locationDb);
+        setCarsearchItems(carDb);
+    }, [carDb, locationDb]);
 
 
     const scrollIfNeeded = (listRef, index) => {
@@ -200,10 +104,10 @@ function Home() {
         if (e.key === "Enter") {
             if (carinputMarked) {
                 handleCarNameInputBlur();
-                setCarNameValue(carsearchItems[carSelected].name);
+                handleCarNameClick(carsearchItems[carSelected].Maker + " " + carsearchItems[carSelected].Model);
             } else if (locationinputMarked) {
                 handleLocationInputBlur();
-                setLocationValue(locationsearchItems[locationSelected].name);
+                handleLocationClick(locationsearchItems[locationSelected].LocationName);
             }
 
         } else if (e.key === "ArrowDown") {
@@ -248,13 +152,13 @@ function Home() {
         let searchTerm = e.target.value;
         let validItemCounter = 0;
         validCarNames = [];
-        for (let i = 0; i < carList.length; i++) {
-            if (carList[i].name.toLowerCase().includes(searchTerm.toLowerCase())) {
-                validCarNames[validItemCounter] = carList[i];
+        for (let i = 0; i < carDb.length; i++) {
+            if ((carDb[i].Maker + " " + carDb[i].Model).toLowerCase().includes(searchTerm.toLowerCase())) {
+                validCarNames[validItemCounter] = carDb[i];
                 validItemCounter++;
             }
         }
-        validCarNames.sort((a, b) => customSort(a, b, searchTerm));
+        validCarNames.sort((a, b) => customSort((a.Maker + " " + a.Model), (b.Maker + " " + b.Model), searchTerm));
         setCarsearchItems(validCarNames);
         setCarNameValue(searchTerm);
     }
@@ -267,13 +171,13 @@ function Home() {
         let searchTerm = e.target.value;
         let validItemCounter = 0;
         validLocation = [];
-        for (let i = 0; i < locationList.length; i++) {
-            if (locationList[i].name.toLowerCase().includes(searchTerm.toLowerCase())) {
-                validLocation[validItemCounter] = locationList[i];
+        for (let i = 0; i < locationDb.length; i++) {
+            if (locationDb[i].LocationName.toLowerCase().includes(searchTerm.toLowerCase())) {
+                validLocation[validItemCounter] = locationDb[i];
                 validItemCounter++;
             }
         }
-        validLocation.sort((a, b) => customSort(a, b, searchTerm));
+        validLocation.sort((a, b) => customSort(a.LocationName, b.LocationName, searchTerm));
         setLocationsearchItems(validLocation);
         setLocationValue(searchTerm);
     }
@@ -303,10 +207,10 @@ function Home() {
                         <div className="searchContentContainer" style={carinputMarked ? { "display": "flex" } : { "display": "none" }}>
                             <ul className="searchContentHomeUl" ref={carNameRef}>
                                 {carsearchItems.map((item, index) =>
-                                    <li className={"searchContentHomeLi " + ((index === carSelected) ? "liSelected" : "")} key={index} onClick={() => handleCarNameClick(item.name)} >
+                                    <li className={"searchContentHomeLi " + ((index === carSelected) ? "liSelected" : "")} key={index} onClick={() => handleCarNameClick((item.Maker + " " + item.Model))} >
                                         <div className="searchHomeNameContainer">
-                                            <img src={item.image} alt={item.name} className="searchHomeImage" />
-                                            <p>{item.name}</p>
+                                            <img src={item.Image} alt={(item.Maker + " " + item.Model)} className="searchHomeImage" />
+                                            <p>{(item.Maker + " " + item.Model)}</p>
                                         </div>
                                     </li>
                                 )}
@@ -317,7 +221,7 @@ function Home() {
                         <input type="text" placeholder="Location" value={locationValue} onFocus={handleLocationInputFocus} onBlur={handleLocationInputBlur} onChange={handleLocationSearchInputChange} />
                         <div className="searchContentContainer" style={locationinputMarked ? { "display": "flex" } : { "display": "none" }}>
                             <ul className="searchContentHomeUl" ref={locationRef}>
-                            {locationDb.map((item, index) =>
+                            {locationsearchItems.map((item, index) =>
                                     <li className={"searchContentHomeLi " + ((index === locationSelected) ? "liSelected" : "")} key={item.LocationAddress} onClick={() => {
                                         handleLocationClick(item.LocationName);
                                     }} >
@@ -330,7 +234,7 @@ function Home() {
                                                     {item.LocationAddress}
                                                 </div>
                                                 <div className="searchHomeLocationContainerBot">
-                                                    {item.IsAvailable ? "🟢 Available" : "🔴 Not available"}
+                                                    {carNameValue ? (item.IsAvailable ? "🟢 Available" : "🔴 Not available") : ""}
                                                 </div>
                                             </div>
                                         </div>
@@ -360,56 +264,13 @@ export default Home;
  * @returns sorted list.
  */
 function customSort(a, b, searchString) {
-    if (a.name.startsWith(searchString) && !b.name.startsWith(searchString)) {
+    if (a.startsWith(searchString) && !b.startsWith(searchString)) {
         return -1;
-    } else if (!a.name.startsWith(searchString) && b.name.startsWith(searchString)) {
+    } else if (!a.startsWith(searchString) && b.startsWith(searchString)) {
         return 1;
     } else {
-        return a.name.localeCompare(b.name);
+        return a.localeCompare(b);
     }
-}
-
-/**
- * Returns if the store is open or not.
- * @param {*} timeAsString Time in the format 12:20-19:30, or 12-22
- * @returns if the store is open.
- */
-function open(timeAsString) {
-    if (timeAsString.toLowerCase() === "closed") return false;
-    const open = timeAsString.split("-")[0];
-    const closed = timeAsString.split("-")[1];
-
-    let date = new Date();
-    let time = date.getHours();
-    let minute = date.getMinutes();
-
-    if (closed.includes(":") || open.includes(":")) {
-        let closedTotal = closed.split(":");
-        let openTotal = open.split(":");
-        let openHour = Number(openTotal[0]);
-        let openMinute = Number(openTotal[1]);
-        let closedHour = Number(closedTotal[0])
-        let closedMinute = Number(closedTotal[1]);
-
-        if (openHour > time || closedHour < time) {
-            return false;
-        } else if ((openHour === time && openMinute > minute)
-            || (closedHour === time && closedMinute < minute)) {
-            return false;
-        } else {
-            return true;
-        }
-    } else {
-        if (Number(open) <= time && Number(closed) > time) {
-            return true;
-        }
-    }
-
-}
-
-function findCharacterAtPosition(str, line, position) {
-    var s = str[line]
-    return s.charAt(position);
 }
 
 /**

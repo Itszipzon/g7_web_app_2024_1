@@ -1,12 +1,14 @@
 package no.ntnu;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -49,14 +51,14 @@ public class Api {
     }
 
     @GetMapping(value = {"search/location/", "search/location/{car}"})
-    public ResponseEntity<List<String>> getLocation(@PathVariable(required = false) String car) {
+    public ResponseEntity<Set<String>> getLocation(@PathVariable(required = false) String car) {
     
         String url = "jdbc:mysql://localhost:3306/testcarrental";
         String username = "root";
         String password = "";
     
         Connection con = null;
-        List<String> jsonStringArray = new ArrayList<>();
+        Set<String> jsonStringArray = new HashSet<>();
     
         try {
             con = DriverManager.getConnection(url, username, password);
@@ -106,12 +108,133 @@ public class Api {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
-        jsonStringArray.forEach((s) -> {
-            System.out.println(s);
-        });
 
         return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
     }
+ 
+    @GetMapping(value = {"search/car/", "search/car/{location}"})
+    public ResponseEntity<Set<String>> getCar(@PathVariable(required = false) String location) {
     
+        String url = "jdbc:mysql://localhost:3306/testcarrental";
+        String username = "root";
+        String password = "";
+
+        Connection con = null;
+        Set<String> jsonStringArray = new HashSet<>();
+
+        try {
+            con = DriverManager.getConnection(url, username, password);
+            Statement statement = con.createStatement();
+
+            String query = "SELECT "
+                    + "C.Maker, "
+                    + "C.Model, "
+                    + "C.images, "
+                    + "L.name, "
+                    + "S.Price, "
+                    + "Case "
+                    + "WHEN "
+                    + "P.startdate IS NULL OR P.enddate IS NULL OR DATE('now') > "
+                    + "P.enddate OR DATE('now') < P.startdate OR P.ID IS NULL THEN TRUE "
+                    + "ELSE FALSE "
+                    + "END AS Is_Available " + "FROM Car C "
+                    + "JOIN Storage S ON C.ID = S.CID " + "JOIN Location L ON S.LID = L.ID "
+                    + "LEFT JOIN PurchaseHistory P ON S.ID = P.SID";
+
+            if (location != null && !location.isBlank()) {
+                query += " WHERE L.name LIKE '%" + location + "%';";
+            } else {
+                query += ";";
+            }
+
+            ResultSet result = statement.executeQuery(query);
+
+            while (result.next()) {
+                JSONObject json = new JSONObject();
+                json.put("Maker", result.getString("C.Maker"));
+                json.put("Model", result.getString("C.Model"));
+                json.put("Image", result.getString("C.images").split(", ")[0]);
+                jsonStringArray.add(json.toString());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
+    }
+
+    @GetMapping("car/images/{carName}")
+    public ResponseEntity<Set<String>> carImages(@PathVariable String carName) {
+
+        String url = "jdbc:mysql://localhost:3306/testcarrental";
+        String username = "root";
+        String password = "";
+
+        Connection con = null;
+
+        String maker = carName.split(" ")[0];
+        String model = carName.substring(carName.indexOf(" ") + 1);
+
+        Set<String> imgSet = new HashSet<>();
+
+        try {
+            con = DriverManager.getConnection(url, username, password);
+            Statement statement = con.createStatement();
+            String query = "SELECT images FROM Car WHERE Maker = '" + maker + "' AND Model = '" + model + "';";
+
+            ResultSet result = statement.executeQuery(query);
+
+            while (result.next()) {
+                String[] imgList =  result.getString("images").split(", ");
+                for (String i : imgList) {
+                    imgSet.add("api/image/" + maker + "_" + model.replace(" ", "_") + "/" + i);
+                }
+            }
+
+            result.close();
+            statement.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(imgSet, HttpStatus.OK);
+    }
+
+    @GetMapping("car/img/{carName}")
+    public ResponseEntity<String> getCarImage(@PathVariable String carName) {
+        String maker = carName.split(" ")[0];
+        String model = carName.substring(carName.indexOf(" ") + 1);
+        String img = "";
+
+        String url = "jdbc:mysql://localhost:3306/testcarrental";
+        String username = "root";
+        String password = "";
+
+        Connection con = null;
+
+        try {
+            con = DriverManager.getConnection(url, username, password);
+            Statement statement = con.createStatement();
+
+            String query = "SELECT images FROM Car WHERE Maker = '" + maker + "' AND Model = '" + model + "';";
+
+            ResultSet result = statement.executeQuery(query);
+            while (result.next()) {
+                img = result.getString("images");
+            }
+            
+
+            result.close();
+            statement.close();
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String mainImage = img.split(", ")[0];
+
+        return new ResponseEntity<>(mainImage, HttpStatus.OK);
+    }
 }
