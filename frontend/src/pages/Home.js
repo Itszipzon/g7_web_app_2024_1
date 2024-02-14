@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "./css/Home.css";
+import axios from "axios";
 
 function Home() {
 
@@ -16,10 +17,13 @@ function Home() {
     const [locationsearchItems, setLocationsearchItems] = useState([]);
     const [locationValue, setLocationValue] = useState("");
     const [locationSelected, setLocationSelected] = useState(0);
+    const [locationDb, setLocationDb] = useState([]);
 
     const [date, setDate] = useState("");
 
     const [emptyFieldMessage, setEmptyFieldMessage] = useState("");
+
+    const jsonValue = require("../information.json");
 
     const handleCarNameInputFocus = () => {
         setCarSelected(0);
@@ -170,6 +174,13 @@ function Home() {
     let validCarNames = [];
 
     useEffect(() => {
+        axios.get(jsonValue.serverAddress + "api/search/location/" + carNameValue).then(response => {
+            const locationsParsed = response.data.map(l => JSON.parse(l));
+            setLocationDb(locationsParsed);
+        });
+    }, [carNameValue, jsonValue]);
+
+    useEffect(() => {
         setLocationsearchItems(locationList);
         setCarsearchItems(carList);
     }, [carList, locationList]);
@@ -306,7 +317,7 @@ function Home() {
                         <input type="text" placeholder="Location" value={locationValue} onFocus={handleLocationInputFocus} onBlur={handleLocationInputBlur} onChange={handleLocationSearchInputChange} />
                         <div className="searchContentContainer" style={locationinputMarked ? { "display": "flex" } : { "display": "none" }}>
                             <ul className="searchContentHomeUl" ref={locationRef}>
-                                {locationsearchItems.map((item, index) =>
+                            {locationDb.map((item, index) =>
                                     <li className={"searchContentHomeLi " + ((index === locationSelected) ? "liSelected" : "")} key={item.street + ", " + item.postalCode + " " + item.state} onClick={() => {
                                         handleLocationClick(item.name);
                                     }} >
@@ -319,7 +330,7 @@ function Home() {
                                                     {item.street + ", " + item.postalCode + " " + item.state}
                                                 </div>
                                                 <div className="searchHomeLocationContainerBot">
-                                                    {(open(item.open[day]) ? "🟢" : "🔴") + item.open[day]}
+                                                    {(open(item.IsAvailable) ? "🟢 Available" : "🔴 Not available")}
                                                 </div>
                                             </div>
                                         </div>
@@ -395,3 +406,30 @@ function open(timeAsString) {
     }
 
 }
+
+function findCharacterAtPosition(str, line, position) {
+    var s = str[line]
+    return s.charAt(position);
+}
+
+/**
+ * {locationsearchItems.map((item, index) =>
+                                    <li className={"searchContentHomeLi " + ((index === locationSelected) ? "liSelected" : "")} key={item.street + ", " + item.postalCode + " " + item.state} onClick={() => {
+                                        handleLocationClick(item.name);
+                                    }} >
+                                        <div className="searchHomeNameContainer">
+                                            <div className="searchHomeLocationContainer">
+                                                <div className="searchHomeLocationContainerTop">
+                                                    {item.name}
+                                                </div>
+                                                <div className="searchHomeLocationContainerMid">
+                                                    {item.street + ", " + item.postalCode + " " + item.state}
+                                                </div>
+                                                <div className="searchHomeLocationContainerBot">
+                                                    {(open(item.open[day]) ? "🟢" : "🔴") + item.open[day]}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                )}
+ */

@@ -21,6 +21,8 @@ function Test() {
 
     const imageUrl = jsonData.serverAddress + "test/image/astronaut.png";
 
+    const [locationList, setLocationList] = useState([]);
+
 
     const searchList = [
         "apple", "banana", "orange", "grape", "strawberry", "melon", "kiwi", "peach", "plum", "pear",
@@ -122,11 +124,17 @@ function Test() {
     }, [hours, minutes, seconds]);
 
     useEffect(() => {
-        axios.get(jsonData.serverAddress + "test/first", {
+        axios.get(jsonData.serverAddress + "test/first/message/hello", {
         }).then((r) => {
             setTestValue(r.data);
             setConnected(true);
         });
+
+        axios.get(jsonData.serverAddress + "test/search/location", {
+        }).then((r) => {
+            const locations = r.data.map(l => JSON.parse(l));
+            setLocationList(locations);
+        })
     }, [jsonData]);
 
     return (
@@ -212,6 +220,20 @@ function Test() {
                 <div className='TestContent'>
                     <div className='KeyCheck' key="Hello World">
                     </div>
+                </div>
+            </div>
+            <div className='TestPageElement'>
+                <h1>Location List</h1>
+                <div className='TestContent'>
+                    {locationList.map((location, index) => {
+                        return (
+                            <div key={index}>
+                                <h1>{location.locationName}</h1>
+                                <p>{location.LocationAddress}</p>
+                                <p>{location.IsAvailable ? "YES!" : "NO :("}</p>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </div>
