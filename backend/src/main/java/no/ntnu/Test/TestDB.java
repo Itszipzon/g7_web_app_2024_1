@@ -73,18 +73,17 @@ public class TestDB {
     }
 
     public void testLocationListQuery(String car) {
-
         String url = "jdbc:mysql://localhost:3306/testcarrental";
         String username = "root";
         String password = "";
-
+    
         Connection con = null;
         List<String> jsonStringArray = new ArrayList<>();
-
+    
         try {
             con = DriverManager.getConnection(url, username, password);
             Statement statement = con.createStatement();
-
+    
             String query = "SELECT "
                     + "L.name, "
                     + "L.Address, "
@@ -98,36 +97,40 @@ public class TestDB {
                     + "END AS Is_Available " + "FROM Location L "
                     + "JOIN Storage S ON L.ID = S.LID " + "JOIN Car C ON S.CID = C.ID "
                     + "LEFT JOIN PurchaseHistory P ON S.ID = P.SID";
-
-            if (!car.isEmpty()) {
-                query += " WHERE C.Maker = '" + car.split(" ")[0] + "' AND C.Model = '"
-                        + car.substring(car.indexOf(" ", 1) + 1) + "';";
+    
+            if (car != null && !car.isBlank()) {
+                String maker = car.split(" ")[0];
+                String model = car.substring(car.indexOf(" ", 1) + 1);
+                if (car.split(" ").length > 1) {
+                    query += " WHERE C.Maker = '" + maker + "' AND C.Model LIKE '%" + model + "%';";
+                } else {
+                    query += " WHERE C.Maker LIKE '%" + maker + "%';";
+                }
             } else {
                 query += ";";
             }
-
+    
             ResultSet result = statement.executeQuery(query);
-
+    
             while (result.next()) {
                 JSONObject json = new JSONObject();
-
+    
                 json.put("LocationName", result.getString("L.name"));
                 json.put("LocationAddress", result.getString("L.Address"));
                 json.put("IsAvailable", result.getBoolean("Is_Available"));
                 jsonStringArray.add(json.toString());
             }
-
-
+    
             result.close();
             statement.close();
             con.close();
-
+    
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        jsonStringArray.forEach((e) -> {
-            System.out.println(e);
+        
+        jsonStringArray.forEach((s) -> {
+            System.out.println(s);
         });
 
     }

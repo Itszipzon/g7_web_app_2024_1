@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -49,12 +48,12 @@ public class Api {
                 .body(r);
     }
 
-    @GetMapping("search/location/{car}")
+    @GetMapping(value = {"search/location/", "search/location/{car}"})
     public ResponseEntity<List<String>> getLocation(@PathVariable(required = false) String car) {
     
         String url = "jdbc:mysql://localhost:3306/testcarrental";
-        String username = "testCarRental";
-        String password = "test";
+        String username = "root";
+        String password = "";
     
         Connection con = null;
         List<String> jsonStringArray = new ArrayList<>();
@@ -80,7 +79,13 @@ public class Api {
             if (car != null && !car.isBlank()) {
                 String maker = car.split(" ")[0];
                 String model = car.substring(car.indexOf(" ", 1) + 1);
-                query += " WHERE C.Maker = '" + maker + "' AND C.Model = '" + model + "'";
+                if (car.split(" ").length > 1) {
+                    query += " WHERE C.Maker = '" + maker + "' AND C.Model LIKE '%" + model + "%';";
+                } else {
+                    query += " WHERE C.Maker LIKE '%" + maker + "%';";
+                }
+            } else {
+                query += ";";
             }
     
             ResultSet result = statement.executeQuery(query);
@@ -101,7 +106,11 @@ public class Api {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    
+        
+        jsonStringArray.forEach((s) -> {
+            System.out.println(s);
+        });
+
         return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
     }
     

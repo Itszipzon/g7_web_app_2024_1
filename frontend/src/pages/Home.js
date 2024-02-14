@@ -318,19 +318,19 @@ function Home() {
                         <div className="searchContentContainer" style={locationinputMarked ? { "display": "flex" } : { "display": "none" }}>
                             <ul className="searchContentHomeUl" ref={locationRef}>
                             {locationDb.map((item, index) =>
-                                    <li className={"searchContentHomeLi " + ((index === locationSelected) ? "liSelected" : "")} key={item.street + ", " + item.postalCode + " " + item.state} onClick={() => {
-                                        handleLocationClick(item.name);
+                                    <li className={"searchContentHomeLi " + ((index === locationSelected) ? "liSelected" : "")} key={item.LocationAddress} onClick={() => {
+                                        handleLocationClick(item.LocationName);
                                     }} >
                                         <div className="searchHomeNameContainer">
                                             <div className="searchHomeLocationContainer">
                                                 <div className="searchHomeLocationContainerTop">
-                                                    {item.name}
+                                                    {item.LocationName}
                                                 </div>
                                                 <div className="searchHomeLocationContainerMid">
-                                                    {item.street + ", " + item.postalCode + " " + item.state}
+                                                    {item.LocationAddress}
                                                 </div>
                                                 <div className="searchHomeLocationContainerBot">
-                                                    {(open(item.IsAvailable) ? "🟢 Available" : "🔴 Not available")}
+                                                    {item.IsAvailable ? "🟢 Available" : "🔴 Not available"}
                                                 </div>
                                             </div>
                                         </div>
