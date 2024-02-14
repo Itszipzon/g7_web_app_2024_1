@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./css/Home.css";
 import axios from "axios";
 
@@ -19,6 +19,8 @@ function Home() {
     const [locationSelected, setLocationSelected] = useState(0);
     const [locationDb, setLocationDb] = useState([]);
 
+    const [isValidCar, setIsValidCar] = useState(false);
+
     const [date, setDate] = useState("");
 
     const [emptyFieldMessage, setEmptyFieldMessage] = useState("");
@@ -38,7 +40,8 @@ function Home() {
 
 
     const handleCarNameClick = (e) => {
-        setCarNameValue(e);
+        handleCarNameSearchInputChange({ target: { value: e } });
+        
         axios.get(jsonValue.serverAddress + "api/search/location/" + e).then(response => {
             const locationsParsed = response.data.map(l => JSON.parse(l));
             setLocationDb(locationsParsed);
@@ -161,6 +164,13 @@ function Home() {
         validCarNames.sort((a, b) => customSort((a.Maker + " " + a.Model), (b.Maker + " " + b.Model), searchTerm));
         setCarsearchItems(validCarNames);
         setCarNameValue(searchTerm);
+        for (let i = 0; i < validCarNames.length; i++) {
+            if ((validCarNames[i].Maker + " " + validCarNames[i].Model).toLowerCase() === searchTerm.toLowerCase()) {
+                setIsValidCar(true);
+            } else {
+                setIsValidCar(false);
+            }
+        }
     }
 
     var validLocation = [];
@@ -234,7 +244,7 @@ function Home() {
                                                     {item.LocationAddress}
                                                 </div>
                                                 <div className="searchHomeLocationContainerBot">
-                                                    {carNameValue ? (item.IsAvailable ? "🟢 Available" : "🔴 Not available") : ""}
+                                                    {isValidCar ? (item.IsAvailable ? "🟢 Available" : "🔴 Not available") : ""}
                                                 </div>
                                             </div>
                                         </div>
