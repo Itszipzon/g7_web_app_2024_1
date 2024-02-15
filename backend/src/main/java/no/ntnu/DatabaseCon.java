@@ -14,14 +14,25 @@ public class DatabaseCon {
             .filename(".env")
             .load();
     
-    private String url = "jdbc:mysql://localhost:3306/testcarrental";
-    private String dbUser = env.get("DATABASE_USERNAME");
-    private String dbPassword = env.get("DATABASE_PASSWORD");
+    private String url;
+    private String dbUser;
+    private String dbPassword;
 
     private Connection con;
     private Statement statement;
 
     public DatabaseCon() {
+        this.url = "jdbc:mysql://localhost:3306/testcarrental";
+        this.dbUser = env.get("DATABASE_USERNAME");
+        this.dbPassword = env.get("DATABASE_PASSWORD");
+        this.con = null;
+        this.statement = null;
+    }
+
+    public DatabaseCon(String url, String username, String password) {
+        this.url = url;
+        this.dbUser = username;
+        this.dbPassword = password;
         this.con = null;
         this.statement = null;
     }
