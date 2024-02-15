@@ -1,8 +1,6 @@
 package no.ntnu;
 
-import java.io.File;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,10 +19,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 @RestController
 @RequestMapping("api")
 public class Api {
+
+    
 
     @GetMapping("image/{imageName}")
     public ResponseEntity<Resource> image(@PathVariable String imageName) {
@@ -54,19 +53,9 @@ public class Api {
     @GetMapping(value = { "search/location/", "search/location/{car}" })
     public ResponseEntity<Set<String>> getLocation(@PathVariable(required = false) String car) {
 
-        String url = "jdbc:mysql://localhost:3306/testcarrental";
-        String username = "root";
-        String password = "";
-
-        Connection con = null;
         Set<String> jsonStringArray = new HashSet<>();
 
-        Date now = new Date(System.currentTimeMillis());
-        System.out.println(now.toLocalDate());
-
         try {
-            con = DriverManager.getConnection(url, username, password);
-            Statement statement = con.createStatement();
 
             String query = "SELECT L.name, L.Address, C.ID, S.Price, " +
                     "CASE WHEN P.startdate IS NULL OR P.enddate IS NULL OR " +
@@ -87,9 +76,9 @@ public class Api {
                 query += ";";
             }
 
-            statement = con.prepareStatement(query);
+            DatabaseCon con = new DatabaseCon();
 
-            ResultSet result = statement.executeQuery(query);
+            ResultSet result = con.query(query);
 
             while (result.next()) {
                 JSONObject json = new JSONObject();
@@ -101,7 +90,6 @@ public class Api {
             }
 
             result.close();
-            statement.close();
             con.close();
 
         } catch (SQLException e) {
@@ -114,17 +102,9 @@ public class Api {
     @GetMapping(value = { "search/car/", "search/car/{location}" })
     public ResponseEntity<Set<String>> getCar(@PathVariable(required = false) String location) {
 
-        String url = "jdbc:mysql://localhost:3306/testcarrental";
-        String username = "root";
-        String password = "";
-
-        Connection con = null;
         Set<String> jsonStringArray = new HashSet<>();
 
         try {
-            con = DriverManager.getConnection(url, username, password);
-            Statement statement = con.createStatement();
-
             String query = "SELECT "
                     + "C.Maker, "
                     + "C.Model, "
@@ -146,7 +126,9 @@ public class Api {
                 query += ";";
             }
 
-            ResultSet result = statement.executeQuery(query);
+            DatabaseCon con = new DatabaseCon();
+
+            ResultSet result = con.query(query);
 
             while (result.next()) {
                 JSONObject json = new JSONObject();
@@ -165,23 +147,16 @@ public class Api {
     @GetMapping("car/images/{carName}")
     public ResponseEntity<Set<String>> carImages(@PathVariable String carName) {
 
-        String url = "jdbc:mysql://localhost:3306/testcarrental";
-        String username = "root";
-        String password = "";
-
-        Connection con = null;
-
         String maker = carName.split(" ")[0];
         String model = carName.substring(carName.indexOf(" ") + 1);
 
         Set<String> imgSet = new HashSet<>();
 
         try {
-            con = DriverManager.getConnection(url, username, password);
-            Statement statement = con.createStatement();
+            DatabaseCon con = new DatabaseCon();
             String query = "SELECT images FROM Car WHERE Maker = '" + maker + "' AND Model = '" + model + "';";
 
-            ResultSet result = statement.executeQuery(query);
+            ResultSet result = con.query(query);
 
             while (result.next()) {
                 String[] imgList = result.getString("images").split(", ");
@@ -191,8 +166,6 @@ public class Api {
             }
 
             result.close();
-            statement.close();
-            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

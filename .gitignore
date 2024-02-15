@@ -27,4 +27,4 @@ Notes.md
 /frontend/yarn-error.log*
 
 /backend/target
-
+/backend/src/main/resources/.env

@@ -30,6 +30,7 @@ CREATE TABLE User (
     Email VARCHAR(255) NOT NULL,
     Password VARCHAR(255) NOT NULL,
     Terms BOOLEAN NOT NULL,
+    IsAdming BOOLEAN NOT NULL
 );
 
 CREATE TABLE PurchaseHistory (

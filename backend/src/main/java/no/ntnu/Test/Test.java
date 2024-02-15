@@ -146,8 +146,8 @@ public class Test {
     public ResponseEntity<ArrayList<String>> getCars() {
 
         String url = "jdbc:mysql://localhost:3306/testcarrental";
-        String username = "testCarRental";
-        String password = "test";
+        String username = "root";
+        String password = "";
 
         Connection con = null;
         ArrayList<String> cars = new ArrayList<>();
