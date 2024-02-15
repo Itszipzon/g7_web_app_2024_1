@@ -132,10 +132,6 @@ public class Test {
         return name;
     }
 
-    private String fileType(String fullFileName) {
-        return fullFileName.substring(fullFileName.lastIndexOf("."));
-    }
-
     private void fileExist(String file) throws IOException {
         if (!Files.exists(Path.of(file))) {
             Files.createDirectories(Path.of(file));
@@ -226,10 +222,7 @@ public class Test {
                 + " C.maker = '" + makerSelected + "' AND C.model = '" + modelSelected
                 + "' AND (P.startdate IS NULL OR P.enddate IS NULL OR DATE('now') > P.enddate OR DATE('now') < P.startdate OR P.ID IS NULL);";
 
-            String q2 = "SELECT L.name AS Location_Name, L.address AS Location_Address, C.maker AS Car_Maker, C.model AS Car_Model, C.Year AS Year, C.Fuel AS fuel, C.Transmission AS transmission, C.Seats AS seats, C.Extras AS extras, S.price AS Price, P.startdate AS Start_Date, P.enddate AS End_Date FROM Location L JOIN Storage S ON L.ID = S.LID JOIN Car C ON S.CID = C.ID LEFT JOIN PurchaseHistory P ON S.ID = P.SID WHERE C.maker = " + makerSelected + " AND C.model = " + modelSelected + " AND (P.startdate IS NULL OR P.enddate IS NULL OR DATE('now') > P.enddate OR DATE('now') < P.startdate OR P.ID IS NULL);";
-            
             ResultSet result = statement.executeQuery(query);
-
 
             while (result.next()) {
 
