@@ -25,7 +25,7 @@ public class DatabaseCon {
    * Connect to a database with default values from env file.
    */
   public DatabaseCon() {
-    this.url = "jdbc:mysql://localhost:3306/testcarrental";
+    this.url = env.get("DATABASE_URL"); // jdbc:mysql://localhost:3307/testcarrental
     this.dbUser = env.get("DATABASE_USERNAME");
     this.dbPassword = env.get("DATABASE_PASSWORD");
     this.con = null;

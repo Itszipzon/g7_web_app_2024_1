@@ -137,7 +137,7 @@ public class Api {
         OR P.ID IS NULL THEN TRUE ELSE FALSE 
           END AS Is_Available 
       FROM Car C JOIN Storage S ON C.ID = S.CID 
-      JOIN Location L ON S.LID = L.ID " + "LEFT JOIN PurchaseHistory P ON S.ID = P.SID""";
+      JOIN Location L ON S.LID = L.ID LEFT JOIN PurchaseHistory P ON S.ID = P.SID""";
 
       if (location != null && !location.isBlank()) {
         query += " WHERE L.name LIKE '%" + location + "%';";
