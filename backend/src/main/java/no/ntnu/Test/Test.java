@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import no.ntnu.DatabaseCon;
 import no.ntnu.Main;
 import no.ntnu.dbTables.Car;
 
@@ -36,277 +37,239 @@ import no.ntnu.dbTables.Car;
 @RequestMapping("test")
 public class Test {
 
-    /**
-     * Sends text over http.
-     *
-     * @return the text.
-     */
-    @GetMapping("first/message/hello")
-    public ResponseEntity<String> greet() {
-        return new ResponseEntity<>("Hello From Spring Boot!<br/>The first get request on this app!", HttpStatus.OK);
+  /**
+   * Sends text over http.
+   *
+   * @return the text.
+   */
+  @GetMapping("first/message/hello")
+  public ResponseEntity<String> greet() {
+    return new ResponseEntity<>("Hello From Spring Boot!<br/>The first get request on this app!",
+        HttpStatus.OK);
+  }
+
+  /**
+   * Sends a image to the frontend.
+   *
+   * @param imageName image to be sent.
+   * @return the image.
+   */
+  @GetMapping("image/{imageName}")
+  public ResponseEntity<Resource> image(@PathVariable String imageName) {
+    Resource r = new ClassPathResource("static/img/" + imageName);
+
+    MediaType type = null;
+    String fileType = imageName.substring(imageName.lastIndexOf("."));
+
+    switch (fileType) {
+      case ".png":
+        type = MediaType.IMAGE_PNG;
+        break;
+      case ".jpg":
+        type = MediaType.IMAGE_JPEG;
+        break;
+      case ".gif":
+        type = MediaType.IMAGE_GIF;
+        break;
+      default:
+        return ResponseEntity.notFound().build();
     }
 
-    /**
-     * Sends a image to the frontend.
-     * 
-     * @param imageName image to be sent.
-     * @return the image.
-     */
-    @GetMapping("image/{imageName}")
-    public ResponseEntity<Resource> image(@PathVariable String imageName) {
-        Resource r = new ClassPathResource("static/img/" + imageName);
+    return ResponseEntity.ok().contentType(type).body(r);
+  }
 
-        MediaType type = null;
-        String fileType = imageName.substring(imageName.lastIndexOf("."));
+  /**
+   * Upload files to the backend.
+   * 
+   * @param file the file to upload.
+   * @return the upload status.
+   */
+  @PostMapping("upload")
+  public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    String uploadDir = new Main().getResource("/static").getPath();
+    if (file.isEmpty()) {
+      return new ResponseEntity<>("No file selected", HttpStatus.BAD_REQUEST);
+    }
+    uploadDir = Main.getCorrectUrl(uploadDir);
+    try {
+      byte[] bytes = file.getBytes();
+      fileExist(uploadDir + "/upload");
+      uploadDir = new Main().getResource("/static/upload/").getPath();
+      uploadDir = Main.getCorrectUrl(uploadDir);
 
-        switch (fileType) {
-            case ".png":
-                type = MediaType.IMAGE_PNG;
-                break;
-            case ".jpg":
-                type = MediaType.IMAGE_JPEG;
-                break;
-            case ".gif":
-                type = MediaType.IMAGE_GIF;
-            default:
-                return ResponseEntity.notFound().build();
-        }
+      String fileName = randomizeFileName(file.getOriginalFilename().replace(" ", "-"));
+      Path filePath = Paths.get(uploadDir + fileName);
+      System.out
+          .println("Uploading " + fileName + " to server\nFile location: " + filePath.toString());
+      Files.write(filePath, bytes);
 
-        return ResponseEntity.ok()
-                .contentType(type)
-                .body(r);
+      return new ResponseEntity<>("File uploaded successfully", HttpStatus.OK);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return new ResponseEntity<>("Error uploading file", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  private String randomizeFileName(String s) {
+    String name = "";
+    boolean duplicate = false;
+
+    File folder = new File(Main.getCorrectUrl(new Main().getResource("/static/upload/").getPath()));
+
+    for (File f : folder.listFiles()) {
+      if (f.getName().equals(s)) {
+        duplicate = true;
+      }
     }
 
-    /**
-     * Upload files to the backend.
-     * 
-     * @param file the file to upload.
-     * @return the upload status.
-     */
-    @PostMapping("upload")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
-        String uploadDir = new Main().getResource("/static").getPath();
-        if (file.isEmpty()) {
-            return new ResponseEntity<>("No file selected", HttpStatus.BAD_REQUEST);
-        }
-        uploadDir = Main.getCorrectUrl(uploadDir);
-        try {
-            byte[] bytes = file.getBytes();
-            fileExist(uploadDir + "/upload");
-            uploadDir = new Main().getResource("/static/upload/").getPath();
-            uploadDir = Main.getCorrectUrl(uploadDir);
-
-            String fileName = randomizeFileName(file.getOriginalFilename().replace(" ", "-"));
-            Path filePath = Paths.get(uploadDir + fileName);
-            System.out.println("Uploading " + fileName + " to server\nFile location: " + filePath.toString());
-            Files.write(filePath, bytes);
-
-            return new ResponseEntity<>("File uploaded successfully", HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Error uploading file", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    if (duplicate) {
+      int format = s.lastIndexOf(".");
+      String stringFormat = s.substring(format, s.length());
+      name = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(12), stringFormat);
+      System.out.println(name + stringFormat);
+    } else {
+      name = s;
     }
 
-    private String randomizeFileName(String s) {
-        String name = "";
-        boolean duplicate = false;
+    return name;
+  }
 
-        File folder = new File(Main.getCorrectUrl(new Main().getResource("/static/upload/").getPath()));
+  private void fileExist(String file) throws IOException {
+    if (!Files.exists(Path.of(file))) {
+      Files.createDirectories(Path.of(file));
+    }
+  }
 
-        for (File f : folder.listFiles()) {
-            if (f.getName().equals(s)) {
-                duplicate = true;
-            }
+  @GetMapping("cars")
+  public ResponseEntity<ArrayList<String>> getCars() {
+
+    ArrayList<String> cars = new ArrayList<>();
+
+    try {
+      
+      DatabaseCon con = new DatabaseCon();
+
+      String query = "SELECT * FROM Car";
+      ResultSet result = con.query(query);
+
+      while (result.next()) {
+        int id = result.getInt("ID");
+        String maker = result.getString("Maker");
+        String model = result.getString("Model");
+        int year = result.getInt("Year");
+        String fuel = result.getString("Fuel");
+        String transmission = result.getString("Transmission");
+        int seats = result.getInt("Seats");
+        String extras = result.getString("Extras");
+
+        String[] e = extras.split(", ");
+        LinkedList<String> extraList = new LinkedList<>();
+        for (String s : e) {
+          extraList.add(s);
         }
 
-        if (duplicate) {
-            int format = s.lastIndexOf(".");
-            String stringFormat = s.substring(format, s.length());
-            name = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(12), stringFormat);
-            System.out.println(name + stringFormat);
-        } else {
-            name = s;
-        }
+        Car car = new Car(id, maker, model, year, fuel, transmission, seats, extraList);
+        cars.add(car.toJson());
+      }
 
-        return name;
+      result.close();
+      con.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
 
-    private void fileExist(String file) throws IOException {
-        if (!Files.exists(Path.of(file))) {
-            Files.createDirectories(Path.of(file));
+    return new ResponseEntity<>(cars, HttpStatus.OK);
+  }
+
+  @GetMapping("cars/get/{name}")
+  public ResponseEntity<ArrayList<String>> getCarsByName(@PathVariable String name) {
+
+    String makerSelected = name.split(" ")[0];
+    String modelSelected = name.substring(name.indexOf(" ", 1) + 1);
+
+    ArrayList<String> values = new ArrayList<>();
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+
+      String query = "SELECT" + " L.name AS Location_Name," + " L.address AS Location_Address,"
+          + " C.*," + " S.price AS Price," + " P.startdate," + " P.enddate" + " FROM "
+          + " Location L" + " JOIN" + " Storage S ON L.ID = S.LID" + " JOIN"
+          + " Car C ON S.CID = C.ID" + " LEFT JOIN" + " PurchaseHistory P ON S.ID = P.SID"
+          + " WHERE" + " C.maker = '" + makerSelected + "' AND C.model = '" + modelSelected
+          + "' AND (P.startdate IS NULL OR P.enddate IS NULL OR DATE('now') > "
+          + "P.enddate OR DATE('now') < P.startdate OR P.ID IS NULL);";
+
+      ResultSet result = con.query(query);
+
+      while (result.next()) {
+
+        JSONObject value = new JSONObject();
+        value.put("LocationName", result.getString("Location_Name"));
+        value.put("LocationAddress", result.getString("Location_Address"));
+        value.put("CarMaker", result.getString("C.maker"));
+        value.put("CarModel", result.getString("C.model"));
+        value.put("CarYear", result.getInt("C.year"));
+        value.put("CarFuel", result.getString("C.fuel"));
+        value.put("CarTransmission", result.getString("C.transmission"));
+        value.put("CarSeats", result.getInt("C.seats"));
+
+        String[] e = result.getString("C.extras").split(", ");
+        JSONArray extras = new JSONArray();
+        for (String s : e) {
+          extras.put(s);
         }
+        value.put("CarExtras", extras);
+        value.put("Price", result.getInt("Price"));
+        values.add(value.toString());
+      }
+
+
+      result.close();
+      con.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
 
-    @GetMapping("cars")
-    public ResponseEntity<ArrayList<String>> getCars() {
+    return new ResponseEntity<>(values, HttpStatus.OK);
+  }
 
-        String url = "jdbc:mysql://localhost:3306/testcarrental";
-        String username = "root";
-        String password = "";
+  @GetMapping("search/location")
+  public ResponseEntity<List<String>> getLocation() {
 
-        Connection con = null;
-        ArrayList<String> cars = new ArrayList<>();
+    List<String> jsonStringArray = new ArrayList<>();
 
-        try {
-            con = DriverManager.getConnection(url, username, password);
-            Statement statement = con.createStatement();
+    try {
+      DatabaseCon con = new DatabaseCon();
 
-            String query = "SELECT * FROM Car";
-            ResultSet result = statement.executeQuery(query);
+      String query = "SELECT " + "L.name, " + "L.Address, " + "C.ID, " + "S.Price, " + "Case "
+          + "WHEN " + "P.startdate IS NULL OR P.enddate IS NULL OR DATE('now') > "
+          + "P.enddate OR DATE('now') < P.startdate OR P.ID IS NULL THEN TRUE " + "ELSE FALSE "
+          + "END AS Is_Available " + "FROM Location L " + "JOIN Storage S ON L.ID = S.LID "
+          + "JOIN Car C ON S.CID = C.ID " + "LEFT JOIN PurchaseHistory P ON S.ID = P.SID;";
 
-            while (result.next()) {
-                int id = result.getInt("ID");
-                String maker = result.getString("Maker");
-                String model = result.getString("Model");
-                int year = result.getInt("Year");
-                String fuel = result.getString("Fuel");
-                String transmission = result.getString("Transmission");
-                int seats = result.getInt("Seats");
-                String extras = result.getString("Extras");
+      ResultSet result = con.query(query);
 
-                String e[] = extras.split(", ");
-                LinkedList<String> extraList = new LinkedList<>();
-                for (String s : e) {
-                    extraList.add(s);
-                }
+      while (result.next()) {
+        JSONObject json = new JSONObject();
 
-                Car car = new Car(id, maker, model, year, fuel, transmission, seats, extraList);
-                cars.add(car.toJson());
-            }
+        json.put("LocationName", result.getString("L.name"));
+        json.put("LocationAddress", result.getString("L.Address"));
+        json.put("IsAvailable", result.getBoolean("Is_Available"));
+        jsonStringArray.add(json.toString());
+      }
 
-            result.close();
-            statement.close();
-            con.close();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+      result.close();
+      con.close();
 
-        return new ResponseEntity<>(cars, HttpStatus.OK);
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
 
-    @GetMapping("cars/get/{name}")
-    public ResponseEntity<ArrayList<String>> getCarsByName(@PathVariable String name) {
 
-        String url = "jdbc:mysql://localhost:3306/testcarrental";
-        String username = "testCarRental";
-        String password = "test";
-
-        String makerSelected = name.split(" ")[0];
-        String modelSelected = name.substring(name.indexOf(" ", 1) + 1);
-    
-        Connection con = null;
-        ArrayList<String> values = new ArrayList<>();
-
-        try {
-            con = DriverManager.getConnection(url, username, password);
-            Statement statement = con.createStatement();
-            
-            String query = "SELECT"
-            + " L.name AS Location_Name,"
-            + " L.address AS Location_Address,"
-            + " C.*,"
-            + " S.price AS Price,"
-            + " P.startdate,"
-            + " P.enddate"
-            + " FROM "
-                + " Location L"
-            + " JOIN" 
-                + " Storage S ON L.ID = S.LID"
-            + " JOIN"
-                + " Car C ON S.CID = C.ID"
-            + " LEFT JOIN"
-                + " PurchaseHistory P ON S.ID = P.SID"
-            + " WHERE"
-                + " C.maker = '" + makerSelected + "' AND C.model = '" + modelSelected
-                + "' AND (P.startdate IS NULL OR P.enddate IS NULL OR DATE('now') > P.enddate OR DATE('now') < P.startdate OR P.ID IS NULL);";
-
-            ResultSet result = statement.executeQuery(query);
-
-            while (result.next()) {
-
-                JSONObject value = new JSONObject();
-                value.put("LocationName", result.getString("Location_Name"));
-                value.put("LocationAddress", result.getString("Location_Address"));
-                value.put("CarMaker", result.getString("C.maker"));
-                value.put("CarModel", result.getString("C.model"));
-                value.put("CarYear", result.getInt("C.year"));
-                value.put("CarFuel", result.getString("C.fuel"));
-                value.put("CarTransmission", result.getString("C.transmission"));
-                value.put("CarSeats", result.getInt("C.seats"));
-                
-                String e[] = result.getString("C.extras").split(", ");
-                JSONArray extras = new JSONArray();
-                for (String s : e) {
-                    extras.put(s);
-                }
-                value.put("CarExtras", extras);
-                value.put("Price", result.getInt("Price"));
-                values.add(value.toString());
-            }
-
-
-            result.close();
-            statement.close();
-            con.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return new ResponseEntity<>(values, HttpStatus.OK);
-    }
-
-    @GetMapping("search/location")
-    public ResponseEntity<List<String>> getLocation() {
-
-        String url = "jdbc:mysql://localhost:3306/testcarrental";
-        String username = "testCarRental";
-        String password = "test";
-    
-        Connection con = null;
-        List<String> jsonStringArray = new ArrayList<>();
-
-        try {
-            con = DriverManager.getConnection(url, username, password);
-            Statement statement = con.createStatement();
-            
-            String query = "SELECT "
-            + "L.name, "
-            + "L.Address, "
-            + "C.ID, "
-            + "S.Price, "
-            + "Case "
-            + "WHEN "
-            + "P.startdate IS NULL OR P.enddate IS NULL OR DATE('now') > "
-            + "P.enddate OR DATE('now') < P.startdate OR P.ID IS NULL THEN TRUE "
-            + "ELSE FALSE "
-            + "END AS Is_Available " + "FROM Location L "
-            + "JOIN Storage S ON L.ID = S.LID " + "JOIN Car C ON S.CID = C.ID "
-            + "LEFT JOIN PurchaseHistory P ON S.ID = P.SID;";
-
-            ResultSet result = statement.executeQuery(query);
-
-            while (result.next()) {
-                JSONObject json = new JSONObject();
-
-                json.put("LocationName", result.getString("L.name"));
-                json.put("LocationAddress", result.getString("L.Address"));
-                json.put("IsAvailable", result.getBoolean("Is_Available"));
-                jsonStringArray.add(json.toString());
-            }
-
-
-            result.close();
-            statement.close();
-            con.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
-    }
+    return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
+  }
 }
