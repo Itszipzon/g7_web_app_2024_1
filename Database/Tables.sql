@@ -14,7 +14,7 @@ CREATE TABLE Car (
     Transmission VARCHAR(20) NOT NULL,
     Seats INTEGER NOT NULL,
     Extras VARCHAR(255) NOT NULL,
-    Images VARCHAR(255) NOT NULL
+    Images VARCHAR(255) NOT NULL DEFAULT ''
 );
 
 CREATE TABLE Storage (
