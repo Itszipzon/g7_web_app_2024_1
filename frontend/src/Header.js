@@ -9,13 +9,17 @@ function Header() {
     const [activeHeader, setActiveHeader] = useState("");
     const location = useLocation();
 
+    const backend = false;
+
     const jsonData = require("./information.json");
 
     useEffect(() => {
-        axios.get(jsonData.serverAddress + "api/image/logo.png").then((e) => {
-            setLogo(e.data);
-        });
-    }, [jsonData.serverAddress]);
+        if (backend) {
+            axios.get(jsonData.serverAddress + "api/image/logo.png").then((e) => {
+                setLogo(e.data);
+            });
+        }
+    }, [jsonData.serverAddress, backend]);
 
     useEffect(() => {
         setActiveHeader(window.location.pathname);
@@ -31,7 +35,8 @@ function Header() {
                                 <p className="headerLogoName">Rental</p>
                                 <img src={jsonData.serverAddress + "api/image/logo.png"} alt="logo" className="headerLogo" />
                                 <p className="headerLogoName">Roulette</p>
-                            </div>}
+                            </div>
+                        }
                     </Link>
                     <div className="headerLinks">
                         <Link to="/" className={"headerLink " + (activeHeader === "/" ? 'headerLinkActive' : '')}>
