@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import './css/RegisterPage.css';
 
@@ -98,7 +98,7 @@ function RegisterPage() {
             return;
         }
 
-        if (address === '' || address.split(' ').length > 2){
+        if (address === '' || address.split(' ').length > 2) {
             setErrorMessage('Please fill in the address field, and make sure it is a valid address');
             return;
         }
@@ -183,7 +183,10 @@ function RegisterPage() {
                         <input type='text' className='phoneNumberInput' onChange={handlePhoneNumberChange} placeholder='Phone number' />
                     </div>
                     <div className='termsContainer'>
-                        <input type='checkbox' value={terms} onClick={handleTermChange} />
+                        <label className="termsContainerRegister">
+                            <input onChange={handleTermChange} value={terms} type="checkbox"/>
+                                <div className="termsCheckmark"></div>
+                        </label>
                         <p>I agree to the <Link to={"/register?terms=" + terms} className='termslink'>terms and conditions</Link></p>
                     </div>
                     <div className='RegisterButtonContainer'>
