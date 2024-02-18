@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -240,5 +242,102 @@ public class Api {
     String mainImage = img.split(", ")[0];
 
     return new ResponseEntity<>(mainImage, HttpStatus.OK);
+  }
+
+  @GetMapping("users")
+  public ResponseEntity<Set<String>> getUsers() {
+    Set<String> jsonStringArray = new HashSet<>();
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+      ResultSet result = con.query("SELECT * FROM Users;");
+
+      while (result.next()) {
+        JSONObject json = new JSONObject();
+        json.put("ID", result.getInt("ID"));
+        json.put("Name", result.getString("Name"));
+        json.put("Email", result.getString("Email"));
+        json.put("Phone", result.getString("PhoneNumber"));
+        json.put("Terms", result.getBoolean("Terms"));
+        json.put("Guest", result.getBoolean("IsGuest"));
+        json.put("Admin", result.getBoolean("IsAdmin"));
+        json.put("DateJoined", result.getString("DateJoined"));
+        jsonStringArray.add(json.toString());
+      }
+
+      result.close();
+      con.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
+  }
+
+  @GetMapping("locations")
+  public ResponseEntity<Set<String>> getLocations() {
+    Set<String> jsonStringArray = new HashSet<>();
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+      ResultSet result = con.query("SELECT * FROM Location;");
+
+      while (result.next()) {
+        JSONObject json = new JSONObject();
+        json.put("ID", result.getInt("ID"));
+        json.put("Name", result.getString("Name"));
+        json.put("Address", result.getString("Address"));
+        json.put("Business", result.getBoolean("IsBusiness"));
+        jsonStringArray.add(json.toString());
+      }
+
+      result.close();
+      con.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
+  }
+
+  @GetMapping("cars")
+  public ResponseEntity<Set<String>> getCars() {
+    Set<String> jsonStringArray = new HashSet<>();
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+      ResultSet result = con.query("SELECT * FROM Car;");
+
+      while (result.next()) {
+        JSONObject json = new JSONObject();
+        json.put("ID", result.getInt("ID"));
+        json.put("Maker", result.getString("Maker"));
+        json.put("Model", result.getString("Model"));
+        json.put("Year", result.getInt("Year"));
+        json.put("Fuel", result.getString("Fuel"));
+        json.put("Transmission", result.getString("Transmission"));
+        json.put("Seats", result.getInt("Seats"));
+        json.put("Images", result.getString("Images"));
+
+        JSONArray extras = new JSONArray();
+        String[] dbExtras = result.getString("Extras").split(", ");
+        for (String e : dbExtras) {
+          extras.put(e);
+        }
+        json.put("Extras", extras);
+
+        jsonStringArray.add(json.toString());
+      }
+
+      result.close();
+      con.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
 }
