@@ -26,6 +26,9 @@ public class Main {
   public static String getCorrectUrl(String url) {
     if (System.getProperty("os.name").contains("Windows")) {
       url = url.substring(1);
+      if (url.startsWith("ile:/")) {
+        url = url.replace("ile:/", "");
+      }
     }
 
     return url;
