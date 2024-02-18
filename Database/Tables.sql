@@ -31,8 +31,16 @@ CREATE TABLE User (
     Email VARCHAR(255) NOT NULL,
     Password VARCHAR(255) NOT NULL,
     Terms BOOLEAN NOT NULL,
-    IsAdming BOOLEAN NOT NULL
+    IsGuest BOOLEAN NOT NULL DEFAULT 0,
+    IsAdmin BOOLEAN NOT NULL DEFAULT 0,
+    Salt VARCHAR(255) NOT NULL,
+    DateCreated DATE DEFAULT CURRENT_DATE,
+    CONSTRAINT guest_rule CHECK (
+        (Password = '' OR Password IS NULL) AND IsGuest = 1 OR 
+        (Password != '' AND Password IS NOT NULL AND IsGuest = 0)
+    )
 );
+
 
 CREATE TABLE PurchaseHistory (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
