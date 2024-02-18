@@ -1,0 +1,146 @@
+.RegisterPage {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    justify-content: center;
+}
+
+.RegisterPage .RegisterContainer {
+    width: fit-content;
+    padding: 50px;
+    height: 500px;
+    display: grid;
+    margin: 90px 0px;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 50px;
+    background-color: #f2f2f2;
+}
+
+.RegisterPage .RegisterContainer h1 {
+    text-align: center;
+    height: fit-content;
+}
+
+.RegisterPage .RegisterContainer .RegisterForm {
+    background-color: #f2f2f2;
+    display: grid;
+    column-gap: 40px;
+    margin-top: 0px;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    width: 100%;
+}
+
+.RegisterPage .RegisterContainer .RegisterForm .defaultRegisterInput {
+    height: 30px;
+    border-radius: 20px;
+    border: 1px solid black;
+    margin: 10px 0px;
+    font-size: 20px;
+    transition: 0.2s ease-out;
+}
+
+.RegisterPage .RegisterContainer .RegisterForm input:focus {
+    border-radius: 5px;
+}
+
+.RegisterPage .RegisterContainer .RegisterForm .RegisterPassword .passwordInput {
+    margin-right: 30px;
+}
+
+.RegisterPage .RegisterContainer .RegisterForm .addressContainer {
+    width: 100%;
+    display: grid;
+}
+
+.RegisterPage .RegisterContainer .RegisterForm .addressContainer select {
+    height: 30px;
+    border-radius: 20px;
+    border: 1px solid black;
+    margin: 10px 0px;
+    font-size: 20px;
+    transition: 0.2s ease-out;
+}
+
+.RegisterPage .RegisterContainer .RegisterForm .addressContainer select:focus {
+    border-radius: 5px;
+}
+
+.RegisterPage .RegisterContainer .RegisterForm .addressContainer .addressExtra {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+}
+
+.RegisterPage .RegisterContainer .RegisterForm .phoneNumberContainer {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.RegisterPage .RegisterContainer .RegisterForm .phoneNumberContainer select {
+    border: 1px solid black;
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+    height: 34px;
+    font-size: 20px;
+}
+
+.RegisterPage .RegisterContainer .RegisterForm .phoneNumberContainer .phoneNumberInput {
+    border: 1px solid black;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    height: 30px;
+    font-size: 20px;
+    width: 100%;
+}
+
+.RegisterPage .RegisterContainer .RegisterForm .phoneNumberContainer .phoneNumberInput:focus {
+    border: 1px solid black;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    height: 30px;
+}
+
+.RegisterPage .RegisterContainer .RegisterForm .termsContainer {
+    display: flex;
+    height: 40px;
+    align-items: center;
+}
+
+.RegisterButtonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    position: relative;
+    bottom: 0;
+}
+
+.RegisterButtonContainer .RegisterButton {
+    width: fit-content;
+    height: fit-content;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 20px;
+    padding: 5px;
+    transition: background-color 0.3s ease, border-radius 0.3s ease
+}
+
+.RegisterButtonContainer .RegisterButton:hover {
+    background-color: #e1e1e1;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.RegisterContainer .errorMessage {
+    color: red;
+    font-size: larger;
+    bottom: 230px;
+    left: calc(50% - 100px);
+    text-align: center;
+}
