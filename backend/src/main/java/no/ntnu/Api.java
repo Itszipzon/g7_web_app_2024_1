@@ -83,7 +83,7 @@ public class Api {
         String maker = car.split(" ")[0];
         String model = car.substring(car.indexOf(" ", 1) + 1);
         if (car.split(" ").length > 1) {
-          query += " WHERE C.Maker = '" + maker + "' AND C.Model LIKE '%" + model + "%';";
+          query += " WHERE C.Maker LIKE '%" + maker + "%' AND C.Model LIKE '%" + model + "%';";
         } else {
           query += " WHERE C.Maker LIKE '%" + maker + "%';";
         }
