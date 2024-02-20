@@ -94,15 +94,15 @@ function AdminPage() {
                                 <div className='adminOperationCars' onLoad={handleLoadCars}>
                                     <ul className='adminCarList'>
                                         <li className='categories'>
-                                            <span>ID</span>
-                                            <span>Maker</span>
-                                            <span>Model</span>
-                                            <span>Year</span>
-                                            <span>Fuel</span>
-                                            <span>Transmission</span>
-                                            <span>Seats</span>
-                                            <span>Extras</span>
-                                            <span>Images</span>
+                                            <span className='category'>ID</span>
+                                            <span className='category'>Maker</span>
+                                            <span className='category'>Model</span>
+                                            <span className='category'>Year</span>
+                                            <span className='category'>Fuel</span>
+                                            <span className='category'>Transmission</span>
+                                            <span className='category'>Seats</span>
+                                            <span className='category'>Extras</span>
+                                            <span className='category'>Images</span>
                                             <span>Actions</span>
                                         </li>
                                         {cars.map((car) => {
@@ -153,9 +153,9 @@ function AdminPage() {
                                 <div className='adminOperationCars'>
                                     <ul className='adminCarList'>
                                         <li className='categories'>
-                                            <span className='id'>ID</span>
-                                            <span>Name</span>
-                                            <span>Address</span>
+                                            <span className='id category'>ID</span>
+                                            <span className='category'>Name</span>
+                                            <span className='category'>Address</span>
                                             <span className='actions'>Actions</span>
                                         </li>
                                         {locations.map((location) => {
