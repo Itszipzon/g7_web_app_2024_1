@@ -81,27 +81,74 @@
     justify-content: center;
     align-items: center;
     background-color: white;
-    width: 107px;
-    max-width: 107px;
+    width: 100%;
+    max-width: 100%;
     font-size: 17px;
     line-height: 30px;
     height: 40px;
 }
 
-.adminpage .adminOperationCars .adminCarList li .extraSpan {
-    overflow: scroll;
+.adminpage .adminOperationCars .adminCarList li .actions {
+    width: 200px;
 }
+
+.adminpage .adminOperationCars .adminCarList li .id {
+    width: 200px;
+}
+
+.adminpage .adminOperationCars .adminCarList li .extraSpan {
+    overflow:hidden;
+}
+
+.adminpage .adminOperationCars .adminCarList li .extraSpan select {
+    width: 90px;
+}
+
 
 .adminpage .adminOperationCars .adminCarList li .adminActionCar:hover {
     cursor: pointer;
     color: gray;
 }
 
-.adminCarList .adminActionCarMenu {
-    position: relative;
-    top: 80px;
-    right: 20px;
-    height: 100px;
-    width: 100px;
-    background-color: red;
+.adminCarList .adminActionCarMenuContainer {
+    position: absolute;
+    display: grid;
+    height: 70dvh;
+    width: 70dvw;
+    background-color: #b6b6b6;
+    border: 1px solid black;
+    border-radius: 20px;
+    top: calc(50% - (70dvh/2));
+    left: calc(50% - (70dvw/2));
+}
+
+.adminCarList .adminActionCarMenuContainer .adminActionCarMenuTop {
+    margin-left: 97%;
+    margin-top: 10px;
+    font-family: roboto;
+    border: 1px solid black;
+    font-size: 20px;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.adminCarList .adminActionCarMenuContainer .adminActionCarMenuTop:hover {
+    cursor: pointer;
+}
+
+.adminCarList .adminActionCarMenuContainer .adminActionCarMenuBottom {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    height: 90%;
+    width: 100%;
+}
+
+.adminCarList .adminActionCarMenuContainer .adminActionCarMenuBottom h1 {
+    width: 90dvw;
 }

@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
