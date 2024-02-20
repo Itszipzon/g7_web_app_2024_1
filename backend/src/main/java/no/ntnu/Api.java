@@ -341,7 +341,7 @@ public class Api {
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
 
-  @GetMapping("get/makers")
+  @GetMapping("get/cars/maker")
   public ResponseEntity<Set<String>> getMakers() {
     Set<String> jsonStringArray = new HashSet<>();
 
@@ -351,6 +351,94 @@ public class Api {
 
       while (result.next()) {
         jsonStringArray.add(result.getString("Maker"));
+      }
+
+      result.close();
+      con.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
+  }
+
+  @GetMapping("get/cars/model")
+  public ResponseEntity<Set<String>> getModels() {
+    Set<String> jsonStringArray = new HashSet<>();
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+      ResultSet result = con.query("SELECT DISTINCT Model FROM Car;");
+
+      while (result.next()) {
+        jsonStringArray.add(result.getString("Model"));
+      }
+
+      result.close();
+      con.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
+  }
+
+  @GetMapping("get/cars/year")
+  public ResponseEntity<Set<Integer>> getYears() {
+    Set<Integer> jsonStringArray = new HashSet<>();
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+      ResultSet result = con.query("SELECT DISTINCT Year FROM Car;");
+
+      while (result.next()) {
+        jsonStringArray.add(result.getInt("Year"));
+      }
+
+      result.close();
+      con.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
+  }
+
+  @GetMapping("get/cars/fuel")
+  public ResponseEntity<Set<String>> getFuels() {
+    Set<String> jsonStringArray = new HashSet<>();
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+      ResultSet result = con.query("SELECT DISTINCT Fuel FROM Car;");
+
+      while (result.next()) {
+        jsonStringArray.add(result.getString("Fuel"));
+      }
+
+      result.close();
+      con.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
+  }
+
+  @GetMapping("get/cars/transmission")
+  public ResponseEntity<Set<String>> getTransmissions() {
+    Set<String> jsonStringArray = new HashSet<>();
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+      ResultSet result = con.query("SELECT DISTINCT Transmission FROM Car;");
+
+      while (result.next()) {
+        jsonStringArray.add(result.getString("Transmission"));
       }
 
       result.close();

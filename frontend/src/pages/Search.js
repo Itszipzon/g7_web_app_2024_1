@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './css/Search.css';
 import { useNavigate } from 'react-router';
 
@@ -12,6 +12,10 @@ function Search() {
     const handleHistoryChanege = () => {
         history('/search?carbrand=' + carBrand);
     }
+
+    useEffect(() => {
+        history('/search?carbrand=' + carBrand + "&location=" + location);
+    }, [carBrand, location])
 
     const handleCarBrandChange = (e) => {
         if (e.target.checked) {
@@ -101,26 +105,14 @@ function Search() {
                     </li>
                 </ul>
                 <ul>
-                    <h2>Location</h2>
+                    <h2>Transmission</h2>
                     <li>
-                        <input onChange={handleCarBrandChange} type='checkbox' id='audi' name='audi' value='audi' />
-                        <label htmlFor='audi'>Audi</label>
+                        <input onChange={handleCarBrandChange} type='checkbox' id='automatic' name='automatic' value='automatic' />
+                        <label htmlFor='automatic'>Automatic</label>
                     </li>
                     <li>
-                        <input onChange={handleCarBrandChange} type='checkbox' id='bmw' name='bmw' value='bmw' />
-                        <label htmlFor='bmw'>BMW</label>
-                    </li>
-                    <li>
-                        <input onChange={handleCarBrandChange} type='checkbox' id='tesla' name='tesla' value='tesla' />
-                        <label htmlFor='tesla'>Tesla</label>
-                    </li>
-                    <li>
-                        <input onChange={handleCarBrandChange} type='checkbox' id='audi' name='audi' value='audi' />
-                        <label htmlFor='audi'>Audi</label>
-                    </li>
-                    <li>
-                        <input onChange={handleCarBrandChange} type='checkbox' id='audi' name='audi' value='audi' />
-                        <label htmlFor='audi'>Audi</label>
+                        <input onChange={handleCarBrandChange} type='checkbox' id='manual' name='manual' value='manual' />
+                        <label htmlFor='manual'>Manual</label>
                     </li>
                 </ul>
             </div>
