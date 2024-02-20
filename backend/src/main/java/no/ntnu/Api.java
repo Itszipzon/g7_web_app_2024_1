@@ -244,7 +244,7 @@ public class Api {
     return new ResponseEntity<>(mainImage, HttpStatus.OK);
   }
 
-  @GetMapping("users")
+  @GetMapping("get/users")
   public ResponseEntity<Set<String>> getUsers() {
     Set<String> jsonStringArray = new HashSet<>();
 
@@ -275,7 +275,7 @@ public class Api {
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
 
-  @GetMapping("locations")
+  @GetMapping("get/locations")
   public ResponseEntity<Set<String>> getLocations() {
     Set<String> jsonStringArray = new HashSet<>();
 
@@ -302,7 +302,7 @@ public class Api {
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
 
-  @GetMapping("cars")
+  @GetMapping("get/cars")
   public ResponseEntity<Set<String>> getCars() {
     Set<String> jsonStringArray = new HashSet<>();
 
@@ -329,6 +329,28 @@ public class Api {
         json.put("Extras", extras);
 
         jsonStringArray.add(json.toString());
+      }
+
+      result.close();
+      con.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
+  }
+
+  @GetMapping("get/makers")
+  public ResponseEntity<Set<String>> getMakers() {
+    Set<String> jsonStringArray = new HashSet<>();
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+      ResultSet result = con.query("SELECT DISTINCT Maker FROM Car;");
+
+      while (result.next()) {
+        jsonStringArray.add(result.getString("Maker"));
       }
 
       result.close();
