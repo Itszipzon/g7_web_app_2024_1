@@ -6,7 +6,7 @@
 
 ## Hierarchy and layout 
 - The main/most important element is the search bar/technology to find the best options. 
-- This search bar is also the most important element on the site. Next is the car chassis categories. The header and footer are    also important as they will be included on all pages of the site.   
+- This search bar is also the most important element on the site. Next is the car chassis categories. The header and footer are also important as they will be included on all pages of the site.   
 
 ## Images 
 - The main logo (which is already implemented in the github).  
