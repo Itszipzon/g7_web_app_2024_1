@@ -144,8 +144,12 @@
 
 .Home .homePopularContainer {
     display: block;
-    font-family: 'Roboto';
+    font-family: 'main';
     margin-top: 60px;
+}
+
+.Home .homePopularContainer .homePopularTitle {
+    font-size: 24px;
 }
 
 .Home .homePopularContent{
@@ -172,7 +176,8 @@
 }
 
 .Home .homeBodyContainer .homeBodyTitle {
-    font-family: 'Roboto';
+    font-family: 'main';
+    font-size: 14px;
     margin-bottom: 10px;
 }
 
@@ -190,7 +195,7 @@
     height: 193.35px;
     text-decoration: none;
     color: black;
-    font-family: 'Roboto';
+    font-family: 'main';
     display: grid;
     justify-content: center;
     align-items: center;
@@ -205,6 +210,7 @@
 .Home .homeBodyContainer .homeBodyContentContainer .bodyLink p {
     width: fit-content;
     margin-left: auto;
+    font-size: 24px;
     margin-right: auto;
     margin-top: auto;
 }
@@ -217,7 +223,7 @@
 
 .Home .homeAboutUs {
     display: block;
-    font-family: 'Roboto';
+    font-family: 'main';
     background-color: white;
     border-radius: 8px;
     margin-bottom: 60px;

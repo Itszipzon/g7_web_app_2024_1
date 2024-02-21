@@ -284,7 +284,6 @@ function Home() {
 
                 </div>
                 <div className="homeBodyContainer">
-                    <div className="homeBodyTitle">Body</div>
                     <div className="homeBodyContentContainer">
                         <Link to="/" className="bodyLink">
                             <div className="bodyLinkContent">

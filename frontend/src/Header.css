@@ -1,7 +1,7 @@
 .Header {
     height: 50px;
     width: 100%;
-    --main-border: 1px solid darkgray;
+    --main-border: 0px 0px 6px 0px #000000;
     --main-background-color: white;
 }
 
@@ -11,7 +11,7 @@
     justify-content: center;
     width: 100%;
     height: 50px;
-    border-bottom: var(--main-border);
+    box-shadow: var(--main-border);
     background-color: var(--main-background-color);
 }
 
@@ -36,9 +36,8 @@
     text-decoration: none;
     font-weight: bold;
     color: black;
-    font-family: 'Roboto';
+    font-family: 'main';
     position: relative;
-    
 }
 
 .Header .headerLinks .headerLinkActive {
@@ -69,7 +68,8 @@
     display: flex;
     color: black;
     font-size: large;
-    font-family: 'Roboto';
+    font-family: 'main';
+    font-weight: bold;
 }
 
 .Header .headerContent .headerLogin {
@@ -87,4 +87,5 @@
     text-align: center;
     font-weight: bold;
     font-size: x-large;
+    font-family: "main";
 }
