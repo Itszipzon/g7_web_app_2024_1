@@ -20,6 +20,7 @@
     justify-content: center;
     height: fit-content;
     margin-top: 10px;
+    width: 1159px;
 }
 
 .Home .homeContainer .searchForCarContainer input {
@@ -141,13 +142,13 @@
     background-color: lightgray;
 }
 
-.Home .homeRecommendedContainer {
+.Home .homePopularContainer {
     display: block;
     font-family: 'Roboto';
     margin-top: 60px;
 }
 
-.Home .homeRecommendedContent{
+.Home .homePopularContent{
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -155,11 +156,103 @@
     margin: 15px 0;
 }
 
-.Home .homeRecommendedContent .recommendedLink{
+.Home .homePopularContent .recommendedLink{
     display: flex;
     justify-content: center;
     height: 100%;
-    width: 280px;
+    width:  100%;
     background-color: white;
     border: 1px solid gray;
+}
+
+.Home .homeBodyContainer {
+    display: grid;
+    gap: 0px;
+    margin: 30px 0;
+}
+
+.Home .homeBodyContainer .homeBodyTitle {
+    font-family: 'Roboto';
+    margin-bottom: 10px;
+}
+
+.Home .homeBodyContainer .homeBodyContentContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 10px;
+}
+
+.Home .homeBodyContainer .homeBodyContentContainer .bodyLink {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    height: 193.35px;
+    text-decoration: none;
+    color: black;
+    font-family: 'Roboto';
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    transition: 0.4s ease-out;
+}
+
+.Home .homeBodyContainer .homeBodyContentContainer .bodyLink:hover {
+    background-color: #e7e7e7;
+}
+
+.Home .homeBodyContainer .homeBodyContentContainer .bodyLink p {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+}
+
+.Home .homeBodyContainer .homeBodyContentContainer .bodyLink svg {
+    height: 160px;
+    margin-left: auto;
+    width: fit-content;
+}
+
+.Home .homeAboutUs {
+    display: block;
+    font-family: 'Roboto';
+    background-color: white;
+    border-radius: 8px;
+    margin-bottom: 60px;
+    padding: 20px;
+}
+
+.Home .homeAboutUs h1 {
+    font-size: 32px;
+}
+
+.Home .homeAboutUs p {
+    font-size: 24px;
+}
+
+.Home .homeAboutUs div {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+}
+
+.Home .homeAboutUs .homeAboutUsReadMore {
+    height: 56.63px;
+    width: 134.11px;
+    background-color: #2c81c8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    color: white;
+    transition: 0.4s ease-out;
+}
+
+.Home .homeAboutUs .homeAboutUsReadMore:hover {
+    cursor: pointer;
+    border-radius: 20px;
+    background-color: #266fac;
 }
