@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import "./css/Home.css";
 import axios from "axios";
 
@@ -41,7 +42,7 @@ function Home() {
 
     const handleCarNameClick = (e) => {
         handleCarNameSearchInputChange({ target: { value: e } });
-        
+
         axios.get(jsonValue.serverAddress + "api/search/location/" + e).then(response => {
             const locationsParsed = response.data.map(l => JSON.parse(l));
             setLocationDb(locationsParsed);
@@ -196,7 +197,6 @@ function Home() {
         setDate(e.target.value);
     }
 
-    //"/testCar?car=" + carNameValue + "&location=" + LocationValue + "&date="
     const handleSearchButtonClick = () => {
         if (carNameValue && locationValue && date) {
             window.location.href = "/testcar?car=" + carNameValue + "&location=" + locationValue + "&date=" + date;
@@ -231,7 +231,7 @@ function Home() {
                         <input type="text" placeholder="Location" value={locationValue} onFocus={handleLocationInputFocus} onBlur={handleLocationInputBlur} onChange={handleLocationSearchInputChange} />
                         <div className="searchContentContainer" style={locationinputMarked ? { "display": "flex" } : { "display": "none" }}>
                             <ul className="searchContentHomeUl" ref={locationRef}>
-                            {locationsearchItems.map((item, index) =>
+                                {locationsearchItems.map((item, index) =>
                                     <li className={"searchContentHomeLi " + ((index === locationSelected) ? "liSelected" : "")} key={item.LocationAddress} onClick={() => {
                                         handleLocationClick(item.LocationName);
                                     }} >
@@ -258,6 +258,24 @@ function Home() {
                         <div className="searchButton" style={{ "marginLeft": "10px", "marginTop": "-2px" }} onClick={handleSearchButtonClick}>Search</div>
                         <p className="emptyFieldMessage">{emptyFieldMessage}</p>
                     </div>
+                </div>
+                <div className="homeRecommendedContainer">
+                    <div className="homeRecommendedTitle">Popular cars</div>
+                    <div className="homeRecommendedContent">
+                        <Link to="/" className="recommendedLink">
+                            <img src="" alt="" />
+                        </Link>
+                        <Link to="/" className="recommendedLink">
+                            <img src="" alt="" />
+                        </Link>
+                        <Link to="/" className="recommendedLink">
+                            <img src="" alt="" />
+                        </Link>
+                        <Link to="/" className="recommendedLink">
+                            <img src="" alt="" />
+                        </Link>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 .Home {
-    background-color: white;
+    background-color: #f6f7f9;
     height: 100%;
     width: 100%;
     display: grid;
@@ -7,20 +7,19 @@
 }
 
 .Home .homeContainer {
-    width: 1200px;
-    height: 500px;
-    background-color: rgb(231, 230, 230);
+    width: 1250px;
+    height: fit-content;
     margin-top: 50px;
     border-radius: 25px;
-    border: 1px solid gray;
     display: grid;
     justify-content: center;
 }
 
 .Home .homeContainer .searchForCarContainer {
     display: flex;
+    justify-content: center;
     height: fit-content;
-    margin-top: 50px;
+    margin-top: 10px;
 }
 
 .Home .homeContainer .searchForCarContainer input {
@@ -46,17 +45,18 @@
 }
 
 .Home .homeContainer .searchContentContainer {
-    position: relative;
+    position: fixed;
     background-color: white;
     border: 1px solid darkgray;
     border-radius: 10px;
     justify-content: center;
     width: 256px;
-    top: 15px;
+    margin-top: 10px;
     overflow-y: scroll;
     min-height: fit-content;
     max-height: 200px;
     height: 200px;
+    z-index: 1;
 }
 
 .Home .homeContainer .searchContentContainer .searchContentHomeUl {
@@ -139,4 +139,27 @@
 
 .liSelected {
     background-color: lightgray;
+}
+
+.Home .homeRecommendedContainer {
+    display: block;
+    font-family: 'Roboto';
+    margin-top: 60px;
+}
+
+.Home .homeRecommendedContent{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    height: 390px;
+    margin: 15px 0;
+}
+
+.Home .homeRecommendedContent .recommendedLink{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 280px;
+    background-color: white;
+    border: 1px solid gray;
 }

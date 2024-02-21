@@ -9,7 +9,7 @@ function Header() {
     const [activeHeader, setActiveHeader] = useState("");
     const location = useLocation();
 
-    const backend = false;
+    const backend = true;
 
     const jsonData = require("./information.json");
 
