@@ -2,7 +2,9 @@
     height: 100%;
     width: 100%;
     display: grid;
+    background-color: #f6f7f9;
     justify-content: center;
+    font-family: 'main';
 }
 
 .RegisterPage .RegisterContainer {
@@ -12,9 +14,8 @@
     display: grid;
     margin: 90px 0px;
     justify-content: center;
-    border: 1px solid black;
-    border-radius: 50px;
-    background-color: #f2f2f2;
+    border-radius: 25px;
+    background-color: white;
 }
 
 .RegisterPage .RegisterContainer h1 {
@@ -23,7 +24,6 @@
 }
 
 .RegisterPage .RegisterContainer .RegisterForm {
-    background-color: #f2f2f2;
     display: grid;
     column-gap: 40px;
     margin-top: 0px;
@@ -65,7 +65,7 @@
 }
 
 .RegisterPage .RegisterContainer .RegisterForm .addressContainer select:focus {
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
 .RegisterPage .RegisterContainer .RegisterForm .addressContainer .addressExtra {
@@ -88,6 +88,12 @@
     border-top-left-radius: 20px;
     height: 34px;
     font-size: 20px;
+    transition: 0.2s ease-out;
+}
+
+.RegisterPage .RegisterContainer .RegisterForm .phoneNumberContainer select:focus {
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
 }
 
 .RegisterPage .RegisterContainer .RegisterForm .phoneNumberContainer .phoneNumberInput {
@@ -97,12 +103,14 @@
     height: 30px;
     font-size: 20px;
     width: 100%;
+    transition: 0.2s ease-out;
 }
 
 .RegisterPage .RegisterContainer .RegisterForm .phoneNumberContainer .phoneNumberInput:focus {
-    border: 1px solid black;
-    border-bottom-right-radius: 20px;
-    border-top-right-radius: 20px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
     height: 30px;
 }
 
@@ -177,16 +185,19 @@
 .RegisterButtonContainer .RegisterButton {
     width: fit-content;
     height: fit-content;
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2c81c8;
+    border-radius: 8px;
     font-size: 20px;
     padding: 5px;
+    color: white;
     transition: background-color 0.3s ease, border-radius 0.3s ease
 }
 
 .RegisterButtonContainer .RegisterButton:hover {
-    background-color: #e1e1e1;
+    background-color: #266fac;
     cursor: pointer;
     border-radius: 10px;
 }

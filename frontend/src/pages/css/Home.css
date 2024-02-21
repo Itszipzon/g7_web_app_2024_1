@@ -155,18 +155,24 @@
 .Home .homePopularContent{
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    justify-content: center;
+    gap: 12px;
     height: 390px;
     margin: 15px 0;
 }
 
-.Home .homePopularContent .recommendedLink{
+.Home .homePopularContent .recommendedLink {
     display: flex;
     justify-content: center;
     height: 100%;
     width:  100%;
     background-color: white;
-    border: 1px solid gray;
+    border-radius: 8px;
+    transition: 0.4s ease-out;
+}
+
+.Home .homePopularContent .recommendedLink:hover {
+    background-color: #e7e7e7;
 }
 
 .Home .homeBodyContainer {
