@@ -52,10 +52,11 @@
   background-color: #D9D9D9;
   border: none;
   height: 38px;
-  width: 255px;
+  width: 155px;
   border-radius: 8px;
 }
 
 .Footer .footerNewsletter .footerNewsletterInputContainer input[type="text"] {
   padding-left: 10px;
+  padding-right: 100px;
 }
