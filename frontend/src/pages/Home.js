@@ -217,8 +217,9 @@ function Home() {
     return (
         <div className="Home">
             <div className="homeContainer">
+                <h1>Compare car deals to find the right one.</h1>
                 <div className="searchForCarContainer">
-                    <div style={{ "width": "240px" }}>
+{/*                     <div>
                         <input type="text" placeholder="Car name" value={carNameValue} onFocus={handleCarNameInputFocus} onBlur={handleCarNameInputBlur} onChange={handleCarNameSearchInputChange} />
                         <div className="searchContentContainer" style={carinputMarked ? { "display": "flex" } : { "display": "none" }}>
                             <ul className="searchContentHomeUl" ref={carNameRef}>
@@ -232,9 +233,11 @@ function Home() {
                                 )}
                             </ul>
                         </div>
-                    </div>
-                    <div style={{ "width": "240px" }}>
+                    </div> */}
+                    <div>
+                        <div className="locationDiv">
                         <input type="text" placeholder="Location" value={locationValue} onFocus={handleLocationInputFocus} onBlur={handleLocationInputBlur} onChange={handleLocationSearchInputChange} />
+                        </div>
                         <div className="searchContentContainer" style={locationinputMarked ? { "display": "flex" } : { "display": "none" }}>
                             <ul className="searchContentHomeUl" ref={locationRef}>
                                 {locationsearchItems.map((item, index) =>
@@ -259,9 +262,17 @@ function Home() {
                             </ul>
                         </div>
                     </div>
-                    <input type="date" onChange={handleDateInputChange} value={date} />
+                    <div className="searchDateContainer">
+                        <label htmlFor="date">From</label><br/>
+                        <input type="date" placeholder="From" onChange={handleDateInputChange} value={date} />
+                    </div>
+                    <div className="searchDateContainer">
+                        <label htmlFor="date">To</label><br/>
+                        <input type="date" placeholder="To" onChange={handleDateInputChange} value={date} />
+                    </div>
+                    
                     <div className="searchButtonContainer">
-                        <div className="searchButton" style={{ "marginLeft": "10px", "marginTop": "-2px" }} onClick={handleSearchButtonClick}>Search</div>
+                        <div className="searchButton" onClick={handleSearchButtonClick}>Search</div>
                         <p className="emptyFieldMessage">{emptyFieldMessage}</p>
                     </div>
                 </div>
@@ -292,7 +303,7 @@ function Home() {
                                     preserveAspectRatio="xMidYMid meet">
 
                                     <g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)"
-                                        fill="#000000" stroke="none">
+                                        fill="#2c81c8" stroke="none">
                                         <path d="M229 1385 c-22 -12 -129 -172 -151 -228 -9 -20 -38 -254 -38 -300 0
 -18 11 -39 29 -58 25 -24 37 -29 80 -29 l51 0 0 43 c1 132 126 247 270 247
 144 0 257 -100 276 -244 l7 -46 303 0 304 0 0 43 c0 87 70 185 160 226 94 43
@@ -320,7 +331,7 @@ l-55 6 0 59 0 59 110 0 110 0 0 -71z m274 57 c28 -12 163 -102 190 -127 6 -5
                                     preserveAspectRatio="xMidYMid meet">
 
                                     <g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)"
-                                        fill="#000000" stroke="none">
+                                        fill="#2c81c8" stroke="none">
                                         <path d="M710 1245 c-160 -29 -361 -98 -520 -178 -131 -65 -150 -89 -150 -187
 0 -44 5 -71 13 -78 7 -6 53 -20 103 -32 49 -11 99 -22 112 -25 20 -5 22 -2 22
 38 0 26 10 63 25 93 32 65 81 94 157 94 100 0 168 -74 168 -184 0 -44 4 -57
@@ -368,7 +379,7 @@ c36 -17 90 -48 120 -67 l55 -35 -292 0 -293 0 0 54 0 55 58 11 c31 7 62 14 67
                                     preserveAspectRatio="xMidYMid meet">
 
                                     <g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)"
-                                        fill="#000000" stroke="none">
+                                        fill="#2c81c8" stroke="none">
                                         <path d="M298 1283 l-98 -4 -20 -38 c-29 -59 -60 -179 -60 -238 0 -29 -4 -53
 -10 -53 -14 0 -13 -43 2 -58 7 -7 22 -12 34 -12 12 0 28 -9 35 -19 12 -16 31
 -21 120 -26 l107 -7 11 34 c28 84 124 123 194 79 33 -20 67 -73 67 -103 0 -12
@@ -400,7 +411,7 @@ c36 -17 90 -48 120 -67 l55 -35 -292 0 -293 0 0 54 0 55 58 11 c31 7 62 14 67
                                     preserveAspectRatio="xMidYMid meet">
 
                                     <g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)"
-                                        fill="#000000" stroke="none">
+                                        fill="#2c81c8" stroke="none">
                                         <path d="M81 1452 c-26 -25 -29 -36 -34 -122 -14 -211 -13 -275 5 -293 22 -22
 35 -141 18 -162 -7 -8 -18 -15 -25 -15 -9 0 -14 -23 -18 -72 -6 -91 8 -108 87
 -108 l52 0 12 47 c22 81 106 143 192 143 65 -1 162 -77 176 -138 3 -15 7 -33
@@ -441,7 +452,7 @@ m140 5 c0 -4 -7 -18 -16 -30 -13 -18 -19 -21 -30 -11 -8 6 -14 20 -14 30 0 14
                                     preserveAspectRatio="xMidYMid meet">
 
                                     <g transform="translate(0.000000,364.000000) scale(0.100000,-0.100000)"
-                                        fill="#000000" stroke="none">
+                                        fill="#2c81c8" stroke="none">
                                         <path d="M3535 3234 c-16 -2 -165 -8 -329 -14 -314 -11 -561 -31 -707 -55
 -196 -33 -456 -137 -1132 -452 l-269 -125 -211 -14 c-321 -21 -408 -31 -425
 -48 -25 -25 -31 -98 -38 -440 l-7 -328 -43 -64 c-59 -87 -69 -128 -68 -264 1
@@ -491,7 +502,7 @@ m-1215 268 c-14 -59 -247 -599 -262 -610 -12 -10 -70 -13 -207 -13 -244 1
                                     preserveAspectRatio="xMidYMid meet">
 
                                     <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                                        fill="#000000" stroke="none">
+                                        fill="#2c81c8" stroke="none">
                                         <path d="M2160 3427 l0 -367 -894 0 -894 0 -17 -49 c-22 -66 -13 -101 26 -101
 l29 0 0 -160 0 -160 -35 0 -35 0 0 -79 c0 -75 3 -84 59 -202 32 -68 77 -168
 101 -221 l43 -98 142 0 142 0 -13 52 c-18 69 -18 200 1 271 46 179 186 328
@@ -527,7 +538,7 @@ l0 36 48 -6 c26 -3 119 -11 207 -18z"/>
                                     preserveAspectRatio="xMidYMid meet">
 
                                     <g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)"
-                                        fill="#000000" stroke="none">
+                                        fill="#2c81c8" stroke="none">
                                         <path d="M820 1244 c-114 -11 -391 -48 -553 -75 -97 -16 -179 -29 -182 -29 -2
 0 3 -16 11 -36 20 -48 15 -89 -11 -89 -32 0 -30 -33 5 -65 30 -28 113 -65 172
 -77 23 -4 28 -2 28 13 0 30 37 82 72 104 90 55 218 -14 220 -117 l0 -40 91 -7

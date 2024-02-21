@@ -6,6 +6,12 @@
     justify-content: center;
 }
 
+.Home .homeContainer h1 {
+    font-family: 'main';
+    font-size: 32px;
+    margin-top: 20px;
+}
+
 .Home .homeContainer {
     width: 1250px;
     height: fit-content;
@@ -17,32 +23,58 @@
 
 .Home .homeContainer .searchForCarContainer {
     display: flex;
+    gap: 5px;
     justify-content: center;
     height: fit-content;
     margin-top: 10px;
-    width: 1159px;
+    width: 1250px;
 }
 
-.Home .homeContainer .searchForCarContainer input {
-    height: 25px;
-    font-size: larger;
-    width: 230px;
+.Home .homeContainer .searchDateContainer {
+    font-size: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items:end;
+}
+
+.Home .homeContainer .locationDiv {
+    height: 75px;
+    display: flex;
+    align-items:end;
+}
+
+.Home .homeContainer .searchForCarContainer input[type="text"] {
+    font-size: 50px;
+    width: 370px;
+    height:50px;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+}
+
+.Home .homeContainer .searchForCarContainer input[type="date"] {
+    font-size: 42px;
+    width: 380px;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
 }
 
 .Home .homeContainer .searchForCarContainer .searchButton {
-    height: 30px;
-    background-color: white;
-    border: 1px solid black;
-    text-align: center;
+    padding: 5px 15px 5px 15px;
+    margin-top: 20px;
+    background-color: #2c81c8;
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
-    width: 70px;
+    border-radius: 8px;
+    margin-left: 10px;
+    transition: 0.4s ease-out;
 }
 
 .Home .homeContainer .searchForCarContainer .searchButton:hover {
     cursor: pointer;
+    background-color: #266fac;
+    border-radius: 20px;
 }
 
 .Home .homeContainer .searchContentContainer {
