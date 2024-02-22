@@ -2,12 +2,10 @@ package no.ntnu;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import org.json.JSONArray;
@@ -169,74 +167,58 @@ public class Api {
   /**
    * Returns images of a certain car.
    *
-   * @param carName Car maker and car model. In the following format "Tesla_Model_3"
-   * @return images of a certain car.
+   * @param carName Car maker and car model
+   * @param imgNumber image number.
+   *
+   * @return image of a certain car.
    * @throws IOException IOException.
    */
-  @GetMapping("car/images/{carName}")
-  public ResponseEntity<Set<Resource>> carImages(@PathVariable String carName) throws IOException {
+  @GetMapping(value = {"car/img/{carName}", "car/img/{carName}/{imgNumber}"})
+  public ResponseEntity<Resource> carImages(@PathVariable String carName,
+      @PathVariable(required = false) String imgNumber) throws IOException {
 
     String maker = carName.split(" ")[0];
     String model = carName.substring(carName.indexOf(" ") + 1);
-
-    Set<Resource> imgSet = new HashSet<>();
-
-    File directory = new File(
-        new ClassPathResource("static/img/car/" + maker + "_" + model).getURI()
-      );
-
-    for (File f : directory.listFiles()) {
-      Resource r = new ClassPathResource(
-          "static/img/car/" + maker + "_" + model + "/" + f.getName()
-        );
-
-      imgSet.add(r);
-    }
-
-    return new ResponseEntity<>(imgSet, HttpStatus.OK);
-  }
-
-  /**
-   * Returns only the main image of a car.
-   *
-   * @param carName Car maker and car model. In the following format "Tesla_Model_3"
-   * @return only the main image of a car.
-   */
-  @GetMapping("car/img/{carName}")
-  public ResponseEntity<Resource> getCarImage(@PathVariable String carName) {
-    String maker = carName.split(" ")[0];
-    String model = carName.substring(carName.indexOf(" ") + 1);
-    System.out.println(maker + " " + model);
-    String img = "";
+    ArrayList<String> imgNames = new ArrayList<>();
 
 
     try {
       DatabaseCon con = new DatabaseCon();
-
       String query =
           "SELECT images FROM Car WHERE Maker = '" + maker + "' AND Model = '" + model + "';";
-
       
       ResultSet result = con.query(query);
-      result.next();
-      img = result.getString("images");
+
+      while (result.next()) {
+        String[] imgSet = result.getString("images").split(", ");
+        for (String img : imgSet) {
+          imgNames.add(img);
+        }
+      }
 
       result.close();
       con.close();
-
     } catch (SQLException e) {
       e.printStackTrace();
+    }
+    int imgNum;
+    if (imgNumber == null) {
+      imgNum = 0;
+    } else {
+      imgNum = Integer.parseInt(imgNumber);
     }
 
     maker = maker.toLowerCase();
     model = model.toLowerCase();
+    String imgName = imgNames.get(imgNum);
+
+    System.out.println("Sending Images for: " + maker + " " + model + " Image: " + imgName);
 
     MediaType type = null;
-    String fileType = img.substring(img.lastIndexOf("."));
-
+    String fileType = imgName.substring(imgName.lastIndexOf("."));
     String carImgFolder = "static/img/car/" + maker + "_" + model.replace(" ", "_") + "/";
-    
-    Resource r = new ClassPathResource(carImgFolder + img);
+
+    Resource r = new ClassPathResource(carImgFolder + imgName);
 
     switch (fileType) {
       case ".png":
@@ -251,9 +233,6 @@ public class Api {
       default:
         return ResponseEntity.notFound().build();
     }
-
-
-    String mainImage = img.split(", ")[0];
 
     return ResponseEntity.ok().contentType(type).body(r);
   }
