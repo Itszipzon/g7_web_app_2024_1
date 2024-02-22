@@ -1,6 +1,6 @@
 INSERT INTO Car (Maker, Model, Year, Fuel, Transmission, Seats, Extras)
 VALUES (
-    "VolksVagen",
+    "VolksWagen",
     "Golf",
     2007,
     "Diesel",
