@@ -293,7 +293,7 @@ function Home() {
                                 <Link to="/" className="recommendedLink">
                                     <h1>Car Name</h1>
                                     <p>Car type</p>
-                                    <img src="" alt="" />
+                                    <img src={jsonValue.serverAddress + "api/car/img/VolksWagen Golf"} alt="" />
                                     <div className="recommendedInformation">
                                         <div className="recommendedInformationSvg">
                                             <svg
