@@ -98,6 +98,9 @@ function Home() {
         setCarsearchItems(carDb);
     }, [carDb, locationDb]);
 
+    useEffect(() => {
+        handleSetPopularCars();
+    })
 
     const scrollIfNeeded = (listRef, index) => {
         if (listRef.current && index >= 0) {
@@ -177,6 +180,10 @@ function Home() {
                 setIsValidCar(false);
             }
         }
+    }
+
+    const handleSetPopularCars = () => {
+        setPopularCar([1, 2, 3, 4]);
     }
 
     var validLocation = [];
