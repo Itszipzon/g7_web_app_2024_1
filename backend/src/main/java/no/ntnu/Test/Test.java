@@ -31,7 +31,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import no.ntnu.DatabaseCon;
 import no.ntnu.Main;
-import no.ntnu.dbTables.Car;
+import no.ntnu.dbtables.Car;
+import no.ntnu.dbtables.FullInformation;
+import no.ntnu.dbtables.Location;
+import no.ntnu.dbtables.Storage;
 
 @RestController
 @RequestMapping("test")
@@ -141,9 +144,9 @@ public class Test {
   }
 
   @GetMapping("cars")
-  public ResponseEntity<ArrayList<String>> getCars() {
+  public ResponseEntity<ArrayList<Car>> getCars() {
 
-    ArrayList<String> cars = new ArrayList<>();
+    ArrayList<Car> cars = new ArrayList<>();
 
     try {
       
@@ -153,23 +156,22 @@ public class Test {
       ResultSet result = con.query(query);
 
       while (result.next()) {
-        int id = result.getInt("ID");
-        String maker = result.getString("Maker");
-        String model = result.getString("Model");
-        int year = result.getInt("Year");
-        String fuel = result.getString("Fuel");
-        String transmission = result.getString("Transmission");
-        int seats = result.getInt("Seats");
+        Car car = new Car();
+        car.setId(result.getInt("ID"));
+        car.setMaker(result.getString("Maker"));
+        car.setModel(result.getString("Model"));
+        car.setYear(result.getInt("Year"));
+        car.setFuelType(result.getString("Fuel"));
+        car.setTransmission(result.getString("Transmission"));
+        car.setSeats(result.getInt("Seats"));
         String extras = result.getString("Extras");
 
         String[] e = extras.split(", ");
-        LinkedList<String> extraList = new LinkedList<>();
         for (String s : e) {
-          extraList.add(s);
+          car.addExtras(s);
         }
 
-        Car car = new Car(id, maker, model, year, fuel, transmission, seats, extraList);
-        cars.add(car.toJson());
+        cars.add(car);
       }
 
       result.close();
@@ -183,12 +185,12 @@ public class Test {
   }
 
   @GetMapping("cars/get/{name}")
-  public ResponseEntity<ArrayList<String>> getCarsByName(@PathVariable String name) {
+  public ResponseEntity<ArrayList<FullInformation>> getCarsByName(@PathVariable String name) {
 
     String makerSelected = name.split(" ")[0];
     String modelSelected = name.substring(name.indexOf(" ", 1) + 1);
 
-    ArrayList<String> values = new ArrayList<>();
+    ArrayList<FullInformation> values = new ArrayList<>();
 
     try {
       DatabaseCon con = new DatabaseCon();
@@ -205,24 +207,33 @@ public class Test {
 
       while (result.next()) {
 
-        JSONObject value = new JSONObject();
-        value.put("LocationName", result.getString("Location_Name"));
-        value.put("LocationAddress", result.getString("Location_Address"));
-        value.put("CarMaker", result.getString("C.maker"));
-        value.put("CarModel", result.getString("C.model"));
-        value.put("CarYear", result.getInt("C.year"));
-        value.put("CarFuel", result.getString("C.fuel"));
-        value.put("CarTransmission", result.getString("C.transmission"));
-        value.put("CarSeats", result.getInt("C.seats"));
+        Location location = new Location();
+        location.setName(result.getString("Location_Name"));
+        location.setAddress(result.getString("Location_Address"));
+
+        Car car = new Car();
+        car.setId(result.getInt("ID"));
+        car.setMaker(result.getString("C.maker"));
+        car.setModel(result.getString("C.model"));
+        car.setYear(result.getInt("C.year"));
+        car.setFuelType(result.getString("C.fuel"));
+        car.setTransmission(result.getString("C.transmission"));
+        car.setSeats(result.getInt("C.seats"));
 
         String[] e = result.getString("C.extras").split(", ");
-        JSONArray extras = new JSONArray();
         for (String s : e) {
-          extras.put(s);
+          car.addExtras(s);
         }
-        value.put("CarExtras", extras);
-        value.put("Price", result.getInt("Price"));
-        values.add(value.toString());
+
+        Storage storage = new Storage();
+        storage.setPrice(result.getInt("Price"));
+        
+        FullInformation value = new FullInformation();
+        value.setCar(car);
+        value.setLocation(location);
+        value.setStorage(storage);
+
+        values.add(value);
       }
 
 

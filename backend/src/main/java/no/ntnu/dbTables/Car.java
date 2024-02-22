@@ -1,4 +1,4 @@
-package no.ntnu.dbTables;
+package no.ntnu.dbtables;
 
 import java.util.LinkedList;
 import org.json.JSONArray;
@@ -17,30 +17,14 @@ public class Car {
   private String transmission;
   private int seats;
   private LinkedList<String> extras;
+  private LinkedList<String> images;
 
   /**
    * Constructor of a car.
-   *
-   * @param id ID of the car.
-   * @param maker Maker of the car.
-   * @param model Model of the car.
-   * @param year Year the car was made.
-   * @param fuelType The fuel type of the car.
-   * @param transmission Transmission type of the car.
-   * @param seats Amount of seats in the car.
-   * @param extras A list of extras the car comes with.
    */
-  public Car(int id, String maker, String model, int year, String fuelType, String transmission,
-      int seats, LinkedList<String> extras) {
-
-    this.id = id;
-    this.maker = maker;
-    this.model = model;
-    this.year = year;
-    this.fuelType = fuelType;
-    this.transmission = transmission;
-    this.seats = seats;
-    this.extras = extras;
+  public Car() {
+    this.extras = new LinkedList<String>();
+    this.images = new LinkedList<String>();
   }
 
   public int getId() {
@@ -74,6 +58,48 @@ public class Car {
   public LinkedList<String> getExtras() {
     return this.extras;
   }
+
+  public LinkedList<String> getImages() {
+    return this.images;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setMaker(String maker) {
+    this.maker = maker;
+  }
+
+  public void setModel(String model) {
+    this.model = model;
+  }
+
+  public void setYear(int year) {
+    this.year = year;
+  }
+
+  public void setFuelType(String fuelType) {
+    this.fuelType = fuelType;
+  }
+
+  public void setTransmission(String transmission) {
+    this.transmission = transmission;
+  }
+
+  public void setSeats(int seats) {
+    this.seats = seats;
+  }
+
+  public void addExtras(String extras) {
+    this.extras.add(extras);
+  }
+
+  public void addImage(String image) {
+    this.images.add(image);
+  }
+
+
 
   /**
    * Returns a formatted text with all the information about the car.
