@@ -6,6 +6,7 @@
 }
 
 .headerContainer {
+    z-index: 10;
     display: flex;
     position:fixed;
     justify-content: center;
