@@ -301,9 +301,13 @@ function Home() {
                                 <CarCard key={item} 
                                 src={jsonValue.serverAddress + "api/car/img/VolksWagen Golf"}
                                 name="VolksWagen Golf"
+                                body="Hatchback"
+                                fuel="Diesel"
                                 year="2007"
                                 transmission="Manual"
                                 seats="5"
+                                price="550"
+                                link="/"
                                  />
                             );
                         })}

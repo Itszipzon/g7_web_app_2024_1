@@ -13,6 +13,10 @@
   color: black;
 }
 
+.CarCard:hover {
+  background-color: #e7e7e7;
+}
+
 .CarCard h1 {
   margin-bottom: 0;
 }
