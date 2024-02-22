@@ -10,6 +10,13 @@
   padding: 20px 0;
 }
 
+.Footer .footerContainer {
+  display: flex;
+  width: 1250px;
+  gap: inherit;
+  justify-content: center;
+}
+
 .Footer .footerLogo {
   height: 74px;
 }
@@ -21,6 +28,7 @@
 
 .Footer .footerNewsletter {
   font-size: 14px;
+  width: 270px;
 }
 
 .Footer .footerNewsletter .footerNewsletterInputContainer {
@@ -33,7 +41,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  left: -90px;
+  left: -65px;
   height: 34px;
   width: 87px;
   background-color: #2c81c8;
@@ -58,5 +66,5 @@
 
 .Footer .footerNewsletter .footerNewsletterInputContainer input[type="text"] {
   padding-left: 10px;
-  padding-right: 100px;
+  padding-right: 90px;
 }

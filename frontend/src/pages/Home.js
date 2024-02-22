@@ -8,6 +8,8 @@ function Home() {
     const carNameRef = useRef(null);
     const locationRef = useRef(null);
 
+    const [popularCar, setPopularCar] = useState([1, 2, 3, 4]);
+
     const [carinputMarked, setCarinputMarked] = useState(false);
     const [carsearchItems, setCarsearchItems] = useState([]);
     const [carNameValue, setCarNameValue] = useState("");
@@ -219,7 +221,7 @@ function Home() {
             <div className="homeContainer">
                 <h1>Compare car deals to find the right one.</h1>
                 <div className="searchForCarContainer">
-{/*                     <div>
+                    {/*                     <div>
                         <input type="text" placeholder="Car name" value={carNameValue} onFocus={handleCarNameInputFocus} onBlur={handleCarNameInputBlur} onChange={handleCarNameSearchInputChange} />
                         <div className="searchContentContainer" style={carinputMarked ? { "display": "flex" } : { "display": "none" }}>
                             <ul className="searchContentHomeUl" ref={carNameRef}>
@@ -236,7 +238,7 @@ function Home() {
                     </div> */}
                     <div>
                         <div className="locationDiv">
-                        <input type="text" placeholder="Location" value={locationValue} onFocus={handleLocationInputFocus} onBlur={handleLocationInputBlur} onChange={handleLocationSearchInputChange} />
+                            <input type="text" placeholder="Location" value={locationValue} onFocus={handleLocationInputFocus} onBlur={handleLocationInputBlur} onChange={handleLocationSearchInputChange} />
                         </div>
                         <div className="searchContentContainer" style={locationinputMarked ? { "display": "flex" } : { "display": "none" }}>
                             <ul className="searchContentHomeUl" ref={locationRef}>
@@ -263,14 +265,14 @@ function Home() {
                         </div>
                     </div>
                     <div className="searchDateContainer">
-                        <label htmlFor="date">From</label><br/>
+                        <label htmlFor="date">From</label><br />
                         <input type="date" placeholder="From" onChange={handleDateInputChange} value={date} />
                     </div>
                     <div className="searchDateContainer">
-                        <label htmlFor="date">To</label><br/>
+                        <label htmlFor="date">To</label><br />
                         <input type="date" placeholder="To" onChange={handleDateInputChange} value={date} />
                     </div>
-                    
+
                     <div className="searchButtonContainer">
                         <div className="searchButton" onClick={handleSearchButtonClick}>Search</div>
                         <p className="emptyFieldMessage">{emptyFieldMessage}</p>
@@ -279,18 +281,80 @@ function Home() {
                 <div className="homePopularContainer">
                     <div className="homePopularTitle">Popular cars</div>
                     <div className="homePopularContent">
-                        <Link to="/" className="recommendedLink">
-                            <img src="" alt="" />
-                        </Link>
-                        <Link to="/" className="recommendedLink">
-                            <img src="" alt="" />
-                        </Link>
-                        <Link to="/" className="recommendedLink">
-                            <img src="" alt="" />
-                        </Link>
-                        <Link to="/" className="recommendedLink">
-                            <img src="" alt="" />
-                        </Link>
+                        {popularCar.map((item) => {
+                            return(
+                            <Link to="/" className="recommendedLink">
+                                <h1>Car Name</h1>
+                                <p>Car type</p>
+                                <img src="" alt="" />
+                                <div className="recommendedInformation">
+                                    <div className="recommendedInformationSvg">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            version="1.1"
+                                            width="100%"
+                                            height="100%"
+                                            viewBox="0 0 14 14"
+                                            id="svg2">
+                                            <defs
+                                                id="defs6" />
+                                            <rect
+                                                width="14"
+                                                height="14"
+                                                x="0"
+                                                y="0"
+                                                id="canvas"
+                                                fill="none" />
+                                            <path
+                                                d="m 10.78125,0 -0.625,0.71875 1.1875,1.09375 c 0.03621,0.036212 0.0856,0.084693 0.125,0.125 l -0.25,0.28125 C 10.818532,2.6189681 11.105689,3.1369332 11.25,3.28125 L 12,4.03125 12,10 c 0,1 -0.392136,1 -0.5,1 C 11.392136,11 11,11 11,10 L 11,6 C 11,4.7190916 10,4 9,4 L 9,2 C 9,1.4486964 8.575273,1 8,1 L 2,1 C 1.400757,1 1,1.4247267 1,2 l 0,12 8,0 0,-9 c 0,0 1,0 1,1 l 0,4 c 0,2 1.239698,2 1.5,2 0.275652,0 1.5,0 1.5,-2 L 13,3 C 13,2 12.713983,1.7907839 12.375,1.46875 L 10.78125,0 z M 2,3 8,3 8,6 2,6 2,3 z"
+                                                id="fuel"
+                                                fill="#90A3BF" />
+                                        </svg>
+                                        <p>Petrol</p>
+                                    </div>
+                                    <div className="recommendedInformationSvg">
+                                        <svg width="800px" height="800px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="48" height="48" fill="white" fill-opacity="0.01" />
+                                            <path d="M24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z" stroke="#90A3BF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M24 44V32" stroke="#90A3BF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M4 24H16" stroke="#90A3BF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M44 24H32" stroke="#90A3BF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M32 24C32 28.4183 28.4183 32 24 32C19.5817 32 16 28.4183 16 24C16 19.5817 19.5817 16 24 16C28.4183 16 32 19.5817 32 24Z" stroke="#90A3BF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        <p>Automatic</p>
+                                    </div>
+                                    <div className="recommendedInformationSvg">
+                                        <svg fill="#90A3BF" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                            width="800px" height="800px" viewBox="0 0 96.979 96.979">
+                                            <g>
+                                                <g>
+                                                    <path d="M59.07,46.021L59.07,46.021c4.576-3.373,7.31-8.754,7.31-14.393c0-9.863-8.025-17.889-17.89-17.889
+			c-9.864,0-17.889,8.025-17.889,17.889c0,5.717,2.66,10.959,7.297,14.385c-18.244,6.451-21.092,28.71-21.531,35.378
+			c-0.031,0.479,0.137,0.949,0.465,1.3c0.328,0.35,0.785,0.549,1.264,0.549h60.788c0.479,0,0.938-0.199,1.266-0.549
+			c0.328-0.351,0.496-0.82,0.465-1.3C80.175,74.736,77.32,52.511,59.07,46.021z"/>
+                                                    <path d="M82.761,46.861c3.02-2.227,4.821-5.779,4.821-9.502c0-6.508-5.297-11.805-11.807-11.805c-1.867,0-3.627,0.447-5.199,1.223
+			c0.345,1.564,0.529,3.184,0.529,4.852c0,4.68-1.484,9.219-4.137,12.988c10.448,6.572,14.981,18.07,16.944,26.81h11.923
+			c0.315,0,0.618-0.131,0.836-0.361c0.215-0.23,0.325-0.541,0.305-0.857C96.688,65.812,94.805,51.144,82.761,46.861z"/>
+                                                    <path d="M29.976,44.617c-2.654-3.748-4.104-8.238-4.104-12.988c0-1.668,0.188-3.287,0.531-4.852
+			c-1.572-0.775-3.332-1.223-5.199-1.223c-6.51,0-11.807,5.297-11.807,11.805c0,3.775,1.754,7.236,4.816,9.496
+			C2.172,51.113,0.291,65.806,0.002,70.207c-0.021,0.316,0.09,0.627,0.307,0.857c0.217,0.229,0.52,0.36,0.836,0.36H13.06
+			C15.019,62.685,19.543,51.179,29.976,44.617z"/>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                        <p>5</p>
+                                    </div>
+                                </div>
+                                <div className="recommendedPrice">
+                                    <div className="recommendedPriceText">
+                                        <h2>$60/</h2>
+                                        <p>day</p>
+                                    </div>
+                                    <div className="recommendedButton">Rent</div>
+                                </div>
+                            </Link>
+                            );
+                        })}
                     </div>
 
                 </div>
@@ -571,9 +635,9 @@ m129 -37 c15 -10 22 -25 22 -46 0 -42 -25 -68 -66 -68 -57 0 -85 69 -44 110
                     <h1>About Us</h1>
                     <p>{
                         readMore ?
-                            "Welcome to Rental Roulette, where your journey begins with a spin of the wheel and ends with the perfect ride tailored just for you. At Rental Roulette, we've revolutionized the car rental experience by aggregating prices from a myriad of trusted third-party car rental companies. No more hopping from site to site in search of the best deal – our platform puts the power back in your hands. Whether you're embarking on a spontaneous road trip, planning a family vacation, or simply need a reliable set of wheels for your daily commute, Rental Roulette ensures that you're always in the driver's seat when it comes to choice and affordability. Our commitment extends beyond just providing competitive prices; we prioritize transparency, convenience, and a touch of excitement. With our user-friendly interface, you can effortlessly compare options, finding the ideal vehicle to suit your preferences and budget. Say goodbye to hidden fees and hello to a seamless rental experience. At Rental Roulette, we believe that every journey should begin with a sense of adventure, and our platform is designed to add an element of thrill to the otherwise mundane task of renting a car. Join us in the pursuit of hassle-free, cost-effective, and enjoyable travels – where every rental is a winning spin! Nestled in the picturesque landscapes of Ålesund, Rental Roulette takes pride in catering specifically to the vibrant community of this stunning coastal town. Our focus is on providing tailored car rental solutions by aggregating prices exclusively from rental companies in the Ålesund area. Whether you're exploring the fjords, embarking on a scenic coastal drive, or simply navigating the charming streets of Ålesund itself, Rental Roulette ensures that your local car rental experience is not only convenient but also intimately connected to the unique beauty of this Norwegian gem. Embrace the essence of Ålesund with us, where every rental is a seamless blend of convenience and local charm."
+                            <p>Welcome to Rental Roulette, where your journey begins with a spin of the wheel and ends with the perfect ride tailored just for you. At Rental Roulette, we've revolutionized the car rental experience by aggregating prices from a myriad of trusted third-party car rental companies. No more hopping from site to site in search of the best deal – our platform puts the power back in your hands. Whether you're embarking on a spontaneous road trip, planning a family vacation, or simply need a reliable set of wheels for your daily commute, Rental Roulette ensures that you're always in the driver's seat when it comes to choice and affordability.<br /><br />Our commitment extends beyond just providing competitive prices; we prioritize transparency, convenience, and a touch of excitement. With our user-friendly interface, you can effortlessly compare options, finding the ideal vehicle to suit your preferences and budget. Say goodbye to hidden fees and hello to a seamless rental experience. At Rental Roulette, we believe that every journey should begin with a sense of adventure, and our platform is designed to add an element of thrill to the otherwise mundane task of renting a car. Join us in the pursuit of hassle-free, cost-effective, and enjoyable travels – where every rental is a winning spin!<br /><br />Nestled in the picturesque landscapes of Ålesund, Rental Roulette takes pride in catering specifically to the vibrant community of this stunning coastal town. Our focus is on providing tailored car rental solutions by aggregating prices exclusively from rental companies in the Ålesund area. Whether you're exploring the fjords, embarking on a scenic coastal drive, or simply navigating the charming streets of Ålesund itself, Rental Roulette ensures that your local car rental experience is not only convenient but also intimately connected to the unique beauty of this Norwegian gem. Embrace the essence of Ålesund with us, where every rental is a seamless blend of convenience and local charm.</p>
                             :
-                            "Welcome to Rental Roulette, where your journey begins with a spin of the wheel and ends with the perfect ride tailored just for you. At Rental Roulette, we've revolutionized the car rental experience by aggregating prices from a myriad of trusted third-party car rental companies. No more hopping from site to site in search of the best deal – our platform puts the power back in your hands. Whether you're embarking on a spontaneous road trip, planning a family vacation, or simply need a reliable set of wheels for your daily commute, Rental Roulette ensures that you're always in the driver's seat when it comes to choice and affordability."
+                            <p>Welcome to Rental Roulette, where your journey begins with a spin of the wheel and ends with the perfect ride tailored just for you. At Rental Roulette, we've revolutionized the car rental experience by aggregating prices from a myriad of trusted third-party car rental companies. No more hopping from site to site in search of the best deal – our platform puts the power back in your hands. Whether you're embarking on a spontaneous road trip, planning a family vacation, or simply need a reliable set of wheels for your daily commute, Rental Roulette ensures that you're always in the driver's seat when it comes to choice and affordability.</p>
                     }
                     </p>
                     <div>
