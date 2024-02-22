@@ -1,5 +1,7 @@
 package no.ntnu;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -169,32 +171,26 @@ public class Api {
    *
    * @param carName Car maker and car model. In the following format "Tesla_Model_3"
    * @return images of a certain car.
+   * @throws IOException IOException.
    */
   @GetMapping("car/images/{carName}")
-  public ResponseEntity<Set<String>> carImages(@PathVariable String carName) {
+  public ResponseEntity<Set<Resource>> carImages(@PathVariable String carName) throws IOException {
 
     String maker = carName.split(" ")[0];
     String model = carName.substring(carName.indexOf(" ") + 1);
 
-    Set<String> imgSet = new HashSet<>();
+    Set<Resource> imgSet = new HashSet<>();
 
-    try {
-      DatabaseCon con = new DatabaseCon();
-      String query =
-          "SELECT images FROM Car WHERE Maker = '" + maker + "' AND Model = '" + model + "';";
+    File directory = new File(
+        new ClassPathResource("static/img/car/" + maker + "_" + model).getURI()
+      );
 
-      ResultSet result = con.query(query);
+    for (File f : directory.listFiles()) {
+      Resource r = new ClassPathResource(
+          "static/img/car/" + maker + "_" + model + "/" + f.getName()
+        );
 
-      while (result.next()) {
-        String[] imgList = result.getString("images").split(", ");
-        for (String i : imgList) {
-          imgSet.add("api/image/" + maker + "_" + model.replace(" ", "_") + "/" + i);
-        }
-      }
-
-      result.close();
-    } catch (SQLException e) {
-      e.printStackTrace();
+      imgSet.add(r);
     }
 
     return new ResponseEntity<>(imgSet, HttpStatus.OK);
@@ -207,40 +203,59 @@ public class Api {
    * @return only the main image of a car.
    */
   @GetMapping("car/img/{carName}")
-  public ResponseEntity<String> getCarImage(@PathVariable String carName) {
+  public ResponseEntity<Resource> getCarImage(@PathVariable String carName) {
     String maker = carName.split(" ")[0];
     String model = carName.substring(carName.indexOf(" ") + 1);
+    System.out.println(maker + " " + model);
     String img = "";
 
-    String url = "jdbc:mysql://localhost:3306/testcarrental";
-    String username = "root";
-    String password = "";
-
-    Connection con = null;
 
     try {
-      con = DriverManager.getConnection(url, username, password);
-      Statement statement = con.createStatement();
+      DatabaseCon con = new DatabaseCon();
 
       String query =
           "SELECT images FROM Car WHERE Maker = '" + maker + "' AND Model = '" + model + "';";
 
-      ResultSet result = statement.executeQuery(query);
-      while (result.next()) {
-        img = result.getString("images");
-      }
+      
+      ResultSet result = con.query(query);
+      result.next();
+      img = result.getString("images");
 
       result.close();
-      statement.close();
       con.close();
 
     } catch (SQLException e) {
       e.printStackTrace();
     }
 
+    maker = maker.toLowerCase();
+    model = model.toLowerCase();
+
+    MediaType type = null;
+    String fileType = img.substring(img.lastIndexOf("."));
+
+    String carImgFolder = "static/img/car/" + maker + "_" + model.replace(" ", "_") + "/";
+    
+    Resource r = new ClassPathResource(carImgFolder + img);
+
+    switch (fileType) {
+      case ".png":
+        type = MediaType.IMAGE_PNG;
+        break;
+      case ".jpg":
+        type = MediaType.IMAGE_JPEG;
+        break;
+      case ".gif":
+        type = MediaType.IMAGE_GIF;
+        break;
+      default:
+        return ResponseEntity.notFound().build();
+    }
+
+
     String mainImage = img.split(", ")[0];
 
-    return new ResponseEntity<>(mainImage, HttpStatus.OK);
+    return ResponseEntity.ok().contentType(type).body(r);
   }
 
   @GetMapping("get/users")
