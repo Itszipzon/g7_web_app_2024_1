@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./css/CarCard.css";
 
 function CarCard({
-  className = "CarCard",
+  className = "",
   src = "",
   name = "Car Name",
   body = "Car type",
@@ -14,7 +14,7 @@ function CarCard({
   link = "/card"
 }) {
   return (
-    <Link to={link} className={className}>
+    <Link to={link} className={className + " CarCard"}>
       <h1>{name}</h1>
       <p>{body}</p>
       <img src={src} alt={name}></img>
