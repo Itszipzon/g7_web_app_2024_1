@@ -1,11 +1,9 @@
 package no.ntnu;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import org.json.JSONArray;
@@ -194,17 +192,13 @@ public class Api {
           + "ON C.ID = I.CID "
           + "WHERE C.ID = '" + carId + "' "
           + "AND I.ImageNumber = " + imgNum + ";";
-  
       
-      System.out.println("Query: " + query);
       ResultSet result = con.query(query);
 
       while (result.next()) {
         imageName = (result.getString("I.Name"));
         carMaker = result.getString("C.Maker");
         carModel = result.getString("C.Model");
-        System.out.println("Querrying Car: " + carMaker + " " + carModel
-            + "Image: " + result.getString("I.Name"));
       }
 
       result.close();
@@ -217,6 +211,9 @@ public class Api {
     String fileType = imageName.substring(imageName.lastIndexOf("."));
     String carImgFolder = "static/img/car/" + carMaker + "_" + carModel.replace(" ", "_") + "/";
 
+    
+    System.out.println("Querrying Car: " + carMaker + " " + carModel
+        + "Image: " + imageName);
     Resource r = new ClassPathResource(carImgFolder + imageName);
 
     switch (fileType) {
@@ -236,6 +233,11 @@ public class Api {
     return ResponseEntity.ok().contentType(type).body(r);
   }
 
+  /**
+   * Returns all the users.
+   *
+   * @return all the users.
+   */
   @GetMapping("get/users")
   public ResponseEntity<Set<String>> getUsers() {
     Set<String> jsonStringArray = new HashSet<>();
@@ -267,6 +269,11 @@ public class Api {
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
 
+  /**
+   * Returns all the locations.
+   *
+   * @return all the locations.
+   */
   @GetMapping("get/locations")
   public ResponseEntity<Set<String>> getLocations() {
     Set<String> jsonStringArray = new HashSet<>();
@@ -294,6 +301,11 @@ public class Api {
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
 
+  /**
+   * Returns all the cars.
+   *
+   * @return all the cars.
+   */
   @GetMapping("get/cars")
   public ResponseEntity<Set<String>> getCars() {
     Set<String> jsonStringArray = new HashSet<>();
@@ -332,6 +344,11 @@ public class Api {
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
 
+  /**
+   * Returns all the different makers of cars.
+   *
+   * @return all the different makers of cars.
+   */
   @GetMapping("get/cars/maker")
   public ResponseEntity<Set<String>> getMakers() {
     Set<String> jsonStringArray = new HashSet<>();
@@ -354,6 +371,11 @@ public class Api {
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
 
+  /**
+   * Returns all the different models of cars.
+   *
+   * @return all the different models of cars.
+   */
   @GetMapping("get/cars/model")
   public ResponseEntity<Set<String>> getModels() {
     Set<String> jsonStringArray = new HashSet<>();
@@ -376,6 +398,11 @@ public class Api {
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
 
+  /**
+   * Returns all the different years of cars.
+   *
+   * @return all the different years of cars.
+   */
   @GetMapping("get/cars/year")
   public ResponseEntity<Set<Integer>> getYears() {
     Set<Integer> jsonStringArray = new HashSet<>();
@@ -398,6 +425,11 @@ public class Api {
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
 
+  /**
+   * Returns all the different fuels of cars.
+   *
+   * @return all the different fuels of cars.
+   */
   @GetMapping("get/cars/fuel")
   public ResponseEntity<Set<String>> getFuels() {
     Set<String> jsonStringArray = new HashSet<>();
@@ -420,6 +452,11 @@ public class Api {
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
 
+  /**
+   * Returns all the different transmissions of cars.
+   *
+   * @return all the different transmissions of cars.
+   */
   @GetMapping("get/cars/transmission")
   public ResponseEntity<Set<String>> getTransmissions() {
     Set<String> jsonStringArray = new HashSet<>();
