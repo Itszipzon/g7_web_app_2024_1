@@ -28,8 +28,6 @@ function Home() {
     const [dateFrom, setDateFrom] = useState("");
     const [dateTo, setDateTo] = useState("");
 
-    const [emptyFieldMessage, setEmptyFieldMessage] = useState("");
-
     const jsonValue = require("../information.json");
 
     const [readMore, setReadMore] = useState(false);
@@ -215,14 +213,7 @@ function Home() {
     }
 
     const handleSearchButtonClick = () => {
-        if (carNameValue && locationValue && dateTo && dateFrom) {
-            window.location.href = "/testcar?car=" + carNameValue + "&location=" + locationValue + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo;
-        } else {
-            setEmptyFieldMessage("Please fill in all the fields");
-            setTimeout(() => {
-                setEmptyFieldMessage("");
-            }, 5000);
-        }
+        window.location.href = "/search?car=" + carNameValue + "&location=" + locationValue + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo;
     }
 
     const handleReadMore = () => {
@@ -275,7 +266,6 @@ function Home() {
 
                     <div className="searchButtonContainer">
                         <div className="searchButton" onClick={handleSearchButtonClick}>Search</div>
-                        <p className="emptyFieldMessage">{emptyFieldMessage}</p>
                     </div>
                 </div>
                 <div className="homePopularContainer">
@@ -289,7 +279,6 @@ function Home() {
                                     name="VolksWagen Golf"
                                     body="Hatchback"
                                     fuel="Diesel"
-                                    year="2007"
                                     transmission="Manual"
                                     seats="5"
                                     price="550"
