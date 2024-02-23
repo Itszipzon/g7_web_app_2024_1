@@ -20,7 +20,9 @@ function CarCard({
         <h1>{name}</h1>
         <p>{body}</p>
         <div className="CarCardImgHolder">
-          <img src={src} alt={name}></img>
+          <div className="carcardOverlay">
+            <img src={src} alt={name}></img>
+          </div>
         </div>
         <div className="CarCardInfo">
           <div className="CarCardInfoSvg">
