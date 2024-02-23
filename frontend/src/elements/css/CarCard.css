@@ -95,6 +95,7 @@
 .CarCard .recommendedPriceText {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 20px;
 }
 
 .CarCard .recommendedPrice h2 {
@@ -104,7 +105,8 @@
 
 .CarCard .recommendedPrice p {
   height: fit-content;
-  height: 30px;
+  height: 29px;
+  color: #90A3BF;
   margin-top: auto;
 }
 
