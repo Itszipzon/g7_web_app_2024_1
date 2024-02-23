@@ -99,9 +99,9 @@ function Home() {
         setCarsearchItems(carDb);
     }, [carDb, locationDb]);
 
-    useEffect(() => {
+/*     useEffect(() => {
         handleSetPopularCars();
-    })
+    }, [popularCar]) */
 
     const scrollIfNeeded = (listRef, index) => {
         if (listRef.current && index >= 0) {
@@ -183,9 +183,9 @@ function Home() {
         }
     }
 
-    const handleSetPopularCars = () => {
+/*     const handleSetPopularCars = () => {
         setPopularCar([1, 2, 3, 4]);
-    }
+    } */
 
     var validLocation = [];
 
@@ -234,21 +234,6 @@ function Home() {
             <div className="homeContainer">
                 <h1>Compare car deals to find the right one.</h1>
                 <div className="searchForCarContainer">
-                    {/*                     <div>
-                        <input type="text" placeholder="Car name" value={carNameValue} onFocus={handleCarNameInputFocus} onBlur={handleCarNameInputBlur} onChange={handleCarNameSearchInputChange} />
-                        <div className="searchContentContainer" style={carinputMarked ? { "display": "flex" } : { "display": "none" }}>
-                            <ul className="searchContentHomeUl" ref={carNameRef}>
-                                {carsearchItems.map((item, index) =>
-                                    <li className={"searchContentHomeLi " + ((index === carSelected) ? "liSelected" : "")} key={index} onClick={() => handleCarNameClick((item.Maker + " " + item.Model))} >
-                                        <div className="searchHomeNameContainer">
-                                            <img src={item.Image} alt={(item.Maker + " " + item.Model)} className="searchHomeImage" />
-                                            <p>{(item.Maker + " " + item.Model)}</p>
-                                        </div>
-                                    </li>
-                                )}
-                            </ul>
-                        </div>
-                    </div> */}
                     <div>
                         <div className="locationDiv">
                             <input type="text" placeholder="Location" value={locationValue} onFocus={handleLocationInputFocus} onBlur={handleLocationInputBlur} onChange={handleLocationSearchInputChange} />
@@ -298,17 +283,19 @@ function Home() {
                     <div className="homePopularContent">
                         {popularCar.map((item) => {
                             return (
-                                <CarCard key={item} 
-                                src={jsonValue.serverAddress + "api/car/img/VolksWagen Golf"}
-                                name="VolksWagen Golf"
-                                body="Hatchback"
-                                fuel="Diesel"
-                                year="2007"
-                                transmission="Manual"
-                                seats="5"
-                                price="550"
-                                link="/"
-                                 />
+                                <div className="CarCards" key={item}>
+                                    <CarCard 
+                                    src={jsonValue.serverAddress + "api/car/img/1"}
+                                    name="VolksWagen Golf"
+                                    body="Hatchback"
+                                    fuel="Diesel"
+                                    year="2007"
+                                    transmission="Manual"
+                                    seats="5"
+                                    price="550"
+                                    link="/"
+                                    />
+                                </div>
                             );
                         })}
                     </div>
@@ -589,15 +576,16 @@ m129 -37 c15 -10 22 -25 22 -46 0 -42 -25 -68 -66 -68 -57 0 -85 69 -44 110
                 </div>
                 <div className="homeAboutUs">
                     <h1>About Us</h1>
-                    <p>{
+                    {
                         readMore ?
-                            <p>Welcome to Rental Roulette, where your journey begins with a spin of the wheel and ends with the perfect ride tailored just for you. At Rental Roulette, we've revolutionized the car rental experience by aggregating prices from a myriad of trusted third-party car rental companies. No more hopping from site to site in search of the best deal – our platform puts the power back in your hands. Whether you're embarking on a spontaneous road trip, planning a family vacation, or simply need a reliable set of wheels for your daily commute, Rental Roulette ensures that you're always in the driver's seat when it comes to choice and affordability.<br /><br />Our commitment extends beyond just providing competitive prices; we prioritize transparency, convenience, and a touch of excitement. With our user-friendly interface, you can effortlessly compare options, finding the ideal vehicle to suit your preferences and budget. Say goodbye to hidden fees and hello to a seamless rental experience. At Rental Roulette, we believe that every journey should begin with a sense of adventure, and our platform is designed to add an element of thrill to the otherwise mundane task of renting a car. Join us in the pursuit of hassle-free, cost-effective, and enjoyable travels – where every rental is a winning spin!<br /><br />Nestled in the picturesque landscapes of Ålesund, Rental Roulette takes pride in catering specifically to the vibrant community of this stunning coastal town. Our focus is on providing tailored car rental solutions by aggregating prices exclusively from rental companies in the Ålesund area. Whether you're exploring the fjords, embarking on a scenic coastal drive, or simply navigating the charming streets of Ålesund itself, Rental Roulette ensures that your local car rental experience is not only convenient but also intimately connected to the unique beauty of this Norwegian gem. Embrace the essence of Ålesund with us, where every rental is a seamless blend of convenience and local charm.</p>
+                            <p>Welcome to Rental Roulette, where your journey begins with a spin of the wheel and ends with the perfect ride tailored just for you. At Rental Roulette, we've revolutionized the car rental experience by aggregating prices from a myriad of trusted third-party car rental companies. No more hopping from site to site in search of the best deal – our platform puts the power back in your hands. Whether you're embarking on a spontaneous road trip, planning a family vacation, or simply need a reliable set of wheels for your daily commute, Rental Roulette ensures that you're always in the driver's seat when it comes to choice and affordability.
+                                <br /><br />Our commitment extends beyond just providing competitive prices; we prioritize transparency, convenience, and a touch of excitement. With our user-friendly interface, you can effortlessly compare options, finding the ideal vehicle to suit your preferences and budget. Say goodbye to hidden fees and hello to a seamless rental experience. At Rental Roulette, we believe that every journey should begin with a sense of adventure, and our platform is designed to add an element of thrill to the otherwise mundane task of renting a car. Join us in the pursuit of hassle-free, cost-effective, and enjoyable travels – where every rental is a winning spin!
+                                <br /><br />Nestled in the picturesque landscapes of Ålesund, Rental Roulette takes pride in catering specifically to the vibrant community of this stunning coastal town. Our focus is on providing tailored car rental solutions by aggregating prices exclusively from rental companies in the Ålesund area. Whether you're exploring the fjords, embarking on a scenic coastal drive, or simply navigating the charming streets of Ålesund itself, Rental Roulette ensures that your local car rental experience is not only convenient but also intimately connected to the unique beauty of this Norwegian gem. Embrace the essence of Ålesund with us, where every rental is a seamless blend of convenience and local charm.</p>
                             :
                             <p>Welcome to Rental Roulette, where your journey begins with a spin of the wheel and ends with the perfect ride tailored just for you. At Rental Roulette, we've revolutionized the car rental experience by aggregating prices from a myriad of trusted third-party car rental companies. No more hopping from site to site in search of the best deal – our platform puts the power back in your hands. Whether you're embarking on a spontaneous road trip, planning a family vacation, or simply need a reliable set of wheels for your daily commute, Rental Roulette ensures that you're always in the driver's seat when it comes to choice and affordability.</p>
                     }
-                    </p>
                     <div>
-                        <div onClick={handleReadMore} className="homeAboutUsReadMore">Read More</div>
+                        <div onClick={handleReadMore} className="homeAboutUsReadMore">{readMore ? "Show Less" : "Show More"}</div>
                     </div>
                 </div>
             </div>
@@ -623,25 +611,3 @@ function customSort(a, b, searchString) {
         return a.localeCompare(b);
     }
 }
-
-/**
- * {locationsearchItems.map((item, index) =>
-                                    <li className={"searchContentHomeLi " + ((index === locationSelected) ? "liSelected" : "")} key={item.street + ", " + item.postalCode + " " + item.state} onClick={() => {
-                                        handleLocationClick(item.name);
-                                    }} >
-                                        <div className="searchHomeNameContainer">
-                                            <div className="searchHomeLocationContainer">
-                                                <div className="searchHomeLocationContainerTop">
-                                                    {item.name}
-                                                </div>
-                                                <div className="searchHomeLocationContainerMid">
-                                                    {item.street + ", " + item.postalCode + " " + item.state}
-                                                </div>
-                                                <div className="searchHomeLocationContainerBot">
-                                                    {(open(item.open[day]) ? "🟢" : "🔴") + item.open[day]}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                )}
- */

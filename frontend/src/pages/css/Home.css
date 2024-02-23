@@ -19,6 +19,7 @@
     border-radius: 25px;
     display: grid;
     justify-content: center;
+    align-items: center;
 }
 
 .Home .homeContainer .searchForCarContainer {
@@ -184,6 +185,8 @@
     display: block;
     font-family: 'main';
     margin-top: 60px;
+    width: fit-content;
+    margin-left: calc(50% - (1159px/2));
 }
 
 .Home .homePopularContainer .homePopularTitle {
@@ -195,7 +198,12 @@
     flex-direction: row;
     justify-content: center;
     gap: 12px;
-    height: 390px;
+    height: fit-content;
+}
+
+.Home .CarCards {
+    max-width: 280px;
+    max-height: 390px;
 }
 
 .Home .homeBodyContainer {
@@ -214,14 +222,17 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    grid-gap: 10px;
+    grid-gap: 12px;
+    align-items: center;
+    width: 1159px;
+    margin-left: calc(50% - (1159px/2));
 }
 
 .Home .homeBodyContainer .homeBodyContentContainer .bodyLink {
     background-color: white;
     border-radius: 8px;
-    padding: 20px;
     height: 193.35px;
+    width: 100%;
     text-decoration: none;
     color: black;
     font-family: 'main';
@@ -257,6 +268,8 @@
     border-radius: 8px;
     margin-bottom: 60px;
     padding: 20px;
+    width: 1119px;
+    margin-left: calc(50% - (1159px/2));
 }
 
 .Home .homeAboutUs h1 {

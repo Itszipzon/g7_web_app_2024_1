@@ -129,7 +129,6 @@ public class Api {
       SELECT 
         C.Maker, 
         C.Model, 
-        C.images, 
         L.name, 
         S.Price, 
       Case 
@@ -154,7 +153,6 @@ public class Api {
         JSONObject json = new JSONObject();
         json.put("Maker", result.getString("C.Maker"));
         json.put("Model", result.getString("C.Model"));
-        json.put("Image", result.getString("C.images").split(", ")[0]);
         jsonStringArray.add(json.toString());
       }
     } catch (SQLException e) {
@@ -167,40 +165,19 @@ public class Api {
   /**
    * Returns images of a certain car.
    *
-   * @param carName Car maker and car model
+   * @param carId Car ID.
    * @param imgNumber image number.
    *
    * @return image of a certain car.
    * @throws IOException IOException.
    */
-  @GetMapping(value = {"car/img/{carName}", "car/img/{carName}/{imgNumber}"})
-  public ResponseEntity<Resource> carImages(@PathVariable String carName,
+  @GetMapping(value = {"car/img/{carId}", "car/img/{carId}/{imgNumber}"})
+  public ResponseEntity<Resource> carImages(@PathVariable String carId,
       @PathVariable(required = false) String imgNumber) throws IOException {
 
-    String maker = carName.split(" ")[0];
-    String model = carName.substring(carName.indexOf(" ") + 1);
-    ArrayList<String> imgNames = new ArrayList<>();
-
-
-    try {
-      DatabaseCon con = new DatabaseCon();
-      String query =
-          "SELECT images FROM Car WHERE Maker = '" + maker + "' AND Model = '" + model + "';";
-      
-      ResultSet result = con.query(query);
-
-      while (result.next()) {
-        String[] imgSet = result.getString("images").split(", ");
-        for (String img : imgSet) {
-          imgNames.add(img);
-        }
-      }
-
-      result.close();
-      con.close();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+    String carMaker = "";
+    String carModel = ""; 
+    String imageName = "";
     int imgNum;
     if (imgNumber == null) {
       imgNum = 0;
@@ -208,17 +185,39 @@ public class Api {
       imgNum = Integer.parseInt(imgNumber);
     }
 
-    maker = maker.toLowerCase();
-    model = model.toLowerCase();
-    String imgName = imgNames.get(imgNum);
+    try {
+      DatabaseCon con = new DatabaseCon();
+      String query =
+          "SELECT C.Maker, C.Model, I.Name "
+          + "FROM Car C "
+          + "JOIN Images I "
+          + "ON C.ID = I.CID "
+          + "WHERE C.ID = '" + carId + "' "
+          + "AND I.ImageNumber = " + imgNum + ";";
+  
+      
+      System.out.println("Query: " + query);
+      ResultSet result = con.query(query);
 
-    System.out.println("Sending Images for: " + maker + " " + model + " Image: " + imgName);
+      while (result.next()) {
+        imageName = (result.getString("I.Name"));
+        carMaker = result.getString("C.Maker");
+        carModel = result.getString("C.Model");
+        System.out.println("Querrying Car: " + carMaker + " " + carModel
+            + "Image: " + result.getString("I.Name"));
+      }
+
+      result.close();
+      con.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
 
     MediaType type = null;
-    String fileType = imgName.substring(imgName.lastIndexOf("."));
-    String carImgFolder = "static/img/car/" + maker + "_" + model.replace(" ", "_") + "/";
+    String fileType = imageName.substring(imageName.lastIndexOf("."));
+    String carImgFolder = "static/img/car/" + carMaker + "_" + carModel.replace(" ", "_") + "/";
 
-    Resource r = new ClassPathResource(carImgFolder + imgName);
+    Resource r = new ClassPathResource(carImgFolder + imageName);
 
     switch (fileType) {
       case ".png":
@@ -312,7 +311,6 @@ public class Api {
         json.put("Fuel", result.getString("Fuel"));
         json.put("Transmission", result.getString("Transmission"));
         json.put("Seats", result.getInt("Seats"));
-        json.put("Images", result.getString("Images"));
 
         JSONArray extras = new JSONArray();
         String[] dbExtras = result.getString("Extras").split(", ");
