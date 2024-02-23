@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './css/Search.css';
 import { useNavigate } from 'react-router';
+import CarCard from '../elements/CarCard';
 
 function Search() {
 
@@ -12,8 +13,8 @@ function Search() {
 
                     <div className="checkBox">
                         <input type="checkbox" name="Sport" value="2" />
-                        <label for="Sport">Sport</label><p>(10)</p>
-                    
+                        <label for="Sport">Sport<p>(10)</p></label>
+
                     </div>
                     <div className="checkBox">
                         <input type="checkbox" name="SUV" value="2" />
@@ -68,45 +69,146 @@ function Search() {
 
             </div>
 
-            <div className="carContainer">
-                <div className="cars">
-                    <h1>Car</h1>
-                </div>
-                <div className="cars">
-                    <h1>Car</h1>
-                </div>
-                <div className="cars">
-                    <h1>Car</h1>
-                </div>
-                <div className="cars">
-                    <h1>Car</h1>
-                </div>
-                <div className="cars">
-                    <h1>Car</h1>
-                </div>
-                <div className="cars">
-                    <h1>Car</h1>
-                </div>
-                <div className="cars">
-                    <h1>Car</h1>
-                </div>
-                <div className="cars">
-                    <h1>Car</h1>
-                </div>
-                <div className="cars">
-                    <h1>Car</h1>
-                </div>
-                <div className="cars">
-                    <h1>Car</h1>
-                </div>
-                <div className="cars">
-                    <h1>Car</h1>
-                </div>
-                <div className="cars">
-                    <h1>Car</h1>
-                </div>
+            <div className="searchPageContainer">
+                <div className="searchCarContainer">
+                    <div className="searchCarTitle">Cars</div>
+                    <div className="searchCarContent">
+                        <CarCard key={"a"}
+                            style={{ "Height": "390px", "Width": "280px" }}
+                            src={""}
+                            name="VolksWagen Golf"
+                            body="Hatchback"
+                            fuel="Diesel"
+                            year="2007"
+                            transmission="Manual"
+                            seats="5"
+                            price="550"
+                            link="/"
+                        />
+                        <CarCard key={"a"}
+                            src={""}
+                            name="VolksWagen Golf"
+                            body="Hatchback"
+                            fuel="Diesel"
+                            year="2007"
+                            transmission="Manual"
+                            seats="5"
+                            price="550"
+                            link="/"
+                        />
+                        <CarCard key={"a"}
+                            src={""}
+                            name="VolksWagen Golf"
+                            body="Hatchback"
+                            fuel="Diesel"
+                            year="2007"
+                            transmission="Manual"
+                            seats="5"
+                            price="550"
+                            link="/"
+                        />
+                        <CarCard key={"a"}
+                            src={""}
+                            name="VolksWagen Golf"
+                            body="Hatchback"
+                            fuel="Diesel"
+                            year="2007"
+                            transmission="Manual"
+                            seats="5"
+                            price="550"
+                            link="/"
+                        />
+                        <CarCard key={"a"}
+                            src={""}
+                            name="VolksWagen Golf"
+                            body="Hatchback"
+                            fuel="Diesel"
+                            year="2007"
+                            transmission="Manual"
+                            seats="5"
+                            price="550"
+                            link="/"
+                        />
+                        <CarCard key={"a"}
+                            src={""}
+                            name="VolksWagen Golf"
+                            body="Hatchback"
+                            fuel="Diesel"
+                            year="2007"
+                            transmission="Manual"
+                            seats="5"
+                            price="550"
+                            link="/"
+                        />
+                        <CarCard key={"a"}
+                            src={""}
+                            name="VolksWagen Golf"
+                            body="Hatchback"
+                            fuel="Diesel"
+                            year="2007"
+                            transmission="Manual"
+                            seats="5"
+                            price="550"
+                            link="/"
+                        />
+                        <CarCard key={"a"}
+                            src={""}
+                            name="VolksWagen Golf"
+                            body="Hatchback"
+                            fuel="Diesel"
+                            year="2007"
+                            transmission="Manual"
+                            seats="5"
+                            price="550"
+                            link="/"
+                        />
+                        <CarCard key={"a"}
+                            src={""}
+                            name="VolksWagen Golf"
+                            body="Hatchback"
+                            fuel="Diesel"
+                            year="2007"
+                            transmission="Manual"
+                            seats="5"
+                            price="550"
+                            link="/"
+                        />
+                        <CarCard key={"a"}
+                            src={""}
+                            name="VolksWagen Golf"
+                            body="Hatchback"
+                            fuel="Diesel"
+                            year="2007"
+                            transmission="Manual"
+                            seats="5"
+                            price="550"
+                            link="/"
+                        />
+                        <CarCard key={"a"}
+                            src={""}
+                            name="VolksWagen Golf"
+                            body="Hatchback"
+                            fuel="Diesel"
+                            year="2007"
+                            transmission="Manual"
+                            seats="5"
+                            price="550"
+                            link="/"
+                        />
+                        <CarCard key={"a"}
+                            src={""}
+                            name="VolksWagen Golf"
+                            body="Hatchback"
+                            fuel="Diesel"
+                            year="2007"
+                            transmission="Manual"
+                            seats="5"
+                            price="550"
+                            link="/"
+                        />
 
-
+                    </div>
+                </div>
             </div>
         </div>
     );
