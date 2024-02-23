@@ -1,23 +1,12 @@
 .Home {
     background-color: #f6f7f9;
-    height: 100%;
-    width: 100%;
     display: grid;
     justify-content: center;
-}
-
-.Home .homeContainer h1 {
     font-family: 'main';
-    font-size: 32px;
-    margin-top: 20px;
 }
 
 .Home .homeContainer {
-    width: 1159px;
-    height: fit-content;
     margin-top: 50px;
-    border-radius: 25px;
-    display: grid;
 }
 
 .Home .homeContainer .searchForCarContainer {
@@ -34,8 +23,6 @@
 .Home .homeContainer .searchDateContainer {
     font-size: 14px;
     display: grid;
-    grid-gap: 0px;
-    justify-content:flex-end;
     margin-top: -15px;
 }
 
@@ -54,30 +41,27 @@
     border: 1px solid #D9D9D9;
     border-radius: 8px;
     font-size: 24px;
-    margin-left: auto;
-    max-width: 339px;
-    min-width: 339px;
-    max-height: 48px;
-    min-height: 48px;
+    width: 339px;
+    height: 48px;
 }
 
 .Home .homeContainer .searchForCarContainer input[type="date"] {
     border: 1px solid #D9D9D9;
     border-radius: 8px;
     font-size: 24px;
-    max-width: 342px;
-    min-width: 342px;
+    width: 342px;
     height: 52px;
+}
+
+.Home .searchButtonContainer {
+    display: flex;
+    align-items: flex-end;
 }
 
 .Home .homeContainer .searchForCarContainer .searchButton {
     padding: 11px 15px;
-    margin-top: auto;
     background-color: #2c81c8;
     color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 8px;
     transition: 0.4s ease-out;
     font-size: 24px;
@@ -103,7 +87,7 @@
     z-index: 0;
 }
 
-.Home .homeContainer .searchContentContainer .searchContentHomeUl {
+.Home .searchContentHomeUl {
     list-style-type: none;
     width: 100%;
     padding-left: 0;
@@ -111,21 +95,21 @@
     margin-top: 0;
 }
 
-.Home .homeContainer .searchContentContainer::-webkit-scrollbar {
+.Home .searchContentContainer::-webkit-scrollbar {
     width: 7px;
 }
 
-.Home .homeContainer .searchContentContainer::-webkit-scrollbar-thumb {
+.Home .searchContentContainer::-webkit-scrollbar-thumb {
     background-color: rgb(51, 51, 51);
     border-radius: 6px;
 }
 
-.Home .homeContainer .searchContentContainer::-webkit-scrollbar-track {
+.Home .searchContentContainer::-webkit-scrollbar-track {
     background-color: rgb(155, 155, 155);
     border-radius: 6px;
 }
 
-.Home .homeContainer .searchContentContainer .searchContentHomeLi {
+.Home .searchContentHomeLi {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -135,60 +119,32 @@
     height: 50px;
 }
 
-.Home .homeContainer .searchContentContainer .searchContentHomeLi:hover {
+.Home .searchContentHomeLi:hover {
     cursor: pointer;
     background-color: lightgray;
 }
 
-.Home .homeContainer .searchContentContainer .searchContentHomeLi .searchHomeNameContainer {
+.Home .searchHomeNameContainer {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
 }
 
-.Home .homeContainer .searchContentContainer .searchContentHomeLi .searchHomeNameContainer img{
+.Home .searchHomeNameContainer img{
     margin-right: 10px;
     height: 100%;
     width: 60px;
     margin-left: 10px;
 }
 
-.searchHomeLocationContainer {
-    display: grid;
-    margin-left: 10px;
-}
 
-.searchHomeLocationContainerTop {
-
-}
-
-.searchHomeLocationContainerMid {
-    font-size: 10px;
-}
-
-.searchHomeLocationContainerBot {
-    font-size: 10px;
-}
-
-.searchButtonContainer {
-    display: grid;
-}
-
-.searchButtonContainer .emptyFieldMessage {
-    position:absolute;
-    color: red;
-    top: 170px;
-}
-
-.liSelected {
+.Home .liSelected {
     background-color: lightgray;
 }
 
 .Home .homePopularContainer {
-    font-family: 'main';
     margin-top: 60px;
-    width: 1159px;
 }
 
 .Home .homePopularContainer .homePopularTitle {
@@ -200,7 +156,6 @@
     flex-direction: row;
     justify-content: center;
     gap: 12px;
-    height: fit-content;
 }
 
 .Home .CarCards {
@@ -209,24 +164,13 @@
 }
 
 .Home .homeBodyContainer {
-    display: grid;
-    gap: 0px;
     margin: 20px 0;
-}
-
-.Home .homeBodyContainer .homeBodyTitle {
-    font-family: 'main';
-    font-size: 14px;
-    margin-bottom: 10px;
 }
 
 .Home .homeBodyContainer .homeBodyContentContainer {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
     grid-gap: 12px;
-    width: 1159px;
-    align-items: center;
 }
 
 .Home .homeBodyContainer .homeBodyContentContainer .bodyLink {
@@ -235,11 +179,9 @@
     height: 193.35px;
     text-decoration: none;
     color: black;
-    font-family: 'main';
     display: grid;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
     transition: 0.4s ease-out;
 }
 
@@ -256,30 +198,20 @@
 }
 
 .Home .homeBodyContainer .homeBodyContentContainer .bodyLink .bodyothers {
-    width: fit-content;
-    margin-left: auto;
     margin-top: 20px;
-    margin-right: auto;
 }
 
 .Home .homeBodyContainer .homeBodyContentContainer .bodyLink svg {
     height: 160px;
-    margin-left: auto;
     width: fit-content;
 }
 
 .Home .homeAboutUs {
     display: block;
-    font-family: 'main';
     background-color: white;
     border-radius: 8px;
-    margin-bottom: 60px;
     padding: 20px;
     width: 1119px;
-}
-
-.Home .homeAboutUs h1 {
-    font-size: 32px;
 }
 
 .Home .homeAboutUs p {
@@ -287,8 +219,6 @@
 }
 
 .Home .homeAboutUs div {
-    width: 100%;
-    height: fit-content;
     display: flex;
     justify-content: center;
 }
@@ -297,8 +227,6 @@
     height: 56.63px;
     width: 134.11px;
     background-color: #2c81c8;
-    display: flex;
-    justify-content: center;
     align-items: center;
     border-radius: 8px;
     color: white;
