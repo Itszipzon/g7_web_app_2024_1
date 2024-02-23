@@ -61,6 +61,12 @@
     font-size: 12px;
 }
 
+.searchPage .priceRangeInput::-webkit-outer-spin-button,
+.searchPage .priceRangeInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 
 .searchPage .navSideBar .navSideSearch .checkBox {
     display: flex;
