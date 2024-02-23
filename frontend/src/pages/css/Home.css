@@ -13,33 +13,34 @@
 }
 
 .Home .homeContainer {
-    width: 1250px;
+    width: 1159px;
     height: fit-content;
     margin-top: 50px;
     border-radius: 25px;
     display: grid;
-    justify-content: center;
-    align-items: center;
 }
 
 .Home .homeContainer .searchForCarContainer {
     display: flex;
     flex-direction: row;
-    gap: 5px;
-    justify-content:flex-end;
+    gap: 7.5px;
+    width: 1159px;
+    justify-content:center;
     height: fit-content;
     margin-top: 10px;
     max-height: 90px;
-    width: 1250px;
 }
 
 .Home .homeContainer .searchDateContainer {
     font-size: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    grid-template-columns: 1fr 1fr;
+    display: grid;
+    grid-gap: 0px;
     justify-content:flex-end;
+    margin-top: -15px;
+}
+
+.Home .homeContainer .searchDateContainer label {
+    margin-bottom: -15px;
 }
 
 .Home .homeContainer .locationDiv {
@@ -50,31 +51,34 @@
 }
 
 .Home .homeContainer .searchForCarContainer input[type="text"] {
-    font-size: 30px;
-    width: 370px;
-    height:50px;
     border: 1px solid #D9D9D9;
     border-radius: 8px;
+    font-size: 24px;
+    margin-left: auto;
+    max-width: 339px;
+    min-width: 339px;
+    max-height: 48px;
+    min-height: 48px;
 }
 
 .Home .homeContainer .searchForCarContainer input[type="date"] {
-    font-size: 42px;
-    width: 370px;
     border: 1px solid #D9D9D9;
     border-radius: 8px;
+    font-size: 24px;
+    max-width: 342px;
+    min-width: 342px;
+    height: 52px;
 }
 
 .Home .homeContainer .searchForCarContainer .searchButton {
-    padding: 15px 15px;
+    padding: 11px 15px;
     margin-top: auto;
-    height: 25px;
     background-color: #2c81c8;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    margin-left: 10px;
     transition: 0.4s ease-out;
     font-size: 24px;
 }
@@ -182,11 +186,9 @@
 }
 
 .Home .homePopularContainer {
-    display: block;
     font-family: 'main';
     margin-top: 60px;
-    width: fit-content;
-    margin-left: calc(50% - (1159px/2));
+    width: 1159px;
 }
 
 .Home .homePopularContainer .homePopularTitle {
@@ -223,16 +225,14 @@
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, 1fr);
     grid-gap: 12px;
-    align-items: center;
     width: 1159px;
-    margin-left: calc(50% - (1159px/2));
+    align-items: center;
 }
 
 .Home .homeBodyContainer .homeBodyContentContainer .bodyLink {
     background-color: white;
     border-radius: 8px;
     height: 193.35px;
-    width: 100%;
     text-decoration: none;
     color: black;
     font-family: 'main';
@@ -252,7 +252,14 @@
     margin-left: auto;
     font-size: 24px;
     margin-right: auto;
-    margin-top: auto;
+    margin-top: -24px;
+}
+
+.Home .homeBodyContainer .homeBodyContentContainer .bodyLink .bodyothers {
+    width: fit-content;
+    margin-left: auto;
+    margin-top: 20px;
+    margin-right: auto;
 }
 
 .Home .homeBodyContainer .homeBodyContentContainer .bodyLink svg {
@@ -269,7 +276,6 @@
     margin-bottom: 60px;
     padding: 20px;
     width: 1119px;
-    margin-left: calc(50% - (1159px/2));
 }
 
 .Home .homeAboutUs h1 {

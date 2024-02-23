@@ -19,10 +19,8 @@
 .headerContainer .headerContent {
     display: flex;
     position:fixed;
-    width: 1250px;
+    width: 1159px;
     height: 50px;
-    border-bottom: var(--main-border);
-    background-color: var(--main-background-color);
 }
 
 .Header .headerLinks {

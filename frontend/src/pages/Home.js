@@ -569,7 +569,7 @@ m129 -37 c15 -10 22 -25 22 -46 0 -42 -25 -68 -66 -68 -57 0 -85 69 -44 110
                         <Link to="/" className="bodyLink">
                             <div className="bodyLinkContent">
                                 <div className="bodyLinkImageContainer" />
-                                <p>Others</p>
+                                <p className="bodyothers">Others</p>
                             </div>
                         </Link>
                     </div>
