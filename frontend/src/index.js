@@ -10,13 +10,13 @@ import Header from './Header';
 const domNode = document.getElementById('root');
 const root = createRoot(domNode);
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Header />
-      <App />
-      <Footer />
-    </BrowserRouter>
-  </React.StrictMode>
+	<React.StrictMode>
+		<BrowserRouter>
+			<Header />
+			<App />
+			<Footer />
+		</BrowserRouter>
+	</React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
