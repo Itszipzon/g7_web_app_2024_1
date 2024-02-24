@@ -5,10 +5,21 @@ import CarCard from '../elements/CarCard';
 
 function Search() {
 
-	const [priceRangeValue, setPriceRangeValue] = useState(0);
+	const [priceMinRangeValue, setPriceMinRangeValue] = useState(0);
+	const [priceMaxRangeValue, setPriceMaxRangeValue] = useState(0);
 
-	const handlePriceRangeChange = (e) => {
-		setPriceRangeValue(e.target.value);
+	const handlePriceMinRangeChange = (e) => {
+		setPriceMinRangeValue(e.target.value);
+		if (e.target.value > priceMaxRangeValue) {
+			setPriceMaxRangeValue(e.target.value);
+		}
+	}
+
+	const handlePriceMaxRangeChange = (e) => {
+		setPriceMaxRangeValue(e.target.value);
+		if (e.target.value < priceMinRangeValue) {
+			setPriceMinRangeValue(e.target.value);
+		}
 	}
 
 	return (
@@ -72,10 +83,17 @@ function Search() {
 					</div>
 
 					<h1 style={{ "marginTop": "50px" }}>Price</h1>
-					<div className="checkBox">
-						<input onChange={handlePriceRangeChange} type='range' min='0' max='100000' step='25' value={priceRangeValue} id='priceRange' />
+					<div className="inputRangeHolder">
+						<input onChange={handlePriceMinRangeChange} type='range' min='0' max='100000' step='25' value={priceMinRangeValue} id='priceRange' />
+						<input onChange={handlePriceMaxRangeChange} type='range' min='0' max='100000' step='25' value={priceMaxRangeValue} id='priceRange' />
 					</div>
-					<input type='number' value={priceRangeValue} className='priceRangeInput' onChange={handlePriceRangeChange} />
+					<div className='priceRangeInputContainer'>
+						<label>Min:</label>
+						<input type='number' value={priceMinRangeValue} className='priceRangeInput' onChange={handlePriceMinRangeChange} />
+						<label>Max:</label>
+						<input type='number' value={priceMaxRangeValue} className='priceRangeInput' onChange={handlePriceMaxRangeChange} />
+					</div>
+
 				</div>
 
 				<div className="navMap">

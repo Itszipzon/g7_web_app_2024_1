@@ -85,6 +85,29 @@
     color: #90A3BF;
 }
 
+.searchPage .navSideBar .navSideSearch .inputRangeHolder{
+	display: flex;
+}
+
+.searchPage .navSideBar .navSideSearch .inputRangeHolder input{
+	width: 100%;
+}
+
+.searchPage .priceRangeInputContainer {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px
+
+}
+.searchPage .priceRangeInputContainer input {
+	border: 1px solid #90A3BF; 
+	background-color: #f6f7f9;
+	width: 100%;
+	font-size: 14px;
+	border-radius: 8px;
+
+}
+
 
 .searchPage .navSideBar .navMap {
     width: 100%;
