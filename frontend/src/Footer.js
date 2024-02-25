@@ -13,23 +13,23 @@ function Footer() {
 				</div>
 				<div className="footerCompany">
 					<h3>Company</h3>
-					<Link className="footerLink"><p>About Us</p></Link>
-					<Link className="footerLink"><p>Our Team</p></Link>
-					<Link className="footerLink"><p>Careers</p></Link>
-					<Link className="footerLink"><p>Privacy Policy</p></Link>
+					<Link to="/" className="footerLink"><p>About Us</p></Link>
+					<Link to="/" className="footerLink"><p>Our Team</p></Link>
+					<Link to="/" className="footerLink"><p>Careers</p></Link>
+					<Link to="/" className="footerLink"><p>Privacy Policy</p></Link>
 				</div>
 				<div className="footerFeatures">
 					<h3>Features</h3>
-					<Link className="footerLink"><p>New way of shopping</p></Link>
-					<Link className="footerLink"><p>Win prices</p></Link>
-					<Link className="footerLink"><p>Donate while shopping</p></Link>
+					<Link to="/" className="footerLink"><p>New way of shopping</p></Link>
+					<Link to="/" className="footerLink"><p>Win prices</p></Link>
+					<Link to="/" className="footerLink"><p>Donate while shopping</p></Link>
 				</div>
 				<div className="footerContact">
 					<h3>Contact</h3>
-					<Link className="footerLink"><p>Twitter</p></Link>
-					<Link className="footerLink"><p>Instagram</p></Link>
-					<Link className="footerLink"><p>Linkedin</p></Link>
-					<Link className="footerLink"><p>Email</p></Link>
+					<Link to="/" className="footerLink"><p>Twitter</p></Link>
+					<Link to="/" className="footerLink"><p>Instagram</p></Link>
+					<Link to="/" className="footerLink"><p>Linkedin</p></Link>
+					<Link to="/" className="footerLink"><p>Email</p></Link>
 				</div>
 				<div className="footerNewsletter">
 					<h3>Subscribe to our newsletter</h3>
