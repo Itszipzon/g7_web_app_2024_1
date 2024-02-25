@@ -26,7 +26,7 @@ function Search() {
 		<div className="searchPage">
 			<div className="navSideBar">
 				<div className="navSideSearch">
-					<h1>Type</h1>
+					<h1 style={{"marginTop" : "38px"}}>Type</h1>
 
 					<div className="checkBox">
 						<input type="checkbox" name="Sport" value="2" />
@@ -63,22 +63,22 @@ function Search() {
 
 					<div className="checkBox">
 						<input type="checkbox" name="2 persons" value="2" />
-						<label for="2 persons">2 persons</label>
+						<label for="2 persons">2 Seats</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
 						<input type="checkbox" name="4 persons" value="2" />
-						<label for="4 persons">4 persons</label>
+						<label for="4 persons">4 Seats</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
 						<input type="checkbox" name="5 persons" value="2" />
-						<label for="5 persons">5 persons</label>
+						<label for="5 persons">5 Seats</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
 						<input type="checkbox" name="6+ persons" value="2" />
-						<label for="6+ persons">6+ persons</label>
+						<label for="6+ persons">6+ Seats</label>
 						<label>(10)</label>
 					</div>
 
