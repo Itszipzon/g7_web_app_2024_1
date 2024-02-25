@@ -42,16 +42,19 @@ function Header() {
 						<Link to="/" className={"headerLink " + (activeHeader === "/" ? 'headerLinkActive' : '')}>
 							<div>Home</div>
 						</Link>
-						<Link to="/test" className={"headerLink " + (activeHeader.includes("/test") ? 'headerLinkActive' : '')}>
-							<div>Test</div>
+						<Link to="/search" className={"headerLink " + (activeHeader.includes("/search") ? 'headerLinkActive' : '')}>
+							<div>Search</div>
 						</Link>
-						<Link to="/testcar" className={"headerLink " + (activeHeader.includes("/test") ? 'headerLinkActive' : '')}>
-							<div>Test Car</div>
+						<Link to="/admin" className={"headerLink " + (activeHeader.includes("/admin") ? 'headerLinkActive' : '')}>
+							<div>Admin</div>
 						</Link>
 					</div>
-					<Link to="/login">
+					<Link className="headerUserIcon" to="/login">
 						<div className="headerLogin">
-							<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 32 32"><path fill="currentColor" d="M6 30h20v-5a7.008 7.008 0 0 0-7-7h-6a7.008 7.008 0 0 0-7 7zM9 9a7 7 0 1 0 7-7a7 7 0 0 0-7 7" /></svg>Login
+							<svg width="56" height="56" viewBox="0 0 49 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M41.213 44.7123C41.7744 44.5795 42.11 43.9992 41.9034 43.4607C40.739 40.4263 38.5792 37.7559 35.686 35.7961C32.4769 33.6222 28.545 32.4438 24.5 32.4438C20.455 32.4438 16.5231 33.6222 13.314 35.7961C10.4208 37.7559 8.26096 40.4263 7.09658 43.4607C6.88993 43.9992 7.22562 44.5795 7.78694 44.7123L15.292 46.4876C21.3471 47.92 27.6529 47.92 33.708 46.4876L41.213 44.7123Z" fill="#2C81C8" />
+								<ellipse cx="24.5" cy="18.5394" rx="10.2083" ry="11.5871" fill="#2C81C8" />
+							</svg>
 						</div>
 					</Link>
 				</div>

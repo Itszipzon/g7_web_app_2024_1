@@ -1,8 +1,9 @@
 .Header {
-    height: 50px;
+    height: 85.13px;
     width: 100%;
     --main-border: 0px 0px 6px 0px #000000;
     --main-background-color: white;
+		font-family: 'main';
 }
 
 .headerContainer {
@@ -11,7 +12,7 @@
     position:fixed;
     justify-content: center;
     width: 100%;
-    height: 50px;
+    height: 85.13px;
     box-shadow: var(--main-border);
     background-color: var(--main-background-color);
 }
@@ -19,14 +20,16 @@
 .headerContainer .headerContent {
     display: flex;
     position:fixed;
+		align-items: center;
     width: 1159px;
-    height: 50px;
+    height: 85.13px;
 }
 
 .Header .headerLinks {
     display: flex;
     justify-content: center;
     width: 100%;
+		font-size: 24px;
 }
 
 .Header .headerLinks .headerLink {
@@ -58,33 +61,27 @@
 }
 
 .Header .headerLogo {
-    height: 50px;
+    height: 74px;
 }
 
 .Header .logoContainer {
     position: absolute;
+		top: calc(50% - 37px);
     left: 0;
     display: flex;
     color: black;
-    font-size: large;
+    font-size: 24px;
     font-family: 'main';
     font-weight: bold;
 }
 
 .Header .headerContent .headerLogin {
     position: absolute;
-    display: flex;
+		display: flex;
+		justify-content: flex-start;
     right: 0;
-    height: 40px;
-    width: 120px;
-    top: 3.5px;
-    border-radius: 10px;
-    border: 1px solid grey;
-    color: black;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-weight: bold;
-    font-size: x-large;
-    font-family: "main";
+    top: calc(50% - 24px);
+		height: 56px;
+		width: 56px;
+		border-radius: 50%;
 }
