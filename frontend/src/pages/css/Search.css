@@ -45,9 +45,14 @@
     font-size: 24px;
 }
 
+.searchPage .navSideBar {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
 .searchPage .navSideBar .navSideSearch {
     width: 350px;
-    height: 862px;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -87,6 +92,7 @@
 
 .searchPage .navSideBar .navSideSearch .inputRangeHolder{
 	display: flex;
+	margin-right: 10px;
 }
 
 .searchPage .navSideBar .navSideSearch .inputRangeHolder input{
@@ -96,7 +102,8 @@
 .searchPage .priceRangeInputContainer {
 	display: flex;
 	justify-content: space-between;
-	gap: 10px
+	gap: 10px;
+	margin-right: 10px;
 
 }
 .searchPage .priceRangeInputContainer input {
@@ -114,4 +121,5 @@
     height: 692px;
     background-color: white;
     display: flex;
+		border-radius: 8px;
 }
