@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -241,8 +240,8 @@ public class Api {
    * @return all the users.
    */
   @GetMapping("get/users")
-  public ResponseEntity<Set<String>> getUsers() {
-    Set<String> jsonStringArray = new HashSet<>();
+  public ResponseEntity<List<String>> getUsers() {
+    List<String> jsonStringArray = new ArrayList<>();
 
     try {
       DatabaseCon con = new DatabaseCon();
@@ -277,8 +276,8 @@ public class Api {
    * @return all the locations.
    */
   @GetMapping("get/locations")
-  public ResponseEntity<Set<String>> getLocations() {
-    Set<String> jsonStringArray = new HashSet<>();
+  public ResponseEntity<List<String>> getLocations() {
+    List<String> jsonStringArray = new ArrayList<>();
 
     try {
       DatabaseCon con = new DatabaseCon();
@@ -309,12 +308,28 @@ public class Api {
    * @return all the cars.
    */
   @GetMapping("get/cars")
-  public ResponseEntity<Set<String>> getCars() {
-    Set<String> jsonStringArray = new HashSet<>();
+  public ResponseEntity<List<String>> getCars() {
+    List<String> jsonStringArray = new ArrayList<>();
 
     try {
       DatabaseCon con = new DatabaseCon();
-      ResultSet result = con.query("SELECT * FROM Car;");
+
+      String query = """
+          SELECT C.ID,
+            C.Maker,
+            C.Model,
+            C.Year,
+            C.Fuel,
+            C.Transmission,
+            C.Seats,
+            GROUP_CONCAT(E.Name) AS Extra_Names
+          FROM Car C
+          LEFT JOIN carExtras V ON C.ID = V.CID
+          LEFT JOIN Extras E ON V.EID = E.ID
+          GROUP BY C.ID, C.Maker, C.Model, C.Year, C.Fuel, C.Transmission, C.Seats;
+          """;
+
+      ResultSet result = con.query(query);
 
       while (result.next()) {
         JSONObject json = new JSONObject();
@@ -325,13 +340,7 @@ public class Api {
         json.put("Fuel", result.getString("Fuel"));
         json.put("Transmission", result.getString("Transmission"));
         json.put("Seats", result.getInt("Seats"));
-
-        JSONArray extras = new JSONArray();
-        String[] dbExtras = result.getString("Extras").split(", ");
-        for (String e : dbExtras) {
-          extras.put(e);
-        }
-        json.put("Extras", extras);
+        json.put("Extras", result.getString("Extra_Names"));
 
         jsonStringArray.add(json.toString());
       }
@@ -352,8 +361,8 @@ public class Api {
    * @return all the different makers of cars.
    */
   @GetMapping("get/cars/maker")
-  public ResponseEntity<Set<String>> getMakers() {
-    Set<String> jsonStringArray = new HashSet<>();
+  public ResponseEntity<List<String>> getMakers() {
+    List<String> jsonStringArray = new ArrayList<>();
 
     try {
       DatabaseCon con = new DatabaseCon();
@@ -379,8 +388,8 @@ public class Api {
    * @return all the different models of cars.
    */
   @GetMapping("get/cars/model")
-  public ResponseEntity<Set<String>> getModels() {
-    Set<String> jsonStringArray = new HashSet<>();
+  public ResponseEntity<List<String>> getModels() {
+    List<String> jsonStringArray = new ArrayList<>();
 
     try {
       DatabaseCon con = new DatabaseCon();
@@ -406,8 +415,8 @@ public class Api {
    * @return all the different years of cars.
    */
   @GetMapping("get/cars/year")
-  public ResponseEntity<Set<Integer>> getYears() {
-    Set<Integer> jsonStringArray = new HashSet<>();
+  public ResponseEntity<List<Integer>> getYears() {
+    List<Integer> jsonStringArray = new ArrayList<>();
 
     try {
       DatabaseCon con = new DatabaseCon();
@@ -433,8 +442,8 @@ public class Api {
    * @return all the different fuels of cars.
    */
   @GetMapping("get/cars/fuel")
-  public ResponseEntity<Set<String>> getFuels() {
-    Set<String> jsonStringArray = new HashSet<>();
+  public ResponseEntity<List<String>> getFuels() {
+    List<String> jsonStringArray = new ArrayList<>();
 
     try {
       DatabaseCon con = new DatabaseCon();
@@ -460,8 +469,8 @@ public class Api {
    * @return all the different transmissions of cars.
    */
   @GetMapping("get/cars/transmission")
-  public ResponseEntity<Set<String>> getTransmissions() {
-    Set<String> jsonStringArray = new HashSet<>();
+  public ResponseEntity<List<String>> getTransmissions() {
+    List<String> jsonStringArray = new ArrayList<>();
 
     try {
       DatabaseCon con = new DatabaseCon();
@@ -479,6 +488,53 @@ public class Api {
     }
 
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
+  }
+
+  /**
+   * Returns a car with given id.
+   *
+   * @param carId car id.
+   * @return a car with given id.
+   */
+  @GetMapping("get/car/{carId}")
+  public ResponseEntity<String> getCarById(@PathVariable String carId) {
+    String jsonString = "";
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+
+      String query = "SELECT "
+          + "C.ID, C.Maker, C.Model, C.Year, C.Fuel, C.Transmission, C.Seats, "
+          + "CASE WHEN COUNT(E.ID) > 0 THEN GROUP_CONCAT(E.Name) ELSE '' END AS Extra_Names "
+          + "FROM Car C "
+          + "LEFT JOIN carExtras V ON C.ID = V.CID "
+          + "LEFT JOIN Extras E ON V.EID = E.ID "
+          + "WHERE C.ID = " + carId + " "
+          + "GROUP BY C.ID, C.Maker, C.Model, C.Year, C.Fuel, C.Transmission, C.Seats;";
+
+      ResultSet result = con.query(query);
+
+      while (result.next()) {
+        JSONObject json = new JSONObject();
+        json.put("ID", result.getInt("ID"));
+        json.put("Maker", result.getString("Maker"));
+        json.put("Model", result.getString("Model"));
+        json.put("Year", result.getInt("Year"));
+        json.put("Fuel", result.getString("Fuel"));
+        json.put("Transmission", result.getString("Transmission"));
+        json.put("Seats", result.getInt("Seats"));
+        json.put("Extras", result.getString("Extra_Names"));
+        jsonString = json.toString();
+      }
+
+      result.close();
+      con.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return new ResponseEntity<>(jsonString, HttpStatus.OK);
   }
 
   /**
@@ -519,9 +575,10 @@ public class Api {
     try {
       DatabaseCon con = new DatabaseCon();
       String query = "SELECT C.Maker, C.Model, C.Year, C.Fuel, C.Transmission, "
-          + "C.Seats, C.Extras, L.Name, S.Price, P.StartDate, P.EndDate " + "FROM Car C "
+          + "C.Seats, E.Name, L.Name, S.Price, P.StartDate, P.EndDate " + "FROM Car C "
           + "JOIN Storage S ON C.ID = S.CID " + "JOIN Location L ON S.LID = L.ID "
-          + "LEFT JOIN PurchaseHistory P ON S.ID = P.SID";
+          + "JOIN Extras E ON C.ID = E.CID "
+          + "LEFT JOIN PurchaseHistory P ON S.ID = P.SID ";
 
       if (maker == null
           && model == null
@@ -649,4 +706,5 @@ public class Api {
     }
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
+
 }
