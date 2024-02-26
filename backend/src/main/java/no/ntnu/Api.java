@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -493,12 +495,14 @@ public class Api {
    * @param priceto      car price to.
    * @param datefrom     car date from.
    * @param dateto       car date to.
+   * @param orderby      What you wanna order the list after.
+   * @param orderdirection Direction of the order.
    * @return all the cars with certain filters.
    */
   @GetMapping("/car/filters")
-  public ResponseEntity<Set<String>> getCarFilters(@RequestParam(required = false) String maker,
+  public ResponseEntity<List<String>> getCarFilters(@RequestParam(required = false) String maker,
       @RequestParam(required = false) String model,
-      @RequestParam(required = false) Integer year,
+      @RequestParam(required = false) String year,
       @RequestParam(required = false) String fuel,
       @RequestParam(required = false) String transmission,
       @RequestParam(required = false) String seats,
@@ -506,9 +510,11 @@ public class Api {
       @RequestParam(required = false) String pricefrom,
       @RequestParam(required = false) String priceto,
       @RequestParam(required = false) String datefrom,
-      @RequestParam(required = false) String dateto) {
+      @RequestParam(required = false) String dateto,
+      @RequestParam(required = false) String orderby,
+      @RequestParam(required = false) String orderdirection) {
 
-    Set<String> jsonStringArray = new HashSet<>();
+    List<String> jsonStringArray = new ArrayList<>();
 
     try {
       DatabaseCon con = new DatabaseCon();
@@ -574,7 +580,51 @@ public class Api {
         if (dateto != null) {
           query += "'" + dateto + "' IS NOT BETWEEN P.StartDate AND P.EndDate AND ";
         }
-        query = query.substring(0, query.lastIndexOf("AND") - 1) + ";";
+
+        query = query.substring(0, query.lastIndexOf("AND") - 1);
+
+        if (orderby != null) {
+
+          String orderValue = "";
+
+          switch (orderby) {
+            case "maker":
+              orderValue = "C.Maker";
+              break;
+            case "model":
+              orderValue = "C.Model";
+              break;
+            case "year":
+              orderValue = "C.Year";
+              break;
+            case "seats":
+              orderValue = "C.Seats";
+              break;
+            case "price":
+              orderValue = "S.Price";
+              break;
+            default:
+              orderValue = "C.Maker";
+              break;
+          }
+
+          query += " ORDER BY " + orderValue + " ";
+          System.out.println("Orderdirection: " + orderdirection);
+          
+        } else {
+          query += "ORDER BY C.Maker ";
+        }
+
+        if (orderdirection != null) {
+          if (orderdirection.equalsIgnoreCase("desc")) {
+            query += "DESC;";
+          } else {
+            query += "ASC;";
+          }
+        } else {
+          query += "ASC;";
+        }
+
       }
 
       System.out.println(query);
