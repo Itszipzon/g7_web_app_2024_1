@@ -17,84 +17,66 @@ function Search() {
 	const [location, setLocation] = useState('');
 	const [dateFrom, setDateFrom] = useState('');
 	const [dateTo, setDateTo] = useState('');
-
-	const navigate = useNavigate();
-
-	const handleNavigate = () => {
-		let navigateString = "/search?";
-		if (maker !== '') {
-			navigateString += "maker=" + maker + "&";
-		}
-		if (model !== '') {
-			navigateString += "model=" + model + "&";
-		}
-		if (year !== '') {
-			navigateString += "year=" + year + "&";
-		}
-		if (body !== '') {
-			navigateString += "body=" + body + "&";
-		}
-		if (fuel !== '') {
-			navigateString += "fuel=" + fuel + "&";
-		}
-		if (transmission !== '') {
-			navigateString += "transmission=" + transmission + "&";
-		}
-		if (seats !== '') {
-			navigateString += "seats=" + seats + "&";
-		}
-		if (priceFrom !== '') {
-			navigateString += "pricefrom=" + priceFrom + "&";
-		}
-		if (priceTo !== '') {
-			navigateString += "priceto=" + priceTo + "&";
-		}
-		if (location !== '') {
-			navigateString += "location=" + location + "&";
-		}
-		if (dateFrom !== '') {
-			navigateString += "datefrom=" + dateFrom + "&";
-		}
-		if (dateTo !== '') {
-			navigateString += "dateto=" + dateTo + "&";
-		}
-		navigateString = navigateString.substring(0, navigateString.length - 1);
-		navigate(navigateString);
-	}
+	
+	useEffect(() => {
+		const urlSearchParams = new URLSearchParams(window.location.search);
+		setMaker(urlSearchParams.get('maker') || '');
+    setModel(urlSearchParams.get('model') || '');
+    setYear(urlSearchParams.get('year') || '');
+    setBody(urlSearchParams.get('body') || '');
+    setFuel(urlSearchParams.get('fuel') || '');
+    setTransmission(urlSearchParams.get('transmission') || '');
+    setSeats(urlSearchParams.get('seats') || '');
+    setPriceFrom(urlSearchParams.get('priceFrom') || '');
+    setPriceTo(urlSearchParams.get('priceTo') || '');
+    setLocation(urlSearchParams.get('location') || '');
+    setDateFrom(urlSearchParams.get('dateFrom') || '');
+    setDateTo(urlSearchParams.get('dateTo') || '');
+	}, []);
 
 	const handleSeatsChange = (e) => {
 		let seatsList = seats.split(',');
-		var trueValue = "";
-		if (seatsList.length > 0) {
-			if (seatsList.includes(e.target.value)) {
-				seatsList = seatsList.filter(item => item !== e.target.value);
-			} else {
-				seatsList.push(e.target.value);
-			}
+		const value = e.target.value;
+	
+		if (seatsList.includes(value)) {
+			seatsList = seatsList.filter(item => item !== value);
 		} else {
-			seatsList.push(e.target.value);
+			seatsList.push(value);
 		}
-
-		if (seatsList.join(',').charAt(0) === ',') {
-			trueValue = seatsList.join(',').substring(1);
-		} else {
-			trueValue = seatsList.join(',');
+	
+		let trueValue = seatsList.join(',');
+		if (trueValue.charAt(0) === ',') {
+			trueValue = trueValue.substring(1);
 		}
 		setSeats(trueValue);
-	}
-	
+		console.log(trueValue);
+		updateURLParams({ seats: trueValue });
+	};
 
-	const handlePriceMinRangeChange = (e) => {
-		setPriceFrom(e.target.value);
-	}
+  const handlePriceMinRangeChange = (e) => {
+    const value = e.target.value;
+    setPriceFrom(value);
+    updateURLParams({ priceFrom: value });
+  };
 
-	const handlePriceMaxRangeChange = (e) => {
-		setPriceTo(e.target.value);
-	}
+  const handlePriceMaxRangeChange = (e) => {
+    const value = e.target.value;
+    setPriceTo(value);
+    updateURLParams({ priceTo: value });
+  };
 
-	useEffect(() => {
-		handleNavigate();
-	}, [maker, model, year, body, fuel, transmission, seats, priceFrom, priceTo, location, dateFrom, dateTo]);
+  const updateURLParams = (paramsToUpdate) => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    Object.keys(paramsToUpdate).forEach(param => {
+      if (paramsToUpdate[param] === '') {
+        urlSearchParams.delete(param);
+      } else {
+        urlSearchParams.set(param, paramsToUpdate[param]);
+      }
+    });
+    const newURL = `${window.location.pathname}?${urlSearchParams.toString()}`;
+    window.history.pushState({}, '', newURL);
+  };
 
 	return (
 		<div className="searchPage">
@@ -136,22 +118,22 @@ function Search() {
 					<h1 style={{ "marginTop": "50px" }}>Capacity</h1>
 
 					<div className="checkBox">
-						<input onChange={handleSeatsChange} type="checkbox" name="2 persons" value="2" />
+						<input onChange={handleSeatsChange} checked={seats.includes('2')} type="checkbox" name="2 persons" value="2" />
 						<label htmlFor="2 persons">2 Seats</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
-						<input onChange={handleSeatsChange} type="checkbox" name="4 persons" value="4" />
+						<input onChange={handleSeatsChange} checked={seats.includes('4')} type="checkbox" name="4 persons" value="4" />
 						<label htmlFor="4 persons">4 Seats</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
-						<input onChange={handleSeatsChange} type="checkbox" name="5 persons" value="5" />
+						<input onChange={handleSeatsChange} checked={seats.includes('5')} type="checkbox" name="5 persons" value="5" />
 						<label htmlFor="5 persons">5 Seats</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
-						<input onChange={handleSeatsChange} type="checkbox" name="6+ persons" value="6" />
+						<input onChange={handleSeatsChange} checked={seats.includes('6')} type="checkbox" name="6+ persons" value="6" />
 						<label htmlFor="6+ persons">6+ Seats</label>
 						<label>(10)</label>
 					</div>
