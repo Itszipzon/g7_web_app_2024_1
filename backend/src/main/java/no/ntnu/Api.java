@@ -627,8 +627,6 @@ public class Api {
 
       }
 
-      System.out.println(query);
-
       ResultSet result = con.query(query);
 
       while (result.next()) {
