@@ -59,5 +59,6 @@ CREATE TABLE Images (
     CID INTEGER NOT NULL,
     Name VARCHAR(255),
     ImageNumber INTEGER NOT NULL,
+    ImageFromLink VARCHAR(255),
     FOREIGN KEY (CID) REFERENCES Car(ID)
 );
