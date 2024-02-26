@@ -1,3 +1,6 @@
+/*
+  Inserts the images for Volkswagen Golf
+*/
 INSERT INTO Images (CID, Name, ImageNumber, ImageFromLink)
 VALUES
   (1, '895_714866005.jpg', 0, "https://www.finn.no/car/used/ad.html?finnkode=339848895"),
@@ -31,3 +34,19 @@ VALUES
   (1, '895_268949906.jpg', 28, "https://www.finn.no/car/used/ad.html?finnkode=339848895"),
   (1, '895_1703132129.jpg', 29, "https://www.finn.no/car/used/ad.html?finnkode=339848895"),
   (1, '895_1643795835.jpg', 30, "https://www.finn.no/car/used/ad.html?finnkode=339848895");
+
+/*
+  Inserts the images for Tesla Model 3
+*/
+INSERT INTO Images (CID, Name, ImageNumber, ImageFromLink)
+VALUES
+  (2, "520_1278429446.jpg", 0, "https://www.finn.no/car/used/ad.html?finnkode=341595520"),
+  (2, "520_1273537388.jpg", 1, "https://www.finn.no/car/used/ad.html?finnkode=341595520"),
+  (2, "520_452096354.jpg", 2, "https://www.finn.no/car/used/ad.html?finnkode=341595520"),
+  (2, "520_95401575.jpg", 3, "https://www.finn.no/car/used/ad.html?finnkode=341595520"),
+  (2, "520_982692658.jpg", 4, "https://www.finn.no/car/used/ad.html?finnkode=341595520"),
+  (2, "520_124616383.jpg", 5, "https://www.finn.no/car/used/ad.html?finnkode=341595520"),
+  (2, "520_1186319069.jpg", 6, "https://www.finn.no/car/used/ad.html?finnkode=341595520"),
+  (2, "520_1601248923.jpg", 7, "https://www.finn.no/car/used/ad.html?finnkode=341595520"),
+  (2, "520_1375160052.jpg", 8, "https://www.finn.no/car/used/ad.html?finnkode=341595520"),
+  (2, "520_1214693673.jpg", 9, "https://www.finn.no/car/used/ad.html?finnkode=341595520")
