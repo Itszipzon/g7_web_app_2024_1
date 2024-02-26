@@ -30,8 +30,9 @@ public class DatabaseCon {
     System.out.println("resource: " + main.getResource("/static").toString());
     System.out.println("correct: " + Main.getCorrectUrl(main.getResource("/static").toString()));
     
-    env = Dotenv.configure().directory
-    (Main.getCorrectUrl(main.getResource("/static").toString()))
+    env = Dotenv.configure().directory(Main.getCorrectUrl(
+      main.getResource("/static").toString()
+      ))
     .filename(".env").load();
     this.url = env.get("DATABASE_URL"); // jdbc:mysql://localhost:3307/testcarrental
     this.dbUser = env.get("DATABASE_USERNAME");
@@ -79,6 +80,11 @@ public class DatabaseCon {
 
   }
 
+  /**
+   * Updates values in the database.
+   *
+   * @param query sql query.
+   */
   public void update(String query) {
     try {
 
