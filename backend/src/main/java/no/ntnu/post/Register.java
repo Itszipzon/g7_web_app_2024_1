@@ -37,8 +37,8 @@ public class Register {
     newUser.setSalt(saltString);
     newUser.setPassword(user.getPassword());
     newUser.setTerms(user.isTerms());
-    newUser.setGuest(user.isGuest());
-    newUser.setAdmin(user.isAdmin());
+    newUser.setGuest(false);
+    newUser.setAdmin(false);
 
     String query = "INSERT INTO Users (Email, Password, Salt, Terms, IsGuest, IsAdmin) VALUES ('"
         + newUser.getEmail()
