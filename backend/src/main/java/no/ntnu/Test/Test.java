@@ -283,4 +283,11 @@ public class Test {
 
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
+
+  @GetMapping("/search")
+  public ResponseEntity<String> testSearch(@RequestParam String first,
+      @RequestParam String second) {
+    return new ResponseEntity<>("First: " + first + " Second: " + second, HttpStatus.OK);
+  }
+
 }
