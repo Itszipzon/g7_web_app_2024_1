@@ -592,7 +592,8 @@ public class Api {
         c.Transmission,
         c.Seats,
         GROUP_CONCAT(e.Name) AS Extras,
-        MIN(s.Price) AS Lowest_Price
+        MIN(s.Price) AS Lowest_Price,
+        l.Name
     FROM
         Car c
     JOIN
@@ -601,6 +602,8 @@ public class Api {
         CarExtras ce ON c.ID = ce.CID
     LEFT JOIN
         Extras e ON ce.EID = e.ID
+    JOIN
+        Location l ON s.LID = l.ID
           """;
       if (maker != null
           || model != null
@@ -720,7 +723,6 @@ public class Api {
       }
 
       query += ";";
-      System.out.println("\n" + query + "\n");
       DatabaseCon con = new DatabaseCon();
       ResultSet result = con.query(query);
 
@@ -734,6 +736,7 @@ public class Api {
         json.put("Transmission", result.getString("C.Transmission"));
         json.put("Seats", result.getInt("C.Seats"));
         json.put("Price", result.getInt("Lowest_Price"));
+        json.put("Location", result.getString("L.Name"));
         jsonStringArray.add(json.toString());
       }
 

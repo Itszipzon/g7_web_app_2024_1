@@ -18,6 +18,8 @@ function Search() {
 	const [location, setLocation] = useState('');
 	const [dateFrom, setDateFrom] = useState('');
 	const [dateTo, setDateTo] = useState('');
+	const [orderBy, setOrderBy] = useState('');
+	const [order, setOrder] = useState('');
 
 	const [cars, setCars] = useState([]);
 
@@ -63,6 +65,12 @@ function Search() {
 		if (dateTo) {
 			urlParams += `dateto=${dateTo}&`;
 		}
+		if (orderBy) {
+			urlParams += `orderby=${orderBy}&`;
+		}
+		if (order) {
+			urlParams += `orderdirection=${order}&`;
+		}
 		return urlParams;
 	}
 	
@@ -79,6 +87,8 @@ function Search() {
     setLocation(urlSearchParams.get('location') || '');
     setDateFrom(urlSearchParams.get('dateFrom') || '');
     setDateTo(urlSearchParams.get('dateTo') || '');
+		setOrderBy(urlSearchParams.get('orderBy') || '');
+		setOrder(urlSearchParams.get('order') || '');
 	}, []);
 
 	const handleSeatsChange = (e) => {
