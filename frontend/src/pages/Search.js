@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import './css/Search.css';
-import { useNavigate } from 'react-router';
 import CarCard from '../elements/CarCard';
 import axios from 'axios';
 
@@ -25,56 +24,11 @@ function Search() {
 
 	const jsonValue = require('../information.json');
 
-	const urlSearchParams = new URLSearchParams(window.location.search);
 
-	const urlParams = () => {
-		let urlParams = '';
-		if (maker) {
-			urlParams += `maker=${maker}&`;
-		}
-		if (model) {
-			urlParams += `model=${model}&`;
-		}
-		if (year) {
-			urlParams += `year=${year}&`;
-		}
-/* 		if (body) {
-			urlParams += `body=${body}&`;
-		} */
-		if (fuel) {
-			urlParams += `fuel=${fuel}&`;
-		}
-		if (transmission) {
-			urlParams += `transmission=${transmission}&`;
-		}
-		if (seats) {
-			urlParams += `seats=${seats}&`;
-		}
-		if (priceFrom) {
-			urlParams += `pricefrom=${priceFrom}&`;
-		}
-		if (priceTo) {
-			urlParams += `priceto=${priceTo}&`;
-		}
-		if (location) {
-			urlParams += `location=${location}&`;
-		}
-		if (dateFrom) {
-			urlParams += `datefrom=${dateFrom}&`;
-		}
-		if (dateTo) {
-			urlParams += `dateto=${dateTo}&`;
-		}
-		if (orderBy) {
-			urlParams += `orderby=${orderBy}&`;
-		}
-		if (order) {
-			urlParams += `orderdirection=${order}&`;
-		}
-		return urlParams;
-	}
+	
 	
 	useEffect(() => {
+		const urlSearchParams = new URLSearchParams(window.location.search);
 		setMaker(urlSearchParams.get('maker') || '');
     setModel(urlSearchParams.get('model') || '');
     setYear(urlSearchParams.get('year') || '');
@@ -122,11 +76,59 @@ function Search() {
   };
 
 	useEffect(() => {
+
+		const urlParams = () => {
+			let urlParams = '';
+			if (maker) {
+				urlParams += `maker=${maker}&`;
+			}
+			if (model) {
+				urlParams += `model=${model}&`;
+			}
+			if (year) {
+				urlParams += `year=${year}&`;
+			}
+			 if (body) {
+				urlParams += `body=${body}&`;
+			}
+			if (fuel) {
+				urlParams += `fuel=${fuel}&`;
+			}
+			if (transmission) {
+				urlParams += `transmission=${transmission}&`;
+			}
+			if (seats) {
+				urlParams += `seats=${seats}&`;
+			}
+			if (priceFrom) {
+				urlParams += `pricefrom=${priceFrom}&`;
+			}
+			if (priceTo) {
+				urlParams += `priceto=${priceTo}&`;
+			}
+			if (location) {
+				urlParams += `location=${location}&`;
+			}
+			if (dateFrom) {
+				urlParams += `datefrom=${dateFrom}&`;
+			}
+			if (dateTo) {
+				urlParams += `dateto=${dateTo}&`;
+			}
+			if (orderBy) {
+				urlParams += `orderby=${orderBy}&`;
+			}
+			if (order) {
+				urlParams += `orderdirection=${order}&`;
+			}
+			return urlParams;
+		};
+
 		axios.get(jsonValue.serverAddress + 'api/car/filters?' + urlParams()).then((r) => {
 			const carsParsed = r.data.map((c) => JSON.parse(c));
 			setCars(carsParsed);
 		});
-	}, [seats, priceFrom, priceTo, location, dateFrom, dateTo, maker, model, year, body, fuel, transmission]);
+	}, [seats, priceFrom, priceTo, location, dateFrom, dateTo, maker, model, year, body, fuel, transmission, jsonValue, orderBy, order]);
 
   const updateURLParams = (paramsToUpdate) => {
     const urlSearchParams = new URLSearchParams(window.location.search);

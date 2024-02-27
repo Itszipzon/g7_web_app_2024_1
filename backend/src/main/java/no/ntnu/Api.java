@@ -669,8 +669,6 @@ public class Api {
             }
           }
           query += "C.Body IN (" + newBody + ") AND ";
-          /* 
-          query += "C.Body LIKE '%" + body + "%' AND "; */
           isAnd = true;
         }
         if (isAnd) {
@@ -725,7 +723,6 @@ public class Api {
       }
 
       query += ";";
-      System.out.println("\n" + query + "\n");
       DatabaseCon con = new DatabaseCon();
       ResultSet result = con.query(query);
 
