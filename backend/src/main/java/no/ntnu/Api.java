@@ -597,9 +597,9 @@ public class Api {
         Car c
     JOIN
         Storage s ON c.ID = s.CID
-    JOIN
+    LEFT JOIN
         CarExtras ce ON c.ID = ce.CID
-    JOIN
+    LEFT JOIN
         Extras e ON ce.EID = e.ID
           """;
       if (maker != null
@@ -615,20 +615,26 @@ public class Api {
           || dateto != null) {
             
         query += " WHERE ";
+        boolean isAnd = false;
         if (maker != null) {
           query += "C.Maker LIKE '%" + maker + "%' AND ";
+          isAnd = true;
         }
         if (model != null) {
           query += "C.Model LIKE '%" + model + "%' AND ";
+          isAnd = true;
         }
         if (year != null) {
           query += "C.Year = " + year + " AND ";
+          isAnd = true;
         }
         if (fuel != null) {
           query += "C.Fuel LIKE '%" + fuel + "%' AND ";
+          isAnd = true;
         }
         if (transmission != null) {
           query += "C.Transmission LIKE '%" + transmission + "%' AND ";
+          isAnd = true;
         }
         if (seats != null) {
           String[] seatsList = seats.split(",");
@@ -642,8 +648,8 @@ public class Api {
             }
           }
           query += "C.Seats IN (" + newSeats + ") AND ";
+          isAnd = true;
         }
-        boolean isAnd = false;
         if (location != null) {
           query += "L.Name LIKE '%" + location + "%' AND ";
           isAnd = true;
