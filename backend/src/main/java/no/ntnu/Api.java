@@ -635,17 +635,7 @@ public class Api {
           isAnd = true;
         }
         if (seats != null) {
-          String[] seatsList = seats.split(",");
-          String newSeats = "";
-          for (String s : seatsList) {
-            if (s.equals(seatsList[seatsList.length - 1])) {
-              newSeats += s;
-              break;
-            } else {
-              newSeats += s + ", ";
-            }
-          }
-          query += "C.Seats IN (" + newSeats + ") AND ";
+          query += "C.Seats IN (" + seats + ") AND ";
           isAnd = true;
         }
         if (location != null) {
@@ -653,11 +643,11 @@ public class Api {
           isAnd = true;
         }
         if (pricefrom != null) {
-          query += "S.Price >= " + pricefrom + " AND ";
+          query += "Lowest_Price >= " + pricefrom + " AND ";
           isAnd = true;
         }
         if (priceto != null) {
-          query += "S.Price <= " + priceto + " AND ";
+          query += "Lowest_Price <= " + priceto + " AND ";
           isAnd = true;
         }
         if (datefrom != null) {
@@ -669,7 +659,18 @@ public class Api {
           isAnd = true;
         }
         if (body != null) {
-          query += "C.Body LIKE '%" + body + "%' AND ";
+          String[] bodyArray = body.split(",");
+          String newBody = "";
+          for (var i = 0; i < bodyArray.length; i++) {
+            if (i == bodyArray.length - 1) {
+              newBody += "'" + bodyArray[i] + "'";
+            } else {
+              newBody += "'" + bodyArray[i] + "',";
+            }
+          }
+          query += "C.Body IN (" + newBody + ") AND ";
+          /* 
+          query += "C.Body LIKE '%" + body + "%' AND "; */
           isAnd = true;
         }
         if (isAnd) {
@@ -697,7 +698,10 @@ public class Api {
             orderValue = "C.Seats";
             break;
           case "price":
-            orderValue = "S.Price";
+            orderValue = "Lowest_Price";
+            break;
+          case "body":
+            orderValue = "C.Body";
             break;
           default:
             orderValue = "C.Maker";
@@ -721,6 +725,7 @@ public class Api {
       }
 
       query += ";";
+      System.out.println("\n" + query + "\n");
       DatabaseCon con = new DatabaseCon();
       ResultSet result = con.query(query);
 

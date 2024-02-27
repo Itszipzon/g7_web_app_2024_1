@@ -239,7 +239,7 @@ function Search() {
 								transmission={car.Transmission}
 								seats={car.Seats}
 								price={car.Price}
-								link="/search"
+								link={"/car/" + car.ID}
 							/>
 						</div>
 							)
