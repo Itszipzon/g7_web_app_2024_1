@@ -13,7 +13,7 @@ CREATE TABLE Car (
     Fuel VARCHAR(10) NOT NULL,
     Transmission VARCHAR(20) NOT NULL,
     Seats INTEGER NOT NULL,
-    Extras VARCHAR(255) NOT NULL
+    Body VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE Storage (
