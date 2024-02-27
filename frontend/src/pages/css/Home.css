@@ -154,13 +154,12 @@
 .Home .homePopularContent{
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    gap: 12px;
+    justify-content: space-between;
 }
 
 .Home .CarCards {
-    max-width: 280px;
-    max-height: 390px;
+    width: 280px;
+    height: 390px;
 }
 
 .Home .homeBodyContainer {

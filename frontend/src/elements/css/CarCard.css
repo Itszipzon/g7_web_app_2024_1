@@ -90,12 +90,14 @@
   width: 100%;
   align-items: center;
   bottom: 0;
+  margin-top: auto;
 }
 
 .CarCard .recommendedPriceText {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
+  width: 250px;
 }
 
 .CarCard .recommendedPrice h2 {
