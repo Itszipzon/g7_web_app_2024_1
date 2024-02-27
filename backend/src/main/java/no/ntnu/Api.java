@@ -573,26 +573,47 @@ public class Api {
     List<String> jsonStringArray = new ArrayList<>();
 
     try {
-      DatabaseCon con = new DatabaseCon();
-      String query = "SELECT C.Maker, C.Model, C.Year, C.Fuel, C.Transmission, "
-          + "C.Seats, E.Name, L.Name, S.Price, P.StartDate, P.EndDate " + "FROM Car C "
-          + "JOIN Storage S ON C.ID = S.CID " + "JOIN Location L ON S.LID = L.ID "
-          + "JOIN Extras E ON C.ID = E.CID "
-          + "LEFT JOIN PurchaseHistory P ON S.ID = P.SID ";
+/*       String query = "SELECT C.ID, C.Maker, C.Model, C.Year, C.Fuel, C.Transmission, "
+          + "C.Seats, E.Name, L.Name, S.Price, P.StartDate, P.EndDate "
+          + "FROM Car C "
+          + "JOIN Storage S ON C.ID = S.CID "
+          + "JOIN Location L ON S.LID = L.ID "
+          + "JOIN carExtras V ON C.ID = V.CID "
+          + "JOIN Extras E ON V.EID = E.ID "
+          + "LEFT JOIN PurchaseHistory P ON S.ID = P.SID "; */
 
-      if (maker == null
-          && model == null
-          && year == null
-          && fuel == null
-          && transmission == null
-          && seats == null
-          && location == null
-          && pricefrom == null
-          && priceto == null
-          && datefrom == null
-          && dateto == null) {
-        query += ";";
-      } else {
+      String query = """
+        SELECT
+        c.ID,
+        c.Maker,
+        c.Model,
+        c.Year,
+        c.Fuel,
+        c.Transmission,
+        c.Seats,
+        GROUP_CONCAT(e.Name) AS Extras,
+        MIN(s.Price) AS Lowest_Price
+    FROM
+        Car c
+    JOIN
+        Storage s ON c.ID = s.CID
+    JOIN
+        CarExtras ce ON c.ID = ce.CID
+    JOIN
+        Extras e ON ce.EID = e.ID
+          """;
+      if (maker != null
+          || model != null
+          || year != null
+          || fuel != null
+          || transmission != null
+          || seats != null
+          || location != null
+          || pricefrom != null
+          || priceto != null
+          || datefrom != null
+          || dateto != null) {
+            
         query += " WHERE ";
         if (maker != null) {
           query += "C.Maker LIKE '%" + maker + "%' AND ";
@@ -622,82 +643,91 @@ public class Api {
           }
           query += "C.Seats IN (" + newSeats + ") AND ";
         }
+        boolean isAnd = false;
         if (location != null) {
           query += "L.Name LIKE '%" + location + "%' AND ";
+          isAnd = true;
         }
         if (pricefrom != null) {
           query += "S.Price >= " + pricefrom + " AND ";
+          isAnd = true;
         }
         if (priceto != null) {
           query += "S.Price <= " + priceto + " AND ";
+          isAnd = true;
         }
         if (datefrom != null) {
           query += "'" + datefrom + "' IS NOT BETWEEN P.StartDate AND P.EndDate AND ";
+          isAnd = true;
         }
         if (dateto != null) {
           query += "'" + dateto + "' IS NOT BETWEEN P.StartDate AND P.EndDate AND ";
+          isAnd = true;
         }
-
-        query = query.substring(0, query.lastIndexOf("AND") - 1);
-
-        if (orderby != null) {
-
-          String orderValue = "";
-
-          switch (orderby) {
-            case "maker":
-              orderValue = "C.Maker";
-              break;
-            case "model":
-              orderValue = "C.Model";
-              break;
-            case "year":
-              orderValue = "C.Year";
-              break;
-            case "seats":
-              orderValue = "C.Seats";
-              break;
-            case "price":
-              orderValue = "S.Price";
-              break;
-            default:
-              orderValue = "C.Maker";
-              break;
-          }
-
-          query += " ORDER BY " + orderValue + " ";
-          System.out.println("Orderdirection: " + orderdirection);
-          
-        } else {
-          query += "ORDER BY C.Maker ";
+        if (isAnd) {
+          query = query.substring(0, query.lastIndexOf("AND") - 1);
         }
-
-        if (orderdirection != null) {
-          if (orderdirection.equalsIgnoreCase("desc")) {
-            query += "DESC;";
-          } else {
-            query += "ASC;";
-          }
-        } else {
-          query += "ASC;";
-        }
-
       }
 
+      query += "GROUP BY c.ID, c.Maker, c.Model, c.Year, c.Fuel, c.Transmission, c.Seats ";
+
+      if (orderby != null) {
+
+        String orderValue = "";
+
+        switch (orderby) {
+          case "maker":
+            orderValue = "C.Maker";
+            break;
+          case "model":
+            orderValue = "C.Model";
+            break;
+          case "year":
+            orderValue = "C.Year";
+            break;
+          case "seats":
+            orderValue = "C.Seats";
+            break;
+          case "price":
+            orderValue = "S.Price";
+            break;
+          default:
+            orderValue = "C.Maker";
+            break;
+        }
+
+        query += " ORDER BY " + orderValue + " ";
+        System.out.println("Orderdirection: " + orderdirection);
+        
+      } else {
+        query += "ORDER BY C.Maker ";
+      }
+
+      if (orderdirection != null) {
+        if (orderdirection.equalsIgnoreCase("desc")) {
+          query += "DESC";
+        } else {
+          query += "ASC";
+        }
+      } else {
+        query += "ASC";
+      }
+
+      query += ";";
+      System.out.println("\n" + query + "\n");
+      DatabaseCon con = new DatabaseCon();
       ResultSet result = con.query(query);
 
       while (result.next()) {
         JSONObject json = new JSONObject();
+        json.put("ID", result.getString("C.ID"));
         json.put("Maker", result.getString("C.Maker"));
         json.put("Model", result.getString("C.Model"));
         json.put("Year", result.getInt("C.Year"));
         json.put("Fuel", result.getString("C.Fuel"));
         json.put("Transmission", result.getString("C.Transmission"));
         json.put("Seats", result.getInt("C.Seats"));
-        json.put("Location", result.getString("L.Name"));
-        json.put("Price", result.getInt("S.Price"));
-        json.put("StartDate", result.getString("P.StartDate"));
-        json.put("EndDate", result.getString("P.EndDate"));
+        json.put("Price", result.getInt("Lowest_Price"));
         jsonStringArray.add(json.toString());
       }
 

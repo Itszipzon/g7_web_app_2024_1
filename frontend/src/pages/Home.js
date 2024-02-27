@@ -209,7 +209,7 @@ function Home() {
 	}
 
 	const handleSearchButtonClick = () => {
-		window.location.href = "/search?car=" + carNameValue + "&location=" + locationValue + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo;
+		window.location.href = "/search?location=" + locationValue + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo;
 	}
 
 	const handleReadMore = () => {

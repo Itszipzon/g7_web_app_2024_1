@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './css/Search.css';
 import { useNavigate } from 'react-router';
 import CarCard from '../elements/CarCard';
+import axios from 'axios';
 
 function Search() {
 
@@ -17,9 +18,55 @@ function Search() {
 	const [location, setLocation] = useState('');
 	const [dateFrom, setDateFrom] = useState('');
 	const [dateTo, setDateTo] = useState('');
+
+	const [cars, setCars] = useState([]);
+
+	const jsonValue = require('../information.json');
+
+	const urlSearchParams = new URLSearchParams(window.location.search);
+
+	const urlParams = () => {
+		let urlParams = '';
+		if (maker) {
+			urlParams += `maker=${maker}&`;
+		}
+		if (model) {
+			urlParams += `model=${model}&`;
+		}
+		if (year) {
+			urlParams += `year=${year}&`;
+		}
+/* 		if (body) {
+			urlParams += `body=${body}&`;
+		} */
+		if (fuel) {
+			urlParams += `fuel=${fuel}&`;
+		}
+		if (transmission) {
+			urlParams += `transmission=${transmission}&`;
+		}
+		if (seats) {
+			urlParams += `seats=${seats}&`;
+		}
+		if (priceFrom) {
+			urlParams += `pricefrom=${priceFrom}&`;
+		}
+		if (priceTo) {
+			urlParams += `priceto=${priceTo}&`;
+		}
+		if (location) {
+			urlParams += `location=${location}&`;
+		}
+		if (dateFrom) {
+			urlParams += `datefrom=${dateFrom}&`;
+		}
+		if (dateTo) {
+			urlParams += `dateto=${dateTo}&`;
+		}
+		return urlParams;
+	}
 	
 	useEffect(() => {
-		const urlSearchParams = new URLSearchParams(window.location.search);
 		setMaker(urlSearchParams.get('maker') || '');
     setModel(urlSearchParams.get('model') || '');
     setYear(urlSearchParams.get('year') || '');
@@ -49,7 +96,6 @@ function Search() {
 			trueValue = trueValue.substring(1);
 		}
 		setSeats(trueValue);
-		console.log(trueValue);
 		updateURLParams({ seats: trueValue });
 	};
 
@@ -64,6 +110,13 @@ function Search() {
     setPriceTo(value);
     updateURLParams({ priceTo: value });
   };
+
+	useEffect(() => {
+		axios.get(jsonValue.serverAddress + 'api/car/filters?' + urlParams()).then((r) => {
+			const carsParsed = r.data.map((c) => JSON.parse(c));
+			setCars(carsParsed);
+		});
+	}, [seats, priceFrom, priceTo, location, dateFrom, dateTo, maker, model, year, body, fuel, transmission]);
 
   const updateURLParams = (paramsToUpdate) => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -162,132 +215,25 @@ function Search() {
 			<div className="searchPageContainer">
 				<div className="searchCarContainer">
 					<div className="searchCarContent">
-						<div className='carCardHolder'>
-							<CarCard key={"a"}
+						{cars.map((car, index) => {
+							return (
+								<div className='carCardHolder' key={index}>
+									{console.log(car.ID)}
+							<CarCard
 								style={{ "Height": "390px", "Width": "280px" }}
-								src={""}
-								name="VolksWagen Golf"
+								src={jsonValue.serverAddress + 'api/car/img/' + car.ID}
+								name={car.Maker + ' ' + car.Model}
 								body="Hatchback"
-								fuel="Diesel"
-								year="2007"
-								transmission="Manual"
-								seats="5"
-								price="550"
-								link="/"
+								fuel={car.Fuel}
+								year={car.Year}
+								transmission={car.Transmission}
+								seats={car.Seats}
+								price={car.Price}
+								link="/search"
 							/>
 						</div>
-						<div className='carCardHolder'>
-							<CarCard key={"a"}
-								style={{ "Height": "390px", "Width": "280px" }}
-								src={""}
-								name="VolksWagen Golf"
-								body="Hatchback"
-								fuel="Diesel"
-								year="2007"
-								transmission="Manual"
-								seats="5"
-								price="550"
-								link="/"
-							/>
-						</div>
-						<div className='carCardHolder'>
-							<CarCard key={"a"}
-								style={{ "Height": "390px", "Width": "280px" }}
-								src={""}
-								name="VolksWagen Golf"
-								body="Hatchback"
-								fuel="Diesel"
-								year="2007"
-								transmission="Manual"
-								seats="5"
-								price="550"
-								link="/"
-							/>
-						</div>
-						<div className='carCardHolder'>
-							<CarCard key={"a"}
-								style={{ "Height": "390px", "Width": "280px" }}
-								src={""}
-								name="VolksWagen Golf"
-								body="Hatchback"
-								fuel="Diesel"
-								year="2007"
-								transmission="Manual"
-								seats="5"
-								price="550"
-								link="/"
-							/>
-						</div>
-						<div className='carCardHolder'>
-							<CarCard key={"a"}
-								style={{ "Height": "390px", "Width": "280px" }}
-								src={""}
-								name="VolksWagen Golf"
-								body="Hatchback"
-								fuel="Diesel"
-								year="2007"
-								transmission="Manual"
-								seats="5"
-								price="550"
-								link="/"
-							/>
-						</div>
-						<div className='carCardHolder'>
-							<CarCard key={"a"}
-								style={{ "Height": "390px", "Width": "280px" }}
-								src={""}
-								name="VolksWagen Golf"
-								body="Hatchback"
-								fuel="Diesel"
-								year="2007"
-								transmission="Manual"
-								seats="5"
-								price="550"
-								link="/"
-							/>
-						</div>
-						<div className='carCardHolder'>
-							<CarCard key={"a"}
-								style={{ "Height": "390px", "Width": "280px" }}
-								src={""}
-								name="VolksWagen Golf"
-								body="Hatchback"
-								fuel="Diesel"
-								year="2007"
-								transmission="Manual"
-								seats="5"
-								price="550"
-								link="/"
-							/>
-						</div>
-						<div className='carCardHolder'>
-							<CarCard key={"a"}
-								style={{ "Height": "390px", "Width": "280px" }}
-								src={""}
-								name="VolksWagen Golf"
-								body="Hatchback"
-								fuel="Diesel"
-								year="2007"
-								transmission="Manual"
-								seats="5"
-								price="550"
-								link="/"
-							/>
-						</div>
-						<div className='carCardHolder'>
-							<CarCard key={"a"}
-								style={{ "Height": "390px", "Width": "280px" }}
-								src={""}
-								name="VolksWagen Golf"
-								body="Hatchback"
-								fuel="Diesel"
-								year="2007"
-								transmission="Manual"
-								seats="5"
-								price="550"
-								link="/"
-							/>
-						</div>
+							)
+						})}
 
 					</div>
 				</div>
