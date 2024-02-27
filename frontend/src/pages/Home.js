@@ -181,10 +181,6 @@ function Home() {
 		}
 	}
 
-	/*     const handleSetPopularCars = () => {
-					setPopularCar([1, 2, 3, 4]);
-			} */
-
 	var validLocation = [];
 
 	const handleLocationSearchInputChange = (e) => {
@@ -275,7 +271,7 @@ function Home() {
 							return (
 								<div className="CarCards" key={item}>
 									<CarCard
-										src={jsonValue.serverAddress + "api/car/img/1"}
+										src={jsonValue.serverAddress + "api/car/img/" + item}
 										name="VolksWagen Golf"
 										body="Hatchback"
 										fuel="Diesel"

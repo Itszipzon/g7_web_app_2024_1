@@ -50,3 +50,44 @@ VALUES
   (2, "520_1601248923.jpg", 7, "https://www.finn.no/car/used/ad.html?finnkode=341595520"),
   (2, "520_1375160052.jpg", 8, "https://www.finn.no/car/used/ad.html?finnkode=341595520"),
   (2, "520_1214693673.jpg", 9, "https://www.finn.no/car/used/ad.html?finnkode=341595520")
+
+/*
+  Inserts the images for Tesla Model Y
+*/
+INSERT INTO Images (CID, Name, ImageNumber, ImageFromLink)
+VALUES
+  (3, "531_130953732.jpg", 0, "https://www.finn.no/car/used/ad.html?finnkode=341181531"),
+  (3, "531_45670903.jpg", 1, "https://www.finn.no/car/used/ad.html?finnkode=341181531"),
+  (3, "531_1793084796.jpg", 2, "https://www.finn.no/car/used/ad.html?finnkode=341181531"),
+  (3, "531_1482766087.jpg", 3, "https://www.finn.no/car/used/ad.html?finnkode=341181531"),
+  (3, "531_1595389688.jpg", 4, "https://www.finn.no/car/used/ad.html?finnkode=341181531"),
+  (3, "531_388817575.jpg", 5, "https://www.finn.no/car/used/ad.html?finnkode=341181531"),
+  (3, "531_24801744.jpg", 6, "https://www.finn.no/car/used/ad.html?finnkode=341181531"),
+  (3, "531_922338943.jpg", 7, "https://www.finn.no/car/used/ad.html?finnkode=341181531")
+
+/*
+  Inserts the images for Nissan Leaf
+*/
+
+INSERT INTO Images (CID, Name, ImageNumber, ImageFromLink)
+VALUES
+  (4, "114_1008743788.jpg", 0, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_1612728904.jpg", 1, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_1295235612.jpg", 2, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_1177613572.jpg", 3, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_1845302524.jpg", 4, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_858020857.jpg", 5, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_1059180452.jpg", 6, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_1834677324.jpg", 7, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_1712811819.jpg", 8, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_859193220.jpg", 9, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_511115884.jpg", 10, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_1733488889.jpg", 11, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_15504849.jpg", 12, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_667590580.jpg", 13, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_216908419.jpg", 14, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_216908419.jpg", 15, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_216908419.jpg", 16, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_1184979430.jpg", 17, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_383261537.jpg", 18, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_163163648.jpg", 19, "https://www.finn.no/car/used/ad.html?finnkode=340408114")
