@@ -560,6 +560,7 @@ public class Api {
       @RequestParam(required = false) String model,
       @RequestParam(required = false) String year,
       @RequestParam(required = false) String fuel,
+      @RequestParam(required = false) String body,
       @RequestParam(required = false) String transmission,
       @RequestParam(required = false) String seats,
       @RequestParam(required = false) String location,
@@ -573,14 +574,6 @@ public class Api {
     List<String> jsonStringArray = new ArrayList<>();
 
     try {
-/*       String query = "SELECT C.ID, C.Maker, C.Model, C.Year, C.Fuel, C.Transmission, "
-          + "C.Seats, E.Name, L.Name, S.Price, P.StartDate, P.EndDate "
-          + "FROM Car C "
-          + "JOIN Storage S ON C.ID = S.CID "
-          + "JOIN Location L ON S.LID = L.ID "
-          + "JOIN carExtras V ON C.ID = V.CID "
-          + "JOIN Extras E ON V.EID = E.ID "
-          + "LEFT JOIN PurchaseHistory P ON S.ID = P.SID "; */
 
       String query = """
         SELECT
@@ -591,6 +584,7 @@ public class Api {
         c.Fuel,
         c.Transmission,
         c.Seats,
+        c.Body,
         GROUP_CONCAT(e.Name) AS Extras,
         MIN(s.Price) AS Lowest_Price,
         l.Name
@@ -615,7 +609,8 @@ public class Api {
           || pricefrom != null
           || priceto != null
           || datefrom != null
-          || dateto != null) {
+          || dateto != null
+          || body != null) {
             
         query += " WHERE ";
         boolean isAnd = false;
@@ -673,6 +668,10 @@ public class Api {
           query += "'" + dateto + "' IS NOT BETWEEN P.StartDate AND P.EndDate AND ";
           isAnd = true;
         }
+        if (body != null) {
+          query += "C.Body LIKE '%" + body + "%' AND ";
+          isAnd = true;
+        }
         if (isAnd) {
           query = query.substring(0, query.lastIndexOf("AND") - 1);
         }
@@ -706,7 +705,6 @@ public class Api {
         }
 
         query += " ORDER BY " + orderValue + " ";
-        System.out.println("Orderdirection: " + orderdirection);
         
       } else {
         query += "ORDER BY C.Maker ";
@@ -735,6 +733,7 @@ public class Api {
         json.put("Fuel", result.getString("C.Fuel"));
         json.put("Transmission", result.getString("C.Transmission"));
         json.put("Seats", result.getInt("C.Seats"));
+        json.put("Body", result.getString("C.Body"));
         json.put("Price", result.getInt("Lowest_Price"));
         json.put("Location", result.getString("L.Name"));
         jsonStringArray.add(json.toString());
