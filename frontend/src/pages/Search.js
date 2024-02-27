@@ -227,7 +227,7 @@ function Search() {
 					<div className="searchCarContent">
 						{cars.map((car, index) => {
 							return (
-								<div className='carCardHolder' key={index}>
+								<div className='carCardHolder' key={index + "" + car.Maker}>
 									{console.log(car.ID)}
 							<CarCard
 								style={{ "Height": "390px", "Width": "280px" }}
