@@ -659,6 +659,7 @@ public class Api {
           isAnd = true;
         }
         if (body != null) {
+          System.out.println("Body: " + body);
           String[] bodyArray = body.split(",");
           String newBody = "";
           for (var i = 0; i < bodyArray.length; i++) {
@@ -724,6 +725,7 @@ public class Api {
 
       query += ";";
       DatabaseCon con = new DatabaseCon();
+      System.out.println("\n" + query + "\n");
       ResultSet result = con.query(query);
 
       while (result.next()) {

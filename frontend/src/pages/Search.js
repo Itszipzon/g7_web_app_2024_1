@@ -24,26 +24,71 @@ function Search() {
 
 	const jsonValue = require('../information.json');
 
+	useEffect(() => {
+		const handleURLChange = () => {
+			const urlSearchParams = new URLSearchParams(window.location.search);
+			setMaker(urlSearchParams.get('maker') || '');
+			setModel(urlSearchParams.get('model') || '');
+			setYear(urlSearchParams.get('year') || '');
+			setBody(urlSearchParams.get('body') || '');
+			setFuel(urlSearchParams.get('fuel') || '');
+			setTransmission(urlSearchParams.get('transmission') || '');
+			setSeats(urlSearchParams.get('seats') || '');
+			setPriceFrom(urlSearchParams.get('priceFrom') || '');
+			setPriceTo(urlSearchParams.get('priceTo') || '');
+			setLocation(urlSearchParams.get('location') || '');
+			setDateFrom(urlSearchParams.get('dateFrom') || '');
+			setDateTo(urlSearchParams.get('dateTo') || '');
+			setOrderBy(urlSearchParams.get('orderBy') || '');
+			setOrder(urlSearchParams.get('order') || '');
+			setParamsInitialized(true);
 
+		};
 	
+		handleURLChange();
+		window.addEventListener('popstate', handleURLChange);
+	
+		return () => {
+			window.removeEventListener('popstate', handleURLChange);
+		};
+	}, []);
+	
+	const [paramsInitialized, setParamsInitialized] = useState(false);
 	
 	useEffect(() => {
-		const urlSearchParams = new URLSearchParams(window.location.search);
-		setMaker(urlSearchParams.get('maker') || '');
-    setModel(urlSearchParams.get('model') || '');
-    setYear(urlSearchParams.get('year') || '');
-    setBody(urlSearchParams.get('body') || '');
-    setFuel(urlSearchParams.get('fuel') || '');
-    setTransmission(urlSearchParams.get('transmission') || '');
-    setSeats(urlSearchParams.get('seats') || '');
-    setPriceFrom(urlSearchParams.get('priceFrom') || '');
-    setPriceTo(urlSearchParams.get('priceTo') || '');
-    setLocation(urlSearchParams.get('location') || '');
-    setDateFrom(urlSearchParams.get('dateFrom') || '');
-    setDateTo(urlSearchParams.get('dateTo') || '');
-		setOrderBy(urlSearchParams.get('orderBy') || '');
-		setOrder(urlSearchParams.get('order') || '');
-	}, []);
+		if (paramsInitialized) {
+			fetchData();
+		}
+	}, [paramsInitialized]);
+	
+	const fetchData = () => {
+		const urlParams = new URLSearchParams();
+		if (maker) urlParams.set('maker', maker);
+		if (model) urlParams.set('model', model);
+		if (year) urlParams.set('year', year);
+		if (body) urlParams.set('body', body);
+		if (fuel) urlParams.set('fuel', fuel);
+		if (transmission) urlParams.set('transmission', transmission);
+		if (seats) urlParams.set('seats', seats);
+		if (priceFrom) urlParams.set('priceFrom', priceFrom);
+		if (priceTo) urlParams.set('priceTo', priceTo);
+		if (location) urlParams.set('location', location);
+		if (dateFrom) urlParams.set('dateFrom', dateFrom);
+		if (dateTo) urlParams.set('dateTo', dateTo);
+		if (orderBy) urlParams.set('orderBy', orderBy);
+		if (order) urlParams.set('order', order);
+	
+		const queryParams = urlParams.toString();
+	
+		axios.get(jsonValue.serverAddress + 'api/car/filters?' + queryParams)
+			.then((response) => {
+				const carsParsed = response.data.map((c) => JSON.parse(c));
+				setCars(carsParsed);
+			})
+			.catch((error) => {
+				console.error('Error fetching data:', error);
+			});
+	};
 
 	const handleSeatsChange = (e) => {
 		let seatsList = seats.split(',');
@@ -74,61 +119,6 @@ function Search() {
     setPriceTo(value);
     updateURLParams({ priceTo: value });
   };
-
-	useEffect(() => {
-
-		const urlParams = () => {
-			let urlParams = '';
-			if (maker) {
-				urlParams += `maker=${maker}&`;
-			}
-			if (model) {
-				urlParams += `model=${model}&`;
-			}
-			if (year) {
-				urlParams += `year=${year}&`;
-			}
-			 if (body) {
-				urlParams += `body=${body}&`;
-			}
-			if (fuel) {
-				urlParams += `fuel=${fuel}&`;
-			}
-			if (transmission) {
-				urlParams += `transmission=${transmission}&`;
-			}
-			if (seats) {
-				urlParams += `seats=${seats}&`;
-			}
-			if (priceFrom) {
-				urlParams += `pricefrom=${priceFrom}&`;
-			}
-			if (priceTo) {
-				urlParams += `priceto=${priceTo}&`;
-			}
-			if (location) {
-				urlParams += `location=${location}&`;
-			}
-			if (dateFrom) {
-				urlParams += `datefrom=${dateFrom}&`;
-			}
-			if (dateTo) {
-				urlParams += `dateto=${dateTo}&`;
-			}
-			if (orderBy) {
-				urlParams += `orderby=${orderBy}&`;
-			}
-			if (order) {
-				urlParams += `orderdirection=${order}&`;
-			}
-			return urlParams;
-		};
-
-		axios.get(jsonValue.serverAddress + 'api/car/filters?' + urlParams()).then((r) => {
-			const carsParsed = r.data.map((c) => JSON.parse(c));
-			setCars(carsParsed);
-		});
-	}, [seats, priceFrom, priceTo, location, dateFrom, dateTo, maker, model, year, body, fuel, transmission, jsonValue, orderBy, order]);
 
   const updateURLParams = (paramsToUpdate) => {
     const urlSearchParams = new URLSearchParams(window.location.search);
