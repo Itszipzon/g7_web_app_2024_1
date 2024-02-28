@@ -58,7 +58,6 @@ function AdminPage() {
 										],
 										innerRadius: 75,
 										outerRadius: 100,
-										startAngle: -90,
 										cornerRadius: 8,
 										paddingAngle: 1
 									},
