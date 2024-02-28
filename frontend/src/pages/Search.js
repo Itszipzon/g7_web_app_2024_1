@@ -90,6 +90,11 @@ function Search() {
 			});
 	};
 
+	useEffect(() => {
+
+		fetchData();
+	}, [seats, priceFrom, priceTo, location, dateFrom, dateTo, maker, model, year, body, fuel, transmission, jsonValue, orderBy, order]);
+
 	const handleSeatsChange = (e) => {
 		let seatsList = seats.split(',');
 		const value = e.target.value;
