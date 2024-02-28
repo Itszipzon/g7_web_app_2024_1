@@ -230,7 +230,6 @@ function Search() {
 						{cars.map((car, index) => {
 							return (
 								<div className='carCardHolder' key={index + "" + car.Maker}>
-									{console.log(car.ID)}
 							<CarCard
 								style={{ "Height": "390px", "Width": "280px" }}
 								src={jsonValue.serverAddress + 'api/car/img/' + car.ID}

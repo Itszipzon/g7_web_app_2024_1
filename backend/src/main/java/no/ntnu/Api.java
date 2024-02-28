@@ -555,7 +555,7 @@ public class Api {
    * @param orderdirection Direction of the order.
    * @return all the cars with certain filters.
    */
-  @GetMapping("/car/filters")
+  @GetMapping("car/filters")
   public ResponseEntity<List<String>> getCarFilters(@RequestParam(required = false) String maker,
       @RequestParam(required = false) String model,
       @RequestParam(required = false) String year,
@@ -747,4 +747,24 @@ public class Api {
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
 
+  @GetMapping("get/car/imagecount/{carId}")
+  public ResponseEntity<Integer> getAmountOfImages(@PathVariable String carId) {
+    int amount = 0;
+    try {
+      DatabaseCon con = new DatabaseCon();
+      ResultSet result = con.query("SELECT COUNT(*) FROM Images WHERE CID = " + carId + ";");
+
+      while (result.next()) {
+        amount = result.getInt(1);
+      }
+
+      result.close();
+      con.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return new ResponseEntity<>(amount, HttpStatus.OK);
+  }
 }
