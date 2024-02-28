@@ -77,3 +77,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 - react-router
 - react-router-dom
 - axios
+- @mui/material
+- @emotion/react
+- @emotion/styled
+- @mui/x-charts
