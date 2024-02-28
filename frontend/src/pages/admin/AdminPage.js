@@ -11,7 +11,6 @@ function AdminPage() {
 
 	const handleActiveItemChange = (index) => {
 		setActiveItem(index);
-		console.log(activeItem);
 	}
 
 	return (
