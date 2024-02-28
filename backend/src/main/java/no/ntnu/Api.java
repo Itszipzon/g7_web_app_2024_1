@@ -613,68 +613,49 @@ public class Api {
           || body != null) {
             
         query += " WHERE ";
-        boolean isAnd = false;
         if (maker != null) {
           query += "C.Maker LIKE '%" + maker + "%' AND ";
-          isAnd = true;
         }
         if (model != null) {
           query += "C.Model LIKE '%" + model + "%' AND ";
-          isAnd = true;
         }
         if (year != null) {
           query += "C.Year = " + year + " AND ";
-          isAnd = true;
         }
         if (fuel != null) {
-          query += "C.Fuel LIKE '%" + fuel + "%' AND ";
-          isAnd = true;
+          query += "C.Fuel IN (" + Tools.convertStringListSql(fuel, ",") + ") AND ";
         }
         if (transmission != null) {
           query += "C.Transmission LIKE '%" + transmission + "%' AND ";
-          isAnd = true;
         }
         if (seats != null) {
-          query += "C.Seats IN (" + seats + ") AND ";
-          isAnd = true;
+          query += "C.Seats IN (" + seats + ")";
+      
+          if (seats.contains("6")) {
+            query += " OR C.Seats > 6";
+          }
+          query += " AND ";
         }
         if (location != null) {
           query += "L.Name LIKE '%" + location + "%' AND ";
-          isAnd = true;
         }
         if (pricefrom != null) {
           query += "Lowest_Price >= " + pricefrom + " AND ";
-          isAnd = true;
         }
         if (priceto != null) {
           query += "Lowest_Price <= " + priceto + " AND ";
-          isAnd = true;
         }
         if (datefrom != null) {
           query += "'" + datefrom + "' IS NOT BETWEEN P.StartDate AND P.EndDate AND ";
-          isAnd = true;
         }
         if (dateto != null) {
           query += "'" + dateto + "' IS NOT BETWEEN P.StartDate AND P.EndDate AND ";
-          isAnd = true;
         }
         if (body != null) {
-          System.out.println("Body: " + body);
-          String[] bodyArray = body.split(",");
-          String newBody = "";
-          for (var i = 0; i < bodyArray.length; i++) {
-            if (i == bodyArray.length - 1) {
-              newBody += "'" + bodyArray[i] + "'";
-            } else {
-              newBody += "'" + bodyArray[i] + "',";
-            }
-          }
-          query += "C.Body IN (" + newBody + ") AND ";
-          isAnd = true;
+          query += "C.Body IN (" + Tools.convertStringListSql(body, ",") + ") AND ";
         }
-        if (isAnd) {
-          query = query.substring(0, query.lastIndexOf("AND") - 1);
-        }
+        
+        query = query.substring(0, query.lastIndexOf("AND"));
       }
 
       query += "GROUP BY c.ID, c.Maker, c.Model, c.Year, c.Fuel, c.Transmission, c.Seats ";

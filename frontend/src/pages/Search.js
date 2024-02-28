@@ -34,12 +34,12 @@ function Search() {
 			setFuel(urlSearchParams.get('fuel') || '');
 			setTransmission(urlSearchParams.get('transmission') || '');
 			setSeats(urlSearchParams.get('seats') || '');
-			setPriceFrom(urlSearchParams.get('priceFrom') || '');
-			setPriceTo(urlSearchParams.get('priceTo') || '');
+			setPriceFrom(urlSearchParams.get('pricefrom') || '');
+			setPriceTo(urlSearchParams.get('priceto') || '');
 			setLocation(urlSearchParams.get('location') || '');
-			setDateFrom(urlSearchParams.get('dateFrom') || '');
-			setDateTo(urlSearchParams.get('dateTo') || '');
-			setOrderBy(urlSearchParams.get('orderBy') || '');
+			setDateFrom(urlSearchParams.get('datefrom') || '');
+			setDateTo(urlSearchParams.get('dateto') || '');
+			setOrderBy(urlSearchParams.get('orderby') || '');
 			setOrder(urlSearchParams.get('order') || '');
 			setParamsInitialized(true);
 
@@ -70,12 +70,12 @@ function Search() {
 		if (fuel) urlParams.set('fuel', fuel);
 		if (transmission) urlParams.set('transmission', transmission);
 		if (seats) urlParams.set('seats', seats);
-		if (priceFrom) urlParams.set('priceFrom', priceFrom);
-		if (priceTo) urlParams.set('priceTo', priceTo);
+		if (priceFrom) urlParams.set('pricefrom', priceFrom);
+		if (priceTo) urlParams.set('priceto', priceTo);
 		if (location) urlParams.set('location', location);
-		if (dateFrom) urlParams.set('dateFrom', dateFrom);
-		if (dateTo) urlParams.set('dateTo', dateTo);
-		if (orderBy) urlParams.set('orderBy', orderBy);
+		if (dateFrom) urlParams.set('datefrom', dateFrom);
+		if (dateTo) urlParams.set('dateto', dateTo);
+		if (orderBy) urlParams.set('orderby', orderBy);
 		if (order) urlParams.set('order', order);
 	
 		const queryParams = urlParams.toString();
@@ -113,6 +113,24 @@ function Search() {
 		updateURLParams({ seats: trueValue });
 	};
 
+	const handleBodyTypeChange = (e) => {
+		let bodyList = body.split(',');
+		const value = e.target.value;
+	
+		if (bodyList.includes(value)) {
+			bodyList = bodyList.filter(item => item !== value);
+		} else {
+			bodyList.push(value);
+		}
+	
+		let trueValue = bodyList.join(',');
+		if (trueValue.charAt(0) === ',') {
+			trueValue = trueValue.substring(1);
+		}
+		setBody(trueValue);
+		updateURLParams({ body: trueValue });
+	};
+
   const handlePriceMinRangeChange = (e) => {
     const value = e.target.value;
     setPriceFrom(value);
@@ -143,34 +161,28 @@ function Search() {
 			<div className="navSideBar">
 				<div className="navSideSearch">
 					<h1 style={{"marginTop" : "38px"}}>Type</h1>
-
 					<div className="checkBox">
-						<input type="checkbox" name="Sport" value="sport" />
-						<label htmlFor="Sport">Sport</label>
-						<label>(10)</label>
-					</div>
-					<div className="checkBox">
-						<input type="checkbox" name="SUV" value="suv" />
+						<input type="checkbox" onClick={handleBodyTypeChange} checked={body.includes('suv')} name="SUV" value="suv" />
 						<label htmlFor="SUV">SUV</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
-						<input type="checkbox" name="Station wagon" value="station wagon" />
+						<input type="checkbox" onClick={handleBodyTypeChange} checked={body.includes('station wagon')} name="Station wagon" value="station wagon" />
 						<label htmlFor="Stationwagon">Station wagon</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
-						<input type="checkbox" name="Sedan" value="sedan" />
+						<input type="checkbox" onClick={handleBodyTypeChange} checked={body.includes('sedan')} name="Sedan" value="sedan" />
 						<label htmlFor="Sedan">Sedan</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
-						<input type="checkbox" name="Coupe" value="coupe" />
-						<label htmlFor="Coupe">Coupe</label>
+						<input type="checkbox" onClick={handleBodyTypeChange} checked={body.includes('van')} name="Van" value="van" />
+						<label htmlFor="Van">Van</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
-						<input type="checkbox" name="Hatchback" value="hatchback" />
+						<input type="checkbox" onClick={handleBodyTypeChange} checked={body.includes('hatchback')} name="Hatchback" value="hatchback" />
 						<label htmlFor="Hatchback">Hatchback</label>
 						<label>(10)</label>
 					</div>
@@ -195,6 +207,23 @@ function Search() {
 					<div className="checkBox">
 						<input onChange={handleSeatsChange} checked={seats.includes('6')} type="checkbox" name="6+ persons" value="6" />
 						<label htmlFor="6+ persons">6+ Seats</label>
+						<label>(10)</label>
+					</div>
+
+					<h1 style={{ "marginTop": "50px" }}>Fuel</h1>
+					<div className="checkBox">
+						<input type="checkbox" name="Petrol" value="petrol" />
+						<label htmlFor="Petrol">Petrol</label>
+						<label>(10)</label>
+					</div>
+					<div className="checkBox">
+						<input type="checkbox" name="Diesel" value="diesel" />
+						<label htmlFor="Diesel">Diesel</label>
+						<label>(10)</label>
+					</div>
+					<div className="checkBox">
+						<input type="checkbox" name="Electric" value="electric" />
+						<label htmlFor="Electric">Electric</label>
 						<label>(10)</label>
 					</div>
 
