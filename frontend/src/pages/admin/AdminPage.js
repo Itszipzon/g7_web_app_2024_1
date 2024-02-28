@@ -47,7 +47,6 @@ function AdminPage() {
 							<PieChart
 								width={220}
 								margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-								colors={['#0D3559', '#175D9C', '#2185DE', '#63A9E8', '#A6CEF2']}
 								series={[
 									{
 										data: [
