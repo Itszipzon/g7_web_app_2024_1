@@ -316,7 +316,7 @@ l-55 6 0 59 0 59 110 0 110 0 0 -71z m274 57 c28 -12 163 -102 190 -127 6 -5
 								<p>SUV</p>
 							</div>
 						</Link>
-						<Link to="/search?body=coupe" className="bodyLink">
+						<Link to="/search?body=hatchback" className="bodyLink">
 							<div className="bodyLinkContent">
 								<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
 									width="200.000000pt" height="200.000000pt" viewBox="0 0 200.000000 200.000000"
@@ -361,7 +361,7 @@ c36 -17 90 -48 120 -67 l55 -35 -292 0 -293 0 0 54 0 55 58 11 c31 7 62 14 67
 -4z"/>
 									</g>
 								</svg>
-								<p>Coupe</p>
+								<p>Hatchback</p>
 							</div>
 						</Link>
 						<Link to="/search?body=station wagon" className="bodyLink">
@@ -396,7 +396,7 @@ c36 -17 90 -48 120 -67 l55 -35 -292 0 -293 0 0 54 0 55 58 11 c31 7 62 14 67
 								<p>Station Wagon</p>
 							</div>
 						</Link>
-						<Link to="/search?body=cargo" className="bodyLink">
+						<Link to="/search?body=van" className="bodyLink">
 							<div className="bodyLinkContent">
 								<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
 									width="200.000000pt" height="200.000000pt" viewBox="0 0 200.000000 200.000000"
@@ -434,7 +434,7 @@ m140 5 c0 -4 -7 -18 -16 -30 -13 -18 -19 -21 -30 -11 -8 6 -14 20 -14 30 0 14
 -20 41 14 26 25 24 38 -6z"/>
 									</g>
 								</svg>
-								<p>Cargo</p>
+								<p>Van</p>
 							</div>
 						</Link>
 						<Link to="/search?body=sedan" className="bodyLink">
@@ -487,7 +487,7 @@ m-1215 268 c-14 -59 -247 -599 -262 -610 -12 -10 -70 -13 -207 -13 -244 1
 								<p>Sedan</p>
 							</div>
 						</Link>
-						<Link to="/search?body=pickup" className="bodyLink">
+						<Link to="/search" className="bodyLink">
 							<div className="bodyLinkContent">
 								<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
 									width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
@@ -520,10 +520,10 @@ l0 36 48 -6 c26 -3 119 -11 207 -18z"/>
 -228 228 -67 32 -82 36 -175 38 -55 1 -112 0 -126 -3z"/>
 									</g>
 								</svg>
-								<p>Pickup</p>
+								<p>???</p>
 							</div>
 						</Link>
-						<Link to="/search?body=sport" className="bodyLink">
+						<Link to="/search" className="bodyLink">
 							<div className="bodyLinkContent">
 								<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
 									width="200.000000pt" height="200.000000pt" viewBox="0 0 200.000000 200.000000"
@@ -548,7 +548,7 @@ m129 -37 c15 -10 22 -25 22 -46 0 -42 -25 -68 -66 -68 -57 0 -85 69 -44 110
 24 24 57 26 88 4z"/>
 									</g>
 								</svg>
-								<p>Sport/Luxury</p>
+								<p>???</p>
 							</div>
 						</Link>
 						<Link to="/search?body=others" className="bodyLink">

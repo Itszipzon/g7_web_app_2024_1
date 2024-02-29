@@ -552,7 +552,7 @@ public class Api {
    * @param datefrom     car date from.
    * @param dateto       car date to.
    * @param orderby      What you wanna order the list after.
-   * @param orderdirection Direction of the order.
+   * @param order Direction of the order.
    * @return all the cars with certain filters.
    */
   @GetMapping("car/filters")
@@ -569,7 +569,7 @@ public class Api {
       @RequestParam(required = false) String datefrom,
       @RequestParam(required = false) String dateto,
       @RequestParam(required = false) String orderby,
-      @RequestParam(required = false) String orderdirection) {
+      @RequestParam(required = false) String order) {
 
     List<String> jsonStringArray = new ArrayList<>();
 
@@ -694,8 +694,8 @@ public class Api {
         query += "ORDER BY C.Maker ";
       }
 
-      if (orderdirection != null) {
-        if (orderdirection.equalsIgnoreCase("desc")) {
+      if (order != null) {
+        if (order.equalsIgnoreCase("desc")) {
           query += "DESC";
         } else {
           query += "ASC";
