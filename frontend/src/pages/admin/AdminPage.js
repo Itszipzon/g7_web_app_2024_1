@@ -14,6 +14,19 @@ function AdminPage() {
 		setActiveItem(index);
 	}
 
+	const statusList= [
+		"Success",
+		"Pending",
+		"Rejected",
+		"Success",
+		"Pending",
+		"Rejected",
+		"Success",
+		"Pending",
+		"Rejected",
+		"Success"
+	]
+
 	return (
 		<div className="adminpage">
 			<div className='adminSelectContainer'>
@@ -66,9 +79,9 @@ function AdminPage() {
 											{ value: 197, color: '#63A9E8' },
 											{ value: 78, color: '#A6CEF2' },
 										],
-										innerRadius: 75,
+										innerRadius: 80,
 										outerRadius: 100,
-										cornerRadius: 8,
+										cornerRadius: 5,
 										paddingAngle: 1
 									},
 								]}
@@ -145,7 +158,7 @@ function AdminPage() {
 					<li>#1</li>
 					<li>#2</li>
 					<li>600,-</li>
-					<li>Success</li>
+					<li style={{"color" : statusColor(statusList[0])}}>{statusList[0]}</li>
 				</ul>
 				<ul className='adminTopPurchaseList'>
 					<li>#15267</li>
@@ -154,7 +167,7 @@ function AdminPage() {
 					<li>#1</li>
 					<li>#2</li>
 					<li>600,-</li>
-					<li>Success</li>
+					<li style={{"color" : statusColor(statusList[1])}}>{statusList[1]}</li>
 				</ul>
 				<ul className='adminTopPurchaseList'>
 					<li>#15267</li>
@@ -163,7 +176,7 @@ function AdminPage() {
 					<li>#1</li>
 					<li>#2</li>
 					<li>600,-</li>
-					<li>Success</li>
+					<li style={{"color" : statusColor(statusList[2])}}>{statusList[2]}</li>
 				</ul>
 				<ul className='adminTopPurchaseList'>
 					<li>#15267</li>
@@ -172,7 +185,7 @@ function AdminPage() {
 					<li>#1</li>
 					<li>#2</li>
 					<li>600,-</li>
-					<li>Success</li>
+					<li style={{"color" : statusColor(statusList[3])}}>{statusList[3]}</li>
 				</ul>
 				<ul className='adminTopPurchaseList'>
 					<li>#15267</li>
@@ -181,7 +194,7 @@ function AdminPage() {
 					<li>#1</li>
 					<li>#2</li>
 					<li>600,-</li>
-					<li>Success</li>
+					<li style={{"color" : statusColor(statusList[4])}}>{statusList[4]}</li>
 				</ul>
 				<ul className='adminTopPurchaseList'>
 					<li>#15267</li>
@@ -190,7 +203,7 @@ function AdminPage() {
 					<li>#1</li>
 					<li>#2</li>
 					<li>600,-</li>
-					<li>Success</li>
+					<li style={{"color" : statusColor(statusList[5])}}>{statusList[5]}</li>
 				</ul>
 				<ul className='adminTopPurchaseList'>
 					<li>#15267</li>
@@ -199,7 +212,7 @@ function AdminPage() {
 					<li>#1</li>
 					<li>#2</li>
 					<li>600,-</li>
-					<li>Success</li>
+					<li style={{"color" : statusColor(statusList[6])}}>{statusList[6]}</li>
 				</ul>
 				<ul className='adminTopPurchaseList'>
 					<li>#15267</li>
@@ -208,7 +221,7 @@ function AdminPage() {
 					<li>#1</li>
 					<li>#2</li>
 					<li>600,-</li>
-					<li>Success</li>
+					<li style={{"color" : statusColor(statusList[7])}}>{statusList[7]}</li>
 				</ul>
 				<ul className='adminTopPurchaseList'>
 					<li>#15267</li>
@@ -217,7 +230,7 @@ function AdminPage() {
 					<li>#1</li>
 					<li>#2</li>
 					<li>600,-</li>
-					<li>Success</li>
+					<li style={{"color" : statusColor(statusList[8])}}>{statusList[8]}</li>
 				</ul>
 				<ul className='adminTopPurchaseList'>
 					<li>#15267</li>
@@ -226,7 +239,7 @@ function AdminPage() {
 					<li>#1</li>
 					<li>#2</li>
 					<li>600,-</li>
-					<li>Success</li>
+					<li style={{"color" : statusColor(statusList[9])}}>{statusList[9]}</li>
 				</ul>
 				<div className='adminPurchaseHistoryBottom'>
 					<div className='adminPurchaseHistoryPerPage'>
@@ -267,6 +280,16 @@ function AdminPage() {
 		</div>
 	);
 
+}
+
+function statusColor(status) {
+	if (status === "Success") {
+		return "#0EAD69";
+	} else if (status === "Pending") {
+		return "#0978F2";
+	} else if (status === "Rejected") {
+		return "rgba(193, 11, 14, 0.8)";
+	}
 }
 
 export default AdminPage;
