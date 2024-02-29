@@ -12,9 +12,8 @@
 
 .Footer .footerContainer {
   display: flex;
-  width: 1250px;
-  gap: inherit;
-  justify-content: center;
+  width: 979px;
+  justify-content: space-between;
 }
 
 .Footer .footerLogo {
@@ -23,6 +22,7 @@
 
 .Footer .footerLink {
   color: #000;
+  width: fit-content;
   text-decoration: none;
 }
 
