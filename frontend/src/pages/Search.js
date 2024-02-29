@@ -167,27 +167,27 @@ function Search() {
 				<div className="navSideSearch">
 					<h1 style={{"marginTop" : "38px"}}>Type</h1>
 					<div className="checkBox">
-						<input type="checkbox" onClick={handleBodyTypeChange} checked={body.includes('suv')} name="SUV" value="suv" />
+						<input type="checkbox" onChange={handleBodyTypeChange} checked={body.includes('suv')} name="SUV" value="suv" />
 						<label htmlFor="SUV">SUV</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
-						<input type="checkbox" onClick={handleBodyTypeChange} checked={body.includes('station wagon')} name="Station wagon" value="station wagon" />
+						<input type="checkbox" onChange={handleBodyTypeChange} checked={body.includes('station wagon')} name="Station wagon" value="station wagon" />
 						<label htmlFor="Stationwagon">Station wagon</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
-						<input type="checkbox" onClick={handleBodyTypeChange} checked={body.includes('sedan')} name="Sedan" value="sedan" />
+						<input type="checkbox" onChange={handleBodyTypeChange} checked={body.includes('sedan')} name="Sedan" value="sedan" />
 						<label htmlFor="Sedan">Sedan</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
-						<input type="checkbox" onClick={handleBodyTypeChange} checked={body.includes('van')} name="Van" value="van" />
+						<input type="checkbox" onChange={handleBodyTypeChange} checked={body.includes('van')} name="Van" value="van" />
 						<label htmlFor="Van">Van</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
-						<input type="checkbox" onClick={handleBodyTypeChange} checked={body.includes('hatchback')} name="Hatchback" value="hatchback" />
+						<input type="checkbox" onChange={handleBodyTypeChange} checked={body.includes('hatchback')} name="Hatchback" value="hatchback" />
 						<label htmlFor="Hatchback">Hatchback</label>
 						<label>(10)</label>
 					</div>
