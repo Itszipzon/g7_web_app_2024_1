@@ -134,13 +134,13 @@ function Search() {
   const handlePriceMinRangeChange = (e) => {
     const value = e.target.value;
     setPriceFrom(value);
-    updateURLParams({ priceFrom: value });
+    updateURLParams({ pricefrom: value });
   };
 
   const handlePriceMaxRangeChange = (e) => {
     const value = e.target.value;
     setPriceTo(value);
-    updateURLParams({ priceTo: value });
+    updateURLParams({ priceto: value });
   };
 
   const updateURLParams = (paramsToUpdate) => {
@@ -195,6 +195,11 @@ function Search() {
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
+						<input onChange={handleSeatsChange} checked={seats.includes('3')} type="checkbox" name="3 persons" value="3" />
+						<label htmlFor="3 persons">3 Seats</label>
+						<label>(10)</label>
+					</div>
+					<div className="checkBox">
 						<input onChange={handleSeatsChange} checked={seats.includes('4')} type="checkbox" name="4 persons" value="4" />
 						<label htmlFor="4 persons">4 Seats</label>
 						<label>(10)</label>
@@ -229,8 +234,8 @@ function Search() {
 
 					<h1 style={{ "marginTop": "50px" }}>Price</h1>
 					<div className="inputRangeHolder">
-						<input onChange={handlePriceMinRangeChange} type='range' min='0' max='100000' step='25' value={priceFrom} id='priceRange' />
-						<input onChange={handlePriceMaxRangeChange} type='range' min='0' max='100000' step='25' value={priceTo} id='priceRange' />
+						<input onChange={handlePriceMinRangeChange} type='range' min='0' max='1500' step='10' value={priceFrom} id='priceRange' />
+						<input onChange={handlePriceMaxRangeChange} type='range' min='0' max='1500' step='10' value={priceTo} id='priceRange' />
 					</div>
 					<div className='priceRangeInputContainer'>
 						<label>Min:</label>
