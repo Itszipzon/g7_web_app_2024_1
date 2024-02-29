@@ -33,13 +33,33 @@ function LoginPage() {
 	return (
 		<div className="login-page">
 			<div className='login-container'>
-				{/* {username && <h1>Welcome {username}</h1>} */}
-				{username ? "Welcome " + username : "Please enter your name"}
-				<input type="text" value={username} onChange={handleUsernameChange} placeholder="Username" />
-				<input type="password" value={password} onChange={handlePasswordChange} placeholder="Password" />
-				<div onClick={onLoginButtonClick} className='login-button'>
-					login
-				</div>
+                <div className='header-text'>
+                    <h1>Welcome Back!</h1>
+                    <div className='paragraph'>
+                        <p>Enter your credentials to login.</p>
+                    </div>
+                   
+                </div>
+                
+                <div className='login-form'>
+                    <div className='login-input'>
+                        <p>Email</p>
+                        <div className='email-input'>
+                            <input type="text" value={username} onChange={handleUsernameChange} placeholder="Email" />
+                        </div>
+                        <p>Password</p>
+                        <div className='password-input'>
+                            <input type="password" value={password} onChange={handlePasswordChange} placeholder="Password" />
+                        </div>
+                        
+                        <div onClick={onLoginButtonClick} className='login-button'>
+                            Login
+                        </div>
+                    </div>
+
+
+                </div>
+                
 			</div>
 
 		</div>

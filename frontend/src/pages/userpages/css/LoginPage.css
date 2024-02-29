@@ -3,11 +3,68 @@
     height: 100%;
     display: grid;
     justify-content: center;
+    background-color: #f6f7f9;
+    font-family: 'main';
 
 
 }
 
+.login-page .header-text .paragraph{
+   
+    margin-top: -20px;
+}
+
 .login-page .login-container {
-    display: flex;
+    display: grid;
+}
+
+.login-page .login-container .login-form {
+    display: grid;
+    column-gap: 40px;
+    margin-top: 0px;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    width: 100%;
+}
+
+
+
+.login-page .login-container .login-form .login-input {
     
+
+    font-size: 14px;
+
+
+}
+
+.login-page .login-container .login-form .login-input .email-input input{
+    height: 52px;
+    width: 403px;
+    
+
+}
+
+.login-page .login-container .login-form .login-input .password-input input{
+    height: 52px;
+    width: 403px;
+   
+
+}
+
+.login-page .login-container .login-form .login-input .login-button{
+    width: 403;
+    height: 60;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2c81c8;
+    border-radius: 8px;
+    font-size: 20px;
+    font-family: main;
+    padding: 5px;
+    color: white;
+    margin-top: 44px;
+    
+
 }
