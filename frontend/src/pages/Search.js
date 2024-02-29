@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import './css/Search.css';
 import CarCard from '../elements/CarCard';
 import axios from 'axios';
@@ -24,44 +24,7 @@ function Search() {
 
 	const jsonValue = require('../information.json');
 
-	useEffect(() => {
-		const handleURLChange = () => {
-			const urlSearchParams = new URLSearchParams(window.location.search);
-			setMaker(urlSearchParams.get('maker') || '');
-			setModel(urlSearchParams.get('model') || '');
-			setYear(urlSearchParams.get('year') || '');
-			setBody(urlSearchParams.get('body') || '');
-			setFuel(urlSearchParams.get('fuel') || '');
-			setTransmission(urlSearchParams.get('transmission') || '');
-			setSeats(urlSearchParams.get('seats') || '');
-			setPriceFrom(urlSearchParams.get('pricefrom') || '');
-			setPriceTo(urlSearchParams.get('priceto') || '');
-			setLocation(urlSearchParams.get('location') || '');
-			setDateFrom(urlSearchParams.get('datefrom') || '');
-			setDateTo(urlSearchParams.get('dateto') || '');
-			setOrderBy(urlSearchParams.get('orderby') || '');
-			setOrder(urlSearchParams.get('order') || '');
-			setParamsInitialized(true);
-
-		};
-	
-		handleURLChange();
-		window.addEventListener('popstate', handleURLChange);
-	
-		return () => {
-			window.removeEventListener('popstate', handleURLChange);
-		};
-	}, []);
-	
-	const [paramsInitialized, setParamsInitialized] = useState(false);
-	
-	useEffect(() => {
-		if (paramsInitialized) {
-			fetchData();
-		}
-	}, [paramsInitialized]);
-	
-	const fetchData = () => {
+	const fetchData = useCallback(() => {
 		const urlParams = new URLSearchParams();
 		if (maker) urlParams.set('maker', maker);
 		if (model) urlParams.set('model', model);
@@ -88,12 +51,54 @@ function Search() {
 			.catch((error) => {
 				console.error('Error fetching data:', error);
 			});
-	};
+	}, [maker, model, year, body, fuel, transmission, seats, priceFrom, priceTo, location, dateFrom, dateTo, orderBy, order, jsonValue.serverAddress]);
+
+
+	useEffect(() => {
+		const handleURLChange = () => {
+			const urlSearchParams = new URLSearchParams(window.location.search);
+			setMaker(urlSearchParams.get('maker') || '');
+			setModel(urlSearchParams.get('model') || '');
+			setYear(urlSearchParams.get('year') || '');
+			setBody(urlSearchParams.get('body') || '');
+			setFuel(urlSearchParams.get('fuel') || '');
+			setTransmission(urlSearchParams.get('transmission') || '');
+			setSeats(urlSearchParams.get('seats') || '');
+			setPriceFrom(urlSearchParams.get('pricefrom') || '');
+			setPriceTo(urlSearchParams.get('priceto') || '');
+			setLocation(urlSearchParams.get('location') || '');
+			setDateFrom(urlSearchParams.get('datefrom') || '');
+			setDateTo(urlSearchParams.get('dateto') || '');
+			setOrderBy(urlSearchParams.get('orderby') || '');
+			setOrder(urlSearchParams.get('order') || '');
+			setParamsInitialized(true);
+
+		};
+
+		
+	
+		handleURLChange();
+		window.addEventListener('popstate', handleURLChange);
+	
+		return () => {
+			window.removeEventListener('popstate', handleURLChange);
+		};
+	}, []);
+	
+	const [paramsInitialized, setParamsInitialized] = useState(false);
+	
+	useEffect(() => {
+		if (paramsInitialized) {
+			fetchData();
+		}
+	}, [paramsInitialized, fetchData]);
+	
+
 
 	useEffect(() => {
 
 		fetchData();
-	}, [seats, priceFrom, priceTo, location, dateFrom, dateTo, maker, model, year, body, fuel, transmission, jsonValue, orderBy, order]);
+	}, [seats, priceFrom, priceTo, location, dateFrom, dateTo, maker, model, year, body, fuel, transmission, jsonValue, orderBy, order, fetchData]);
 
 	const handleSeatsChange = (e) => {
 		let seatsList = seats.split(',');
