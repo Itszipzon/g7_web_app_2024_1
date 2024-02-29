@@ -640,10 +640,10 @@ public class Api {
           query += "L.Name LIKE '%" + location + "%' AND ";
         }
         if (pricefrom != null) {
-          query += "Lowest_Price >= " + pricefrom + " AND ";
+          query += "s.Price >= " + pricefrom + " AND ";
         }
         if (priceto != null) {
-          query += "Lowest_Price <= " + priceto + " AND ";
+          query += "s.Price <= " + priceto + " AND ";
         }
         if (datefrom != null) {
           query += "'" + datefrom + "' IS NOT BETWEEN P.StartDate AND P.EndDate AND ";
