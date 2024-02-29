@@ -49,6 +49,8 @@ CREATE TABLE PurchaseHistory (
     SID INTEGER NOT NULL,
     StartDate DATE NOT NULL,
     EndDate DATE NOT NULL,
+    purchaseDate DATE NOT NULL,
+    status VARCHAR(20) NOT NULL,
     FOREIGN KEY (UID) REFERENCES User(ID),
     FOREIGN KEY (SID) REFERENCES Storage(ID)
 );
