@@ -227,7 +227,7 @@
 }
 
 .adminpage .adminPurchaseHistoryContainer .adminTopPurchaseUl li:hover {
-    background-color: #E4E7EB;
+    background-color: #F3F4F6;
     cursor: pointer;
 }
 
@@ -245,7 +245,7 @@
 }
 
 .adminpage .adminPurchaseHistoryContainer .adminTopPurchaseList:hover {
-    background-color:#E4E7EB;
+    background-color:#F3F4F6;
     cursor: pointer;
 }
 
