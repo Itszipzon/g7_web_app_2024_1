@@ -7,6 +7,8 @@ import axios from "axios";
 function AdminPage() {
 
 	const [activeItem, setActiveItem] = useState(0);
+	const [showPurchaseHistorySearch, setShowPurchaseHistorySearch] = useState(false);
+	const [purchaseHistorySearch, setPurchaseHistorySearch] = useState("");
 
 	const jsonValue = require('../../information.json');
 
@@ -14,17 +16,106 @@ function AdminPage() {
 		setActiveItem(index);
 	}
 
-	const statusList= [
-		"Success",
-		"Pending",
-		"Rejected",
-		"Success",
-		"Pending",
-		"Rejected",
-		"Success",
-		"Pending",
-		"Rejected",
-		"Success"
+	const handlePurchaseHistorySearchClick = () => {
+		setShowPurchaseHistorySearch(!showPurchaseHistorySearch);
+		setPurchaseHistorySearch("");
+	}
+
+	const handlePurchaseHistorySearchChange = (e) => {
+		setPurchaseHistorySearch(e.target.value);
+	}
+
+	const purchaseHistory = [
+		{
+			"orderID": "#15267",
+			"dateFrom": "Mar 1, 2023",
+			"dateTo": "Mar 10, 2023",
+			"carID": "#1",
+			"locationID": "#2",
+			"price": "600,-",
+			"status": "Success"
+		},
+		{
+			"orderID": "#15267",
+			"dateFrom": "Mar 1, 2023",
+			"dateTo": "Mar 10, 2023",
+			"carID": "#1",
+			"locationID": "#2",
+			"price": "600,-",
+			"status": "Pending"
+		},
+		{
+			"orderID": "#15267",
+			"dateFrom": "Mar 1, 2023",
+			"dateTo": "Mar 10, 2023",
+			"carID": "#1",
+			"locationID": "#2",
+			"price": "600,-",
+			"status": "Rejected"
+		},
+		{
+			"orderID": "#15267",
+			"dateFrom": "Mar 1, 2023",
+			"dateTo": "Mar 10, 2023",
+			"carID": "#1",
+			"locationID": "#2",
+			"price": "600,-",
+			"status": "Success"
+		},
+		{
+			"orderID": "#15267",
+			"dateFrom": "Mar 1, 2023",
+			"dateTo": "Mar 10, 2023",
+			"carID": "#1",
+			"locationID": "#2",
+			"price": "600,-",
+			"status": "Pending"
+		},
+		{
+			"orderID": "#15267",
+			"dateFrom": "Mar 1, 2023",
+			"dateTo": "Mar 10, 2023",
+			"carID": "#1",
+			"locationID": "#2",
+			"price": "600,-",
+			"status": "Rejected"
+		},
+		{
+			"orderID": "#15267",
+			"dateFrom": "Mar 1, 2023",
+			"dateTo": "Mar 10, 2023",
+			"carID": "#1",
+			"locationID": "#2",
+			"price": "600,-",
+			"status": "Success"
+		},
+		{
+			"orderID": "#15267",
+			"dateFrom": "Mar 1, 2023",
+			"dateTo": "Mar 10, 2023",
+			"carID": "#1",
+			"locationID": "#2",
+			"price": "600,-",
+			"status": "Pending"
+		},
+		{
+			"orderID": "#15267",
+			"dateFrom": "Mar 1, 2023",
+			"dateTo": "Mar 10, 2023",
+			"carID": "#1",
+			"locationID": "#2",
+			"price": "600,-",
+			"status": "Rejected"
+		},
+		{
+			"orderID": "#15267",
+			"dateFrom": "Mar 1, 2023",
+			"dateTo": "Mar 10, 2023",
+			"carID": "#1",
+			"locationID": "#2",
+			"price": "600,-",
+			"status": "Success"
+		}
 	]
 
 	return (
@@ -141,7 +232,21 @@ function AdminPage() {
 					</div>
 				</div>
 			</div>
+
 			<div className='adminPurchaseHistoryContainer'>
+				<div className='adminPurchaseHistorySearchButtonContainer'>
+					<div className='adminPurchaseHistorySearchButton' onClick={handlePurchaseHistorySearchClick}>
+						<svg fill="#ffffff" height="45px" width="45px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 490.4 490.4">
+							<g>
+								<path d="M484.1,454.796l-110.5-110.6c29.8-36.3,47.6-82.8,47.6-133.4c0-116.3-94.3-210.6-210.6-210.6S0,94.496,0,210.796
+			s94.3,210.6,210.6,210.6c50.8,0,97.4-18,133.8-48l110.5,110.5c12.9,11.8,25,4.2,29.2,0C492.5,475.596,492.5,463.096,484.1,454.796z
+			M41.1,210.796c0-93.6,75.9-169.5,169.5-169.5s169.6,75.9,169.6,169.5s-75.9,169.5-169.5,169.5S41.1,304.396,41.1,210.796z"/>
+							</g>
+						</svg>
+					</div>
+					<input value={purchaseHistorySearch} onChange={handlePurchaseHistorySearchChange} style={showPurchaseHistorySearch ? { "display": "block" } : { "display": "none" }} type='text' placeholder='Search...' />
+				</div>
 				<ul className='adminTopPurchaseUl'>
 					<li>Order ID</li>
 					<li>Date From</li>
@@ -151,96 +256,19 @@ function AdminPage() {
 					<li>Price</li>
 					<li>Status</li>
 				</ul>
-				<ul className='adminTopPurchaseList'>
-					<li>#15267</li>
-					<li>Mar 1, 2023</li>
-					<li>Mar 10, 2023</li>
-					<li>#1</li>
-					<li>#2</li>
-					<li>600,-</li>
-					<li style={{"color" : statusColor(statusList[0])}}>{statusList[0]}</li>
-				</ul>
-				<ul className='adminTopPurchaseList'>
-					<li>#15267</li>
-					<li>Mar 1, 2023</li>
-					<li>Mar 10, 2023</li>
-					<li>#1</li>
-					<li>#2</li>
-					<li>600,-</li>
-					<li style={{"color" : statusColor(statusList[1])}}>{statusList[1]}</li>
-				</ul>
-				<ul className='adminTopPurchaseList'>
-					<li>#15267</li>
-					<li>Mar 1, 2023</li>
-					<li>Mar 10, 2023</li>
-					<li>#1</li>
-					<li>#2</li>
-					<li>600,-</li>
-					<li style={{"color" : statusColor(statusList[2])}}>{statusList[2]}</li>
-				</ul>
-				<ul className='adminTopPurchaseList'>
-					<li>#15267</li>
-					<li>Mar 1, 2023</li>
-					<li>Mar 10, 2023</li>
-					<li>#1</li>
-					<li>#2</li>
-					<li>600,-</li>
-					<li style={{"color" : statusColor(statusList[3])}}>{statusList[3]}</li>
-				</ul>
-				<ul className='adminTopPurchaseList'>
-					<li>#15267</li>
-					<li>Mar 1, 2023</li>
-					<li>Mar 10, 2023</li>
-					<li>#1</li>
-					<li>#2</li>
-					<li>600,-</li>
-					<li style={{"color" : statusColor(statusList[4])}}>{statusList[4]}</li>
-				</ul>
-				<ul className='adminTopPurchaseList'>
-					<li>#15267</li>
-					<li>Mar 1, 2023</li>
-					<li>Mar 10, 2023</li>
-					<li>#1</li>
-					<li>#2</li>
-					<li>600,-</li>
-					<li style={{"color" : statusColor(statusList[5])}}>{statusList[5]}</li>
-				</ul>
-				<ul className='adminTopPurchaseList'>
-					<li>#15267</li>
-					<li>Mar 1, 2023</li>
-					<li>Mar 10, 2023</li>
-					<li>#1</li>
-					<li>#2</li>
-					<li>600,-</li>
-					<li style={{"color" : statusColor(statusList[6])}}>{statusList[6]}</li>
-				</ul>
-				<ul className='adminTopPurchaseList'>
-					<li>#15267</li>
-					<li>Mar 1, 2023</li>
-					<li>Mar 10, 2023</li>
-					<li>#1</li>
-					<li>#2</li>
-					<li>600,-</li>
-					<li style={{"color" : statusColor(statusList[7])}}>{statusList[7]}</li>
-				</ul>
-				<ul className='adminTopPurchaseList'>
-					<li>#15267</li>
-					<li>Mar 1, 2023</li>
-					<li>Mar 10, 2023</li>
-					<li>#1</li>
-					<li>#2</li>
-					<li>600,-</li>
-					<li style={{"color" : statusColor(statusList[8])}}>{statusList[8]}</li>
-				</ul>
-				<ul className='adminTopPurchaseList'>
-					<li>#15267</li>
-					<li>Mar 1, 2023</li>
-					<li>Mar 10, 2023</li>
-					<li>#1</li>
-					<li>#2</li>
-					<li>600,-</li>
-					<li style={{"color" : statusColor(statusList[9])}}>{statusList[9]}</li>
-				</ul>
+				{purchaseHistory.map((p, i) => {
+					return (
+						<ul className='adminTopPurchaseList'>
+							<li>{p.orderID}</li>
+							<li>{p.dateFrom}</li>
+							<li>{p.dateTo}</li>
+							<li>{p.carID}</li>
+							<li>{p.locationID}</li>
+							<li>{p.price}</li>
+							<li style={{ "color": statusColor(p.status) }}>{p.status}</li>
+						</ul>
+					)
+				})}
 				<div className='adminPurchaseHistoryBottom'>
 					<div className='adminPurchaseHistoryPerPage'>
 						<select>
