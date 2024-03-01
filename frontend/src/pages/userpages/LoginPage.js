@@ -34,7 +34,7 @@ function LoginPage() {
 	}
 
 	useEffect(() => {
-		localStorage.clear();
+		localStorage.removeItem("UIDtoken");
 	});
 
 	return (
