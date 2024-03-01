@@ -30,12 +30,12 @@ CREATE TABLE User (
     Name VARCHAR(50) NOT NULL,
     Email VARCHAR(255) NOT NULL,
     Password VARCHAR(255) NOT NULL,
+    Salt VARCHAR(255) NOT NULL,
     PhoneNumber VARCHAR(20) NOT NULL,
     Address VARCHAR(255) NOT NULL,
     Terms BOOLEAN NOT NULL,
     IsGuest BOOLEAN NOT NULL DEFAULT 0,
     IsAdmin BOOLEAN NOT NULL DEFAULT 0,
-    Salt VARCHAR(255) NOT NULL,
     DateCreated DATE DEFAULT CURRENT_DATE,
     CONSTRAINT guest_rule CHECK (
         (Password = '' OR Password IS NULL) AND IsGuest = 1 OR 
