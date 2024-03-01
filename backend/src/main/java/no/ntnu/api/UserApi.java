@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import no.ntnu.DatabaseCon;
 import no.ntnu.user.SessionManager;
-
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
