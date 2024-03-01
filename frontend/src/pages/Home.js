@@ -6,16 +6,9 @@ import CarCard from "../elements/CarCard";
 
 function Home() {
 
-	const carNameRef = useRef(null);
 	const locationRef = useRef(null);
 
 	const [popularCar, setPopularCar] = useState([1, 2, 3, 4]);
-
-	const [carinputMarked, setCarinputMarked] = useState(false);
-	const [carsearchItems, setCarsearchItems] = useState([]);
-	const [carNameValue, setCarNameValue] = useState("");
-	const [carSelected, setCarSelected] = useState(0);
-	const [carDb, setCarDb] = useState([]);
 
 	const [locationinputMarked, setLocationinputMarked] = useState(false);
 	const [locationsearchItems, setLocationsearchItems] = useState([]);
@@ -23,35 +16,12 @@ function Home() {
 	const [locationSelected, setLocationSelected] = useState(0);
 	const [locationDb, setLocationDb] = useState([]);
 
-	const [isValidCar, setIsValidCar] = useState(false);
-
 	const [dateFrom, setDateFrom] = useState("");
 	const [dateTo, setDateTo] = useState("");
 
 	const jsonValue = require("../information.json");
 
 	const [readMore, setReadMore] = useState(false);
-
-	const handleCarNameInputFocus = () => {
-		setCarSelected(0);
-		setCarinputMarked(true);
-	}
-
-	const handleCarNameInputBlur = () => {
-		setTimeout(() => {
-			setCarinputMarked(false);
-		}, 130);
-	}
-
-
-	const handleCarNameClick = (e) => {
-		handleCarNameSearchInputChange({ target: { value: e } });
-
-		axios.get(jsonValue.serverAddress + "api/search/location/" + e).then(response => {
-			const locationsParsed = response.data.map(l => JSON.parse(l));
-			setLocationDb(locationsParsed);
-		});
-	}
 
 	const handleLocationInputFocus = () => {
 		setLocationSelected(0);
@@ -66,40 +36,19 @@ function Home() {
 
 	const handleLocationClick = (val) => {
 		setLocationValue(val);
-		axios.get(jsonValue.serverAddress + "api/search/car/" + val).then(response => {
-			const carsParsed = response.data.map(c => JSON.parse(c));
-			setCarDb(carsParsed);
-		});
 	}
 
-	let validCarNames = [];
 
 	useEffect(() => {
-		if (!carNameValue) {
-			axios.get(jsonValue.serverAddress + "api/search/location/" + carNameValue).then(response => {
+			axios.get(jsonValue.serverAddress + "api/search/location/").then(response => {
 				const locationsParsed = response.data.map(l => JSON.parse(l));
 				setLocationDb(locationsParsed);
 			});
-		}
-	}, [carNameValue, jsonValue]);
-
-	useEffect(() => {
-		if (!locationValue) {
-			axios.get(jsonValue.serverAddress + "api/search/car/" + locationValue).then(response => {
-				const carsParsed = response.data.map(c => JSON.parse(c));
-				setCarDb(carsParsed);
-			});
-		}
-	}, [locationValue, jsonValue]);
+	}, [jsonValue]);
 
 	useEffect(() => {
 		setLocationsearchItems(locationDb);
-		setCarsearchItems(carDb);
-	}, [carDb, locationDb]);
-
-	/*     useEffect(() => {
-					handleSetPopularCars();
-			}, [popularCar]) */
+	}, [locationDb]);
 
 	const scrollIfNeeded = (listRef, index) => {
 		if (listRef.current && index >= 0) {
@@ -113,21 +62,13 @@ function Home() {
 
 	const handleButtonPress = (e) => {
 		if (e.key === "Enter") {
-			if (carinputMarked) {
-				handleCarNameInputBlur();
-				handleCarNameClick(carsearchItems[carSelected].Maker + " " + carsearchItems[carSelected].Model);
-			} else if (locationinputMarked) {
+			if (locationinputMarked) {
 				handleLocationInputBlur();
 				handleLocationClick(locationsearchItems[locationSelected].LocationName);
 			}
 
 		} else if (e.key === "ArrowDown") {
-			if (carinputMarked) {
-				if (carSelected < carsearchItems.length - 1) {
-					scrollIfNeeded(carNameRef, carSelected + 1);
-					setCarSelected(carSelected + 1);
-				}
-			} else if (locationinputMarked) {
+			if (locationinputMarked) {
 				if (locationSelected < locationsearchItems.length - 1) {
 					scrollIfNeeded(locationRef, locationSelected + 1);
 					setLocationSelected(locationSelected + 1);
@@ -135,13 +76,7 @@ function Home() {
 
 			}
 		} else if (e.key === "ArrowUp") {
-			if (carinputMarked) {
-				if (carSelected > 0) {
-					scrollIfNeeded(carNameRef, carSelected - 1);
-					setCarSelected(carSelected - 1);
-				}
-
-			} else if (locationinputMarked) {
+			if (locationinputMarked) {
 				if (locationSelected > 0) {
 					scrollIfNeeded(locationRef, locationSelected - 1);
 					setLocationSelected(locationSelected - 1);
@@ -156,30 +91,6 @@ function Home() {
 			document.removeEventListener("keydown", handleButtonPress);
 		});
 	});
-
-	const handleCarNameSearchInputChange = (e) => {
-		handleCarNameInputFocus();
-		setLocationSelected(0);
-		let searchTerm = e.target.value;
-		let validItemCounter = 0;
-		validCarNames = [];
-		for (let i = 0; i < carDb.length; i++) {
-			if ((carDb[i].Maker + " " + carDb[i].Model).toLowerCase().includes(searchTerm.toLowerCase())) {
-				validCarNames[validItemCounter] = carDb[i];
-				validItemCounter++;
-			}
-		}
-		validCarNames.sort((a, b) => customSort((a.Maker + " " + a.Model), (b.Maker + " " + b.Model), searchTerm));
-		setCarsearchItems(validCarNames);
-		setCarNameValue(searchTerm);
-		for (let i = 0; i < validCarNames.length; i++) {
-			if ((validCarNames[i].Maker + " " + validCarNames[i].Model).toLowerCase() === searchTerm.toLowerCase()) {
-				setIsValidCar(true);
-			} else {
-				setIsValidCar(false);
-			}
-		}
-	}
 
 	var validLocation = [];
 
@@ -239,9 +150,6 @@ function Home() {
 												</div>
 												<div className="searchHomeLocationContainerMid">
 													{item.LocationAddress}
-												</div>
-												<div className="searchHomeLocationContainerBot">
-													{isValidCar ? (item.IsAvailable ? "🟢 Available" : "🔴 Not available") : ""}
 												</div>
 											</div>
 										</div>
@@ -318,47 +226,28 @@ l-55 6 0 59 0 59 110 0 110 0 0 -71z m274 57 c28 -12 163 -102 190 -127 6 -5
 						</Link>
 						<Link to="/search?body=hatchback" className="bodyLink">
 							<div className="bodyLinkContent">
-								<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-									width="200.000000pt" height="200.000000pt" viewBox="0 0 200.000000 200.000000"
-									preserveAspectRatio="xMidYMid meet">
-
-									<g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)"
-										fill="#2c81c8" stroke="none">
-										<path d="M710 1245 c-160 -29 -361 -98 -520 -178 -131 -65 -150 -89 -150 -187
-0 -44 5 -71 13 -78 7 -6 53 -20 103 -32 49 -11 99 -22 112 -25 20 -5 22 -2 22
-38 0 26 10 63 25 93 32 65 81 94 157 94 100 0 168 -74 168 -184 0 -44 4 -57
-19 -66 23 -12 689 -14 707 -2 6 4 14 35 17 70 11 125 76 188 186 180 97 -7
-151 -64 166 -177 l7 -53 54 6 c30 3 78 14 107 24 l52 17 3 71 c3 68 1 73 -24
-93 -15 12 -39 24 -53 28 -14 3 -35 13 -46 23 -38 33 -66 41 -188 51 -264 22
--287 28 -438 112 -88 50 -154 80 -188 87 -73 14 -220 11 -311 -5z m370 -63
-c36 -17 90 -48 120 -67 l55 -35 -292 0 -293 0 0 54 0 55 58 11 c31 7 62 14 67
-16 6 2 57 2 115 1 97 -2 111 -5 170 -35z m-440 -52 l0 -50 -82 0 c-140 0 -143
-26 -10 72 42 14 80 27 85 27 4 1 7 -21 7 -49z m-387 -106 c12 -12 -14 -44 -51
--63 -42 -21 -132 -38 -132 -25 1 15 35 54 65 74 29 19 104 28 118 14z m1555
--32 l26 -17 -33 -3 c-32 -3 -71 19 -71 41 0 12 46 0 78 -21z m-988 -12 c0 -5
--18 -10 -41 -10 -24 0 -38 4 -34 10 3 6 22 10 41 10 19 0 34 -4 34 -10z"/>
-										<path d="M404 931 c-113 -51 -113 -221 0 -272 23 -10 52 -19 66 -19 14 0 43 9
-66 19 113 51 113 221 0 272 -23 10 -52 19 -66 19 -14 0 -43 -9 -66 -19z m56
--77 c0 -17 -22 -14 -28 4 -2 7 3 12 12 12 9 0 16 -7 16 -16z m48 4 c-6 -18
--28 -21 -28 -4 0 9 7 16 16 16 9 0 14 -5 12 -12z m-88 -33 c10 -13 9 -15 -8
--15 -15 0 -20 5 -16 15 4 8 7 15 9 15 1 0 8 -7 15 -15z m124 0 c4 -10 -1 -15
--16 -15 -17 0 -18 2 -8 15 7 8 14 15 15 15 2 0 5 -7 9 -15z m-57 -21 c8 -21
--13 -42 -28 -27 -13 13 -5 43 11 43 6 0 13 -7 17 -16z m-67 -39 c-7 -8 -14
--15 -15 -15 -2 0 -5 7 -9 15 -4 10 1 15 16 15 17 0 18 -2 8 -15z m124 0 c-5
--12 -10 -13 -20 -4 -19 15 -18 19 6 19 13 0 18 -5 14 -15z m-84 -30 c0 -8 -7
--15 -15 -15 -16 0 -20 12 -8 23 11 12 23 8 23 -8z m48 -3 c2 -7 -3 -12 -12
--12 -9 0 -16 7 -16 16 0 17 22 14 28 -4z"/>
-										<path d="M1490 931 c-52 -27 -80 -74 -80 -135 0 -66 27 -111 83 -136 55 -26
-85 -25 137 3 108 57 107 209 0 265 -54 27 -94 28 -140 3z m60 -77 c0 -9 -5
--14 -12 -12 -18 6 -21 28 -4 28 9 0 16 -7 16 -16z m48 4 c-6 -18 -28 -21 -28
--4 0 9 7 16 16 16 9 0 14 -5 12 -12z m-92 -46 c-22 -5 -30 3 -21 18 5 8 11 7
-22 -2 15 -12 14 -13 -1 -16z m128 13 c4 -10 -1 -15 -16 -15 -17 0 -18 2 -8 15
-7 8 14 15 15 15 2 0 5 -7 9 -15z m-57 -21 c3 -8 1 -20 -5 -26 -15 -15 -43 8
--35 28 7 19 32 18 40 -2z m-67 -39 c-7 -8 -14 -15 -15 -15 -2 0 -5 7 -9 15 -4
-10 1 15 16 15 17 0 18 -2 8 -15z m124 0 c-5 -12 -10 -13 -20 -4 -19 15 -18 19
-6 19 13 0 18 -5 14 -15z m-84 -30 c0 -8 -7 -15 -15 -15 -16 0 -20 12 -8 23 11
-12 23 8 23 -8z m48 -3 c2 -7 -3 -12 -12 -12 -9 0 -16 7 -16 16 0 17 22 14 28
--4z"/>
+								<svg
+									fill="#2c81c8"
+									width="800px"
+									height="800px"
+									viewBox="0 -39.69 122.88 122.88"
+									id="Layer_1"
+									xmlns="http://www.w3.org/2000/svg"
+									xmlnsXlink="http://www.w3.org/1999/xlink"
+									style={{
+										enableBackground: "new 0 0 122.88 43.49",
+										transform: "scaleX(-1)",
+									}}
+									xmlSpace="preserve"
+								>
+									<style type="text/css">
+										{"\n    .st0{fill-rule:evenodd;clip-rule:evenodd;}\n  "}
+									</style>
+									<g>
+										<path
+											className="st0"
+											d="M103.94,23.97c5.39,0,9.76,4.37,9.76,9.76c0,5.39-4.37,9.76-9.76,9.76c-5.39,0-9.76-4.37-9.76-9.76 C94.18,28.34,98.55,23.97,103.94,23.97L103.94,23.97z M23,29.07v3.51h3.51C26.09,30.86,24.73,29.49,23,29.07L23,29.07z M26.52,34.87H23v3.51C24.73,37.97,26.09,36.6,26.52,34.87L26.52,34.87z M20.71,38.39v-3.51H17.2 C17.62,36.6,18.99,37.96,20.71,38.39L20.71,38.39z M17.2,32.59h3.51v-3.51C18.99,29.49,17.62,30.86,17.2,32.59L17.2,32.59z M105.09,29.07v3.51h3.51C108.18,30.86,106.82,29.49,105.09,29.07L105.09,29.07z M108.6,34.87h-3.51v3.51 C106.82,37.97,108.18,36.6,108.6,34.87L108.6,34.87z M102.8,38.39v-3.51h-3.51C99.71,36.6,101.07,37.96,102.8,38.39L102.8,38.39z M99.28,32.59h3.51v-3.51C101.07,29.49,99.71,30.86,99.28,32.59L99.28,32.59z M49.29,12.79c-1.54-0.35-3.07-0.35-4.61-0.28 C56.73,6.18,61.46,2.07,75.57,2.9l-1.94,12.87L50.4,16.65c0.21-0.61,0.33-0.94,0.37-1.55C50.88,13.36,50.86,13.15,49.29,12.79 L49.29,12.79z M79.12,3.13L76.6,15.6l24.13-0.98c2.48-0.1,2.91-1.19,1.41-3.28c-0.68-0.95-1.44-1.89-2.31-2.82 C93.59,1.86,87.38,3.24,79.12,3.13L79.12,3.13z M0.46,27.28H1.2c0.46-2.04,1.37-3.88,2.71-5.53c2.94-3.66,4.28-3.2,8.65-3.99 l24.46-4.61c5.43-3.86,11.98-7.3,19.97-10.2C64.4,0.25,69.63-0.01,77.56,0c4.54,0.01,9.14,0.28,13.81,0.84 c2.37,0.15,4.69,0.47,6.97,0.93c2.73,0.55,5.41,1.31,8.04,2.21l9.8,5.66c2.89,1.67,3.51,3.62,3.88,6.81l1.38,11.78h1.43v6.51 c-0.2,2.19-1.06,2.52-2.88,2.52h-2.37c0.92-20.59-28.05-24.11-27.42,1.63H34.76c3.73-17.75-14.17-23.91-22.96-13.76 c-2.67,3.09-3.6,7.31-3.36,12.3H2.03c-0.51-0.24-0.91-0.57-1.21-0.98c-1.05-1.43-0.82-5.74-0.74-8.23 C0.09,27.55-0.12,27.28,0.46,27.28L0.46,27.28z M21.86,23.97c5.39,0,9.76,4.37,9.76,9.76c0,5.39-4.37,9.76-9.76,9.76 c-5.39,0-9.76-4.37-9.76-9.76C12.1,28.34,16.47,23.97,21.86,23.97L21.86,23.97z"
+										/>
 									</g>
 								</svg>
 								<p>Hatchback</p>
