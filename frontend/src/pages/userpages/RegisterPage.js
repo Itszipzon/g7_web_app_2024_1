@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import './css/RegisterPage.css';
+import axios from 'axios';
 
 function RegisterPage() {
 
+	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [repeatPassword, setRepeatPassword] = useState('');
@@ -17,18 +19,23 @@ function RegisterPage() {
 
 	const [terms, setTerms] = useState(false);
 
+	const [rememberMe, setRememberMe] = useState(false);
+
 	const [errorMessage, setErrorMessage] = useState('');
 
+	const jsonValue = require('../../information.json');
+
 	const formData = {
+		name: '',
 		email: '',
 		password: '',
-		repeatPassword: '',
 		address: '',
-		postalCode: '',
-		city: '',
-		country: '',
 		phoneNumber: '',
-		terms: false
+		terms: ''
+	}
+
+	const handleNameChange = (e) => {
+		setName(e.target.value);
 	}
 
 	const handleEmailChange = (e) => {
@@ -72,6 +79,16 @@ function RegisterPage() {
 	}
 
 	const handleRegisterButtonClick = () => {
+
+		if (name === '') {
+			setErrorMessage('Please fill in the name field');
+			return;
+		}
+
+		if (name.split(' ').length < 2) {
+			setErrorMessage('Please fill in the full name');
+			return;
+		}
 
 		if (email === '') {
 			setErrorMessage('Please fill in the email field');
@@ -134,17 +151,22 @@ function RegisterPage() {
 		}
 
 		setErrorMessage('');
+		formData.name = name;
 		formData.email = email;
 		formData.password = password;
-		formData.repeatPassword = repeatPassword;
-		formData.address = address;
-		formData.postalCode = postalCode;
-		formData.city = city;
-		formData.country = country;
+		formData.address = address + ", " + postalCode + " " + city + ", " + country;
 		formData.phoneNumber = countryCode + " " + phoneNumber;
 		formData.terms = terms;
 
-		console.log(formData);
+		axios.post(jsonValue.serverAddress + 'post/register/user', formData)
+			.then(r => {
+				console.log(r);
+				if (r.status === 200) {
+					window.location.href = '/login';
+				} else {
+					setErrorMessage(r.data.message);
+				}
+		});
 
 	}
 
@@ -153,6 +175,7 @@ function RegisterPage() {
 			<div className='RegisterContainer'>
 				<h1>Register</h1>
 				<div className='RegisterForm'>
+					<input type='text' className='defaultRegisterInput' placeholder='Full Name' onChange={handleNameChange} />
 					<input type='text' className='defaultRegisterInput' placeholder='Email' onChange={handleEmailChange} />
 					<div className='RegisterPassword'>
 						<input type='password' onChange={handlePasswordChange} className='passwordInput defaultRegisterInput' placeholder='Password' />
@@ -166,10 +189,10 @@ function RegisterPage() {
 						</div>
 						<select onChange={handleCountryChange}>
 							<option value="">Select country...</option>
-							<option value="no">Norway</option>
-							<option value="se">Sweden</option>
-							<option value="dk">Denmark</option>
-							<option value="fi">Finland</option>
+							<option value="Norway">Norway</option>
+							<option value="Sweden">Sweden</option>
+							<option value="Denmark">Denmark</option>
+							<option value="Finland">Finland</option>
 						</select>
 					</div>
 					<div className='phoneNumberContainer'>

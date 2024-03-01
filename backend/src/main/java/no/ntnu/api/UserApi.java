@@ -62,7 +62,8 @@ public class UserApi {
         json.put("ID", result.getInt("ID"));
         json.put("Name", result.getString("Name"));
         json.put("Email", result.getString("Email"));
-        json.put("Phone", result.getString("PhoneNumber"));
+        json.put("PhoneNumber", result.getString("PhoneNumber"));
+        json.put("Address", result.getString("Address"));
         json.put("Terms", result.getBoolean("Terms"));
         json.put("Guest", result.getBoolean("IsGuest"));
         json.put("Admin", result.getBoolean("IsAdmin"));

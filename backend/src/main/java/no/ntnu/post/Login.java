@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Class for logging in a user.
  */
 @RestController
-@RequestMapping("api/login")
+@RequestMapping("post/login")
 public class Login {
 
   @Autowired
@@ -44,21 +44,31 @@ public class Login {
       String emailFromDb = "";
       String salt = "";
       boolean isAdmin = false;
+      String name = "";
+      String phoneNumber = "";
+      String address = "";
 
       if (result.getFetchSize() > 0) {
         while (result.next()) {
           User user = new User();
           if (user.checkPassword(
               password, result.getString("salt"),
-              result.getString("password"))) {
-            id = result.getString("id");
-            emailFromDb = result.getString("email");
-            isAdmin = result.getBoolean("isAdmin");
+              result.getString("Password"))) {
+            id = result.getString("ID");
+            emailFromDb = result.getString("Email");
+            isAdmin = result.getBoolean("IsAdmin");
+            salt = result.getString("Salt");
+            name = result.getString("Name");
+            phoneNumber = result.getString("PhoneNumber");
+            address = result.getString("Address");
 
             user.setId(Long.parseLong(id));
             user.setEmail(emailFromDb);
             user.setSalt(salt);
             user.setAdmin(isAdmin);
+            user.setName(name);
+            user.setPhoneNumber(phoneNumber);
+            user.setAddress(address);
 
             token = Tools.generateUniqueUserToken(sessionManager.getSessions());
             sessionManager.addSession(token, user);

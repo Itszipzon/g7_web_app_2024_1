@@ -9,7 +9,11 @@ public class User {
   private Long id;
   private String email;
   private String salt;
+  private String password;
   private String hashedPassword;
+  private String name;
+  private String phoneNumber;
+  private String address;
   private boolean terms;
   private boolean isGuest;
   private boolean isAdmin;
@@ -37,10 +41,7 @@ public class User {
    * @param password the raw password of the user.
    */
   public void setPassword(String password) {
-    if (this.salt == null && this.salt.isEmpty()) {
-      throw new IllegalStateException("Salt is not set");
-    }
-    this.hashedPassword = this.encoder.encode(password + salt);
+    this.password = password;
   }
 
   public void setTerms(boolean terms) {
@@ -53,6 +54,18 @@ public class User {
 
   public void setAdmin(boolean isAdmin) {
     this.isAdmin = isAdmin;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
   }
 
   public Long getId() {
@@ -81,6 +94,22 @@ public class User {
 
   public boolean isAdmin() {
     return this.isAdmin;
+  }
+
+  public String getName() {
+    return this.name;
+  }
+
+  public String getPhoneNumber() {
+    return this.phoneNumber;
+  }
+
+  public String getAddress() {
+    return this.address;
+  }
+
+  public void hashPassword() {
+    this.hashedPassword = encoder.encode(this.password + this.salt);
   }
 
   public boolean checkPassword(String password, String salt, String hashedPassword) {

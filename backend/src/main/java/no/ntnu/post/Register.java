@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Class for registering a user.
  */
 @RestController
-@RequestMapping("api/register")
+@RequestMapping("post/register")
 public class Register {
 
   /**
@@ -33,20 +33,29 @@ public class Register {
     String saltString = Base64.getEncoder().encodeToString(salt);
     User newUser = new User();
 
+    newUser.setName(user.getName());
     newUser.setEmail(user.getEmail());
     newUser.setSalt(saltString);
     newUser.setPassword(user.getPassword());
     newUser.setTerms(user.isTerms());
+    newUser.setAddress(user.getAddress());
+    newUser.setPhoneNumber(user.getPhoneNumber());
     newUser.setGuest(false);
     newUser.setAdmin(false);
 
-    String query = "INSERT INTO Users (Email, Password, Salt, Terms, IsGuest, IsAdmin) VALUES ('"
-        + newUser.getEmail()
-        + "', '" + newUser.getPassword() + "', '"
-        + saltString + "', "
-        + newUser.isTerms()
-        + ", " + newUser.isGuest()
-        + ", " + newUser.isAdmin() + ")";
+    newUser.hashPassword();
+
+    String query = "INSERT INTO Users (Name, Email, Password, Salt, Address, "
+        + "PhoneNumber, Terms, IsGuest, IsAdmin) VALUES ('"
+        + newUser.getName() + "', '"
+        + newUser.getEmail() + "', '"
+        + newUser.getPassword() + "', '"
+        + saltString + "', '"
+        + newUser.getAddress() + "', '"
+        + newUser.getPhoneNumber() + "', "
+        + newUser.isTerms() + ", "
+        + newUser.isGuest() + ", "
+        + newUser.isAdmin() + ")";
     
     DatabaseCon db = new DatabaseCon();
 
