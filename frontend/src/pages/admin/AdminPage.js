@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './css/AdminPage.css';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { LineChart } from '@mui/x-charts/LineChart';
 import axios from "axios";
 
 function AdminPage() {
+
+	const [isAdmin, setIsAdmin] = useState(false);
 
 	const [activeItem, setActiveItem] = useState(0);
 	const [showPurchaseHistorySearch, setShowPurchaseHistorySearch] = useState(false);
@@ -15,6 +17,22 @@ function AdminPage() {
 	const handleActiveItemChange = (index) => {
 		setActiveItem(index);
 	}
+
+	useEffect(() => {
+		if (!localStorage.getItem("UIDtoken")) {
+			window.location.href = "/";
+		}
+		console.log(localStorage.getItem("UIDtoken"));
+		axios.get(jsonValue.serverAddress + "api/user/isadmin/" + localStorage.getItem("UIDtoken"))
+			.then((r) => {
+				const isAdmin = r.data;
+				if (!isAdmin) {
+					window.location.href = "/";
+				}
+				setIsAdmin(r.data);
+			});
+
+	}, [jsonValue]);
 
 	const handlePurchaseHistorySearchClick = () => {
 		setShowPurchaseHistorySearch(!showPurchaseHistorySearch);
@@ -118,7 +136,7 @@ function AdminPage() {
 		}
 	]
 
-	return (
+	return (isAdmin &&
 		<div className="adminpage">
 			<div className='adminSelectContainer'>
 				<h1>Control panel.</h1>

@@ -1,34 +1,41 @@
 import { useEffect, useState } from 'react';
 import './css/LoginPage.css';
+import axios from "axios";
 
 function LoginPage() {
-	const [username, setUsername] = useState('');
+	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
+	const jsonValue = require("../../information.json");
+
 	const formData = {
-		username: '',
+		email: '',
 		password: ''
 
 	}
 
 	const onLoginButtonClick = () => {
-		formData.username = username;
+		formData.email = email;
 		formData.password = password;
-		console.log(formData);
+		axios.post(jsonValue.serverAddress + "post/login/user", formData)
+				.then((r) => {
+					localStorage.setItem("UIDtoken", r.data);
+					window.location.href = "/";
+		});
 	}
 
 	const handlePasswordChange = (e) => {
 		setPassword(e.target.value);
 	}
 
-	const handleUsernameChange = (e) => {
-		setUsername(e.target.value);
+	const handleEmailChange = (e) => {
+		setEmail(e.target.value);
 
 	}
 
 	useEffect(() => {
-		console.log(username);
-	}, [username])
+		localStorage.clear();
+	});
 
 	return (
 		<div className="login-page">
@@ -45,7 +52,7 @@ function LoginPage() {
                     <div className='login-input'>
                         <p>Email</p>
                         <div className='email-input'>
-                            <input type="text" value={username} onChange={handleUsernameChange} placeholder="Email" />
+                            <input type="text" value={email} onChange={handleEmailChange} placeholder="Email" />
                         </div>
                         <p>Password</p>
                         <div className='password-input'>

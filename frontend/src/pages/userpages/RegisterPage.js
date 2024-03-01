@@ -19,9 +19,9 @@ function RegisterPage() {
 
 	const [terms, setTerms] = useState(false);
 
-	const [rememberMe, setRememberMe] = useState(false);
-
 	const [errorMessage, setErrorMessage] = useState('');
+
+	const [emailUnique, setEmailUnique] = useState(false);
 
 	const jsonValue = require('../../information.json');
 
@@ -78,7 +78,7 @@ function RegisterPage() {
 		setTerms(e.target.checked);
 	}
 
-	const handleRegisterButtonClick = () => {
+	const handleRegisterButtonClick = async () => {
 
 		if (name === '') {
 			setErrorMessage('Please fill in the name field');
@@ -158,15 +158,25 @@ function RegisterPage() {
 		formData.phoneNumber = countryCode + " " + phoneNumber;
 		formData.terms = terms;
 
-		axios.post(jsonValue.serverAddress + 'post/register/user', formData)
-			.then(r => {
-				console.log(r);
-				if (r.status === 200) {
-					window.location.href = '/login';
-				} else {
-					setErrorMessage(r.data.message);
+		await axios.get(jsonValue.serverAddress + "api/users/emails")
+			.then((r) => {
+				if (!r.data.includes(email)) {
+					setEmailUnique(true);
 				}
-		});
+			});
+
+		if (emailUnique) {
+			axios.post(jsonValue.serverAddress + 'post/register/user', formData)
+				.then(r => {
+					if (r.status === 200) {
+						window.location.href = '/login';
+					} else {
+						setErrorMessage("Error, could not connect to server");
+					}
+				});
+		} else {
+			setErrorMessage("Email already exist");
+		}
 
 	}
 

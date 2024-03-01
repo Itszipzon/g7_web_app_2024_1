@@ -22,61 +22,60 @@ public class Login {
 
   @Autowired
   private SessionManager sessionManager;
-  
+
   /**
    * Logs in a user.
    *
-   * @param email The email
-   * @param password The password
+   * @param user user.
    * @return a response entity containing the token.
    */
   @PostMapping("user")
-  public ResponseEntity<String> loginUser(@RequestBody String email, @RequestBody String password) {
+  public ResponseEntity<String> loginUser(@RequestBody User user) {
     String token = "";
     try {
       DatabaseCon con = new DatabaseCon();
-      String query = "SELECT * FROM Users WHERE Email = '"
-          + email + "';";
+      String query = "SELECT * FROM Users WHERE Email = '" + user.getEmail() + "';";
 
       ResultSet result = con.query(query);
 
-      String id = "";
+      int id = 0;
       String emailFromDb = "";
-      String salt = "";
       boolean isAdmin = false;
       String name = "";
       String phoneNumber = "";
       String address = "";
 
-      if (result.getFetchSize() > 0) {
-        while (result.next()) {
-          User user = new User();
-          if (user.checkPassword(
-              password, result.getString("salt"),
-              result.getString("Password"))) {
-            id = result.getString("ID");
-            emailFromDb = result.getString("Email");
-            isAdmin = result.getBoolean("IsAdmin");
-            salt = result.getString("Salt");
-            name = result.getString("Name");
-            phoneNumber = result.getString("PhoneNumber");
-            address = result.getString("Address");
+      while (result.next()) {
+        User newUser = new User();
+        System.out.println("Password: " + user.getPassword() + "\nSalt: " + result.getString("salt")
+            + "\nHashedPassword: " + result.getString("Password"));
 
-            user.setId(Long.parseLong(id));
-            user.setEmail(emailFromDb);
-            user.setSalt(salt);
-            user.setAdmin(isAdmin);
-            user.setName(name);
-            user.setPhoneNumber(phoneNumber);
-            user.setAddress(address);
+        System.out.println("\nCheck: " 
+            + user.checkPassword(user.getPassword(), result.getString("salt"),
+            result.getString("Password")));
+        if (user.checkPassword(user.getPassword(), result.getString("salt"),
+            result.getString("Password"))) {
+          id = result.getInt("ID");
+          emailFromDb = result.getString("Email");
+          isAdmin = result.getBoolean("IsAdmin");
+          name = result.getString("Name");
+          phoneNumber = result.getString("PhoneNumber");
+          address = result.getString("Address");
 
-            token = Tools.generateUniqueUserToken(sessionManager.getSessions());
-            sessionManager.addSession(token, user);
-          }
+          newUser.setId(id);
+          newUser.setEmail(emailFromDb);
+          newUser.setAdmin(isAdmin);
+          newUser.setName(name);
+          newUser.setPhoneNumber(phoneNumber);
+          newUser.setAddress(address);
 
+          token = Tools.generateUniqueUserToken(sessionManager.getSessions());
+          System.out.println("\nToken: " + token + "\n");
+          sessionManager.addSession(token, newUser);
         }
+
       }
-      
+
     } catch (SQLException e) {
       e.printStackTrace();
     }

@@ -49,7 +49,7 @@ function Header() {
 							<div>Admin</div>
 						</Link>
 					</div>
-					<Link className="headerUserIcon" to="/login">
+					<Link className="headerUserIcon" to="/login" /* to={localStorage.getItem("UIDtoken") ? "/YOUARELOGGEDIN" : "/login"} */>
 						<div className="headerLogin">
 							<svg width="56" height="56" viewBox="0 0 49 56" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M41.213 44.7123C41.7744 44.5795 42.11 43.9992 41.9034 43.4607C40.739 40.4263 38.5792 37.7559 35.686 35.7961C32.4769 33.6222 28.545 32.4438 24.5 32.4438C20.455 32.4438 16.5231 33.6222 13.314 35.7961C10.4208 37.7559 8.26096 40.4263 7.09658 43.4607C6.88993 43.9992 7.22562 44.5795 7.78694 44.7123L15.292 46.4876C21.3471 47.92 27.6529 47.92 33.708 46.4876L41.213 44.7123Z" fill="#2C81C8" />

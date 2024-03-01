@@ -49,7 +49,7 @@ public class Register {
         + "PhoneNumber, Terms, IsGuest, IsAdmin) VALUES ('"
         + newUser.getName() + "', '"
         + newUser.getEmail() + "', '"
-        + newUser.getPassword() + "', '"
+        + newUser.getHashedPassword() + "', '"
         + saltString + "', '"
         + newUser.getAddress() + "', '"
         + newUser.getPhoneNumber() + "', "

@@ -6,7 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  * Class to represent a user.
  */
 public class User {
-  private Long id;
+  private int id;
   private String email;
   private String salt;
   private String password;
@@ -23,7 +23,7 @@ public class User {
     encoder = new BCryptPasswordEncoder(12);
   }
 
-  public void setId(Long id) {
+  public void setId(int id) {
     this.id = id;
   }
 
@@ -68,7 +68,7 @@ public class User {
     this.address = address;
   }
 
-  public Long getId() {
+  public int getId() {
     return this.id;
   }
 
@@ -80,8 +80,12 @@ public class User {
     return this.salt;
   }
 
-  public String getPassword() {
+  public String getHashedPassword() {
     return this.hashedPassword;
+  }
+
+  public String getPassword() {
+    return this.password;
   }
 
   public boolean isTerms() {

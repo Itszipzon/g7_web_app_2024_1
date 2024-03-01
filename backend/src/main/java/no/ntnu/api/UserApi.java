@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+
 /**
  * The user api.
  */
@@ -42,7 +43,7 @@ public class UserApi {
     try {
       DatabaseCon con = new DatabaseCon();
       ResultSet result = con.query("SELECT IsAdmin FROM Users WHERE ID = " 
-          + sessionManager.getUserId(token).getId() + ";");
+          + sessionManager.getUser(token).getId() + ";");
 
       while (result.next()) {
         if (!result.getBoolean("IsAdmin")) {
@@ -79,6 +80,59 @@ public class UserApi {
     }
 
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
+  }
+  
+  /**
+   * Returns boolean if the user is an admin or not.
+   *
+   * @param token The user id token.
+   * @return booleans if the user is an admin or not.
+   */
+  @GetMapping("user/isadmin/{token}")
+  public ResponseEntity<Boolean> isAdmin(@PathVariable String token) {
+
+    boolean isAdmin = false;
+
+    int id = sessionManager.getUser(token).getId();
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+      String query = "SELECT IsAdmin FROM Users WHERE ID = " + id + ";";
+
+      ResultSet result = con.query(query);
+
+      while (result.next()) {
+        isAdmin = result.getBoolean("IsAdmin");
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return new ResponseEntity<>(isAdmin, HttpStatus.OK);
+  }
+
+  /**
+   * Returns all the emails of users.
+   *
+   * @return all the emails of users.
+   */
+  @GetMapping("users/emails")
+  public ResponseEntity<List<String>> userEmails() {
+    List<String> emailList = new ArrayList<>();
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+      String query = "SELECT Email FROM Users";
+      ResultSet result = con.query(query);
+
+      while (result.next()) {
+        emailList.add(result.getString(1));
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return new ResponseEntity<>(emailList, HttpStatus.OK);
   }
   
 }

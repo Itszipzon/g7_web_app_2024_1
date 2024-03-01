@@ -14,15 +14,18 @@ public class SessionManager {
     sessions = new HashMap<>();
   }
 
-  public void addSession(String sessionId, User userId) {
-    sessions.put(sessionId, userId);
+  public void addSession(String sessionId, User user) {
+    System.out.println("Created new session for "
+        + user.getEmail()
+        + " session: " + sessionId); //REMOVE BEFORE RELEASE!
+    sessions.put(sessionId, user);
   }
 
   public void removeSession(String sessionId) {
     sessions.remove(sessionId);
   }
 
-  public User getUserId(String sessionId) {
+  public User getUser(String sessionId) {
     return sessions.get(sessionId);
   }
 
