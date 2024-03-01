@@ -1,9 +1,14 @@
 package no.ntnu;
 
+import java.util.HashMap;
+import java.util.Random;
+import no.ntnu.user.User;
+
 /**
  * Class for tools that are used in the backend.
  */
 public class Tools {
+
 
   private Tools() {}
 
@@ -26,6 +31,38 @@ public class Tools {
     }
 
     return newListString;
+  }
+
+  /**
+   * Method to generate a unique string.
+   *
+   * @param map The map to check
+   * @return The unique string
+   */
+  public static String generateUniqueUserToken(HashMap<String, User> map) {
+    String randomString = generateRandomString(25);
+    while (map.containsKey(randomString)) {
+      randomString = generateRandomString(25);
+    }
+
+    return randomString;
+  }
+
+  /**
+   * Method to generate a random string.
+   *
+   * @return The random string
+   */
+  public static String generateRandomString(int length) {
+    String characters = 
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    Random random = new Random();
+    StringBuilder stringBuilder = new StringBuilder();
+    for (int i = 0; i < length; i++) {
+      stringBuilder.append(characters.charAt(random.nextInt(characters.length())));
+    }
+
+    return stringBuilder.toString();
   }
 
 }

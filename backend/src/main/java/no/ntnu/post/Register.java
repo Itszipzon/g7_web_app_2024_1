@@ -51,6 +51,9 @@ public class Register {
     DatabaseCon db = new DatabaseCon();
 
     db.update(query);
+
+    
+
     return ResponseEntity.ok("User registered");
   }
 

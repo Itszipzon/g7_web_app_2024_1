@@ -83,8 +83,8 @@ public class User {
     return this.isAdmin;
   }
 
-  public boolean checkPassword(String password) {
-    return encoder.matches(password + this.salt, this.hashedPassword);
+  public boolean checkPassword(String password, String salt, String hashedPassword) {
+    return encoder.matches(password + salt, hashedPassword);
   }
 
 }
