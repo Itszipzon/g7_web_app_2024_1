@@ -31,27 +31,13 @@ public class UserApi {
    * Returns all the users.
    *
    * @return all the users.
-   */
+  */
   @GetMapping("get/users/{token}")
   public ResponseEntity<List<String>> getUsers(@PathVariable String token) {
     List<String> jsonStringArray = new ArrayList<>();
 
-    if (token == null || !sessionManager.hasSession(token)) {
-      return new ResponseEntity<>(jsonStringArray, HttpStatus.UNAUTHORIZED);
-    }
-
-    try {
-      DatabaseCon con = new DatabaseCon();
-      ResultSet result = con.query("SELECT IsAdmin FROM Users WHERE ID = " 
-          + sessionManager.getUser(token).getId() + ";");
-
-      while (result.next()) {
-        if (!result.getBoolean("IsAdmin")) {
-          return new ResponseEntity<>(jsonStringArray, HttpStatus.UNAUTHORIZED);
-        }
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
+    if (!sessionManager.getUser(token).isAdmin()) {
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     try {
@@ -81,34 +67,22 @@ public class UserApi {
 
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
-  
+
   /**
-   * Returns boolean if the user is an admin or not.
+   * Returns if the user is an admin.
    *
-   * @param token The user id token.
-   * @return booleans if the user is an admin or not.
+   * @param token the token of the user.
+   * @return if the user is an admin.
    */
-  @GetMapping("user/isadmin/{token}")
-  public ResponseEntity<Boolean> isAdmin(@PathVariable String token) {
-
-    boolean isAdmin = false;
-
-    int id = sessionManager.getUser(token).getId();
-
-    try {
-      DatabaseCon con = new DatabaseCon();
-      String query = "SELECT IsAdmin FROM Users WHERE ID = " + id + ";";
-
-      ResultSet result = con.query(query);
-
-      while (result.next()) {
-        isAdmin = result.getBoolean("IsAdmin");
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
+  @GetMapping(value = {"user/isadmin", "user/isadmin/{token}"})
+  public ResponseEntity<Boolean> isAdmin(@PathVariable(required = false) String token) {
+    if (token == null) {
+      return new ResponseEntity<>(false, HttpStatus.OK);
     }
-
-    return new ResponseEntity<>(isAdmin, HttpStatus.OK);
+    if (!sessionManager.hasSession(token)) {
+      return new ResponseEntity<>(false, HttpStatus.OK);
+    }
+    return new ResponseEntity<>(sessionManager.getUser(token).isAdmin(), HttpStatus.OK);
   }
 
   /**
@@ -133,6 +107,17 @@ public class UserApi {
     }
 
     return new ResponseEntity<>(emailList, HttpStatus.OK);
+  }
+
+  @GetMapping("user/validsession/{token}")
+  public ResponseEntity<Boolean> validSession(@PathVariable String token) {
+    return new ResponseEntity<>(sessionManager.hasSession(token), HttpStatus.OK);
+  }
+
+  @GetMapping("user/terminatesession/{token}")
+  public ResponseEntity<Boolean> terminateSession(@PathVariable String token) {
+    sessionManager.removeSession(token);
+    return new ResponseEntity<>(true, HttpStatus.OK);
   }
   
 }

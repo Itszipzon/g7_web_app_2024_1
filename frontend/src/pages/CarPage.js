@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function CarPage() {
-
   const jsonValue = require("../information.json");
-
+  const [addedCar, setAddedCar] = useState(false);
   const { id } = useParams();
 
   const [amountOfImages, setAmountOfImages] = useState(0);

@@ -268,6 +268,7 @@ function Search() {
 								style={{ "Height": "390px", "Width": "280px" }}
 								src={jsonValue.serverAddress + 'api/car/img/' + car.ID}
 								name={car.Maker + ' ' + car.Model}
+								id={car.ID}
 								body={car.Body}
 								fuel={car.Fuel}
 								year={car.Year}

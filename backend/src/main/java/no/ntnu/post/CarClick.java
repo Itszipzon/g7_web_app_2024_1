@@ -1,0 +1,33 @@
+package no.ntnu.post;
+
+import no.ntnu.DatabaseCon;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * Class for adding a click to a car.
+ */
+@RestController
+@RequestMapping("post/carclick")
+public class CarClick {
+
+  /**
+   * Adds a click to a car.
+   *
+   * @param carId the car id.
+   * @return a response entity.
+   */
+  @PostMapping("click")
+  public ResponseEntity<String> clickCar(@RequestBody String carId) {
+    DatabaseCon con = new DatabaseCon();
+    String query = "INSERT INTO CarClicks(CID, TimeStamp) VALUES(" + carId + ", NOW());";
+    con.update(query);
+    return new ResponseEntity<>(HttpStatus.OK);
+
+  }
+
+}

@@ -15,9 +15,6 @@ public class SessionManager {
   }
 
   public void addSession(String sessionId, User user) {
-    System.out.println("Created new session for "
-        + user.getEmail()
-        + " session: " + sessionId); //REMOVE BEFORE RELEASE!
     sessions.put(sessionId, user);
   }
 

@@ -17,6 +17,8 @@ function RegisterPage() {
 	const [phoneNumber, setPhoneNumber] = useState('');
 	const [countryCode, setCountryCode] = useState('');
 
+	const [emails, setEmails] = useState([]);
+
 	const [terms, setTerms] = useState(false);
 
 	const [errorMessage, setErrorMessage] = useState('');
@@ -40,6 +42,7 @@ function RegisterPage() {
 
 	const handleEmailChange = (e) => {
 		setEmail(e.target.value);
+		setEmailUnique(emails.includes(e.target.value) ? false : true)
 	}
 
 	const handlePasswordChange = (e) => {
@@ -158,12 +161,6 @@ function RegisterPage() {
 		formData.phoneNumber = countryCode + " " + phoneNumber;
 		formData.terms = terms;
 
-		await axios.get(jsonValue.serverAddress + "api/users/emails")
-			.then((r) => {
-				if (!r.data.includes(email)) {
-					setEmailUnique(true);
-				}
-			});
 
 		if (emailUnique) {
 			axios.post(jsonValue.serverAddress + 'post/register/user', formData)
@@ -179,6 +176,13 @@ function RegisterPage() {
 		}
 
 	}
+
+	useEffect(() => {
+		axios.get(jsonValue.serverAddress + "api/users/emails")
+		.then((r) => {
+			setEmails(r.data);
+		});
+	}, [jsonValue]);
 
 	return (
 		<div className='RegisterPage'>

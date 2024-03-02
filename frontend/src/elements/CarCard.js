@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import "./css/CarCard.css";
 
 function CarCard({
 	style = {},
 	className = "",
+	id = "",
 	src = "",
 	name = "Car Name",
 	body = "Car type",
@@ -14,9 +16,16 @@ function CarCard({
 	price = "60,-",
 	link = "/card"
 }) {
+
+	const jsonValue = require("../information.json");
+
+	const handleClick = () => {
+    axios.post(jsonValue.serverAddress + 'post/carclick/click', id);
+	}
+
 	return (
 		<div className="CarCard" style={style}>
-			<Link to={link} className={"carCardLink " + className}>
+			<Link to={link} className={"carCardLink " + className} onClick={handleClick}>
 				<h1>{name}</h1>
 				<p>{body}</p>
 				<div className="CarCardImgHolder">

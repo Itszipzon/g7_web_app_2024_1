@@ -505,4 +505,51 @@ public class CarApi {
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
   }
 
+  /**
+   * Returns the most popular cars.
+   *
+   * @param amount amount of cars.
+   * @return the most popular cars.
+   */
+  @GetMapping("car/get/mostpopular/{amount}")
+  public ResponseEntity<List<String>> getMostPopular(@PathVariable String amount) {
+    List<String> jsonStringArray = new ArrayList<>();
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+      String query = """
+          SELECT
+            C.Maker,
+            C.Model,
+            COUNT(CC.ID) AS Amount
+          FROM
+            Car C
+          JOIN
+            CarClicks CC ON C.ID = CC.CID
+          WHERE CC.TimeStamp >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
+          GROUP BY C.Maker, C.Model
+          ORDER BY Amount DESC
+          LIMIT
+            """ + amount + ";";
+
+      ResultSet result = con.query(query);
+
+      while (result.next()) {
+        JSONObject json = new JSONObject();
+        json.put("Maker", result.getString("C.Maker"));
+        json.put("Model", result.getString("C.Model"));
+        json.put("Amount", result.getInt("Amount"));
+        jsonStringArray.add(json.toString());
+      }
+
+      result.close();
+      con.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
+  }
+
 }

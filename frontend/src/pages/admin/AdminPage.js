@@ -10,7 +10,15 @@ function AdminPage() {
 
 	const [activeItem, setActiveItem] = useState(0);
 	const [showPurchaseHistorySearch, setShowPurchaseHistorySearch] = useState(false);
+
+	const [top5, setTop5] = useState([]);
+
+	const colors = ['#0D3559', '#175D9C', '#2185DE', '#63A9E8', '#A6CEF2'];
+
+	const [purchaseHistoryRows, setPurchaseHistoryRows] = useState(10);
+	const [purchaseHistoryPage, setPurchaseHistoryPage] = useState(0);
 	const [purchaseHistorySearch, setPurchaseHistorySearch] = useState("");
+	const [purchaseHistory, setPurchaseHistory] = useState([]);
 
 	const jsonValue = require('../../information.json');
 
@@ -22,8 +30,9 @@ function AdminPage() {
 		if (!localStorage.getItem("UIDtoken")) {
 			window.location.href = "/";
 		}
-		console.log(localStorage.getItem("UIDtoken"));
-		axios.get(jsonValue.serverAddress + "api/user/isadmin/" + localStorage.getItem("UIDtoken"))
+		axios.get(jsonValue.serverAddress + "api/user/isadmin/" + localStorage.getItem("UIDtoken")
+			+ "?rows=" + purchaseHistoryRows
+			+ "&page=" + purchaseHistoryPage)
 			.then((r) => {
 				const isAdmin = r.data;
 				if (!isAdmin) {
@@ -32,7 +41,23 @@ function AdminPage() {
 				setIsAdmin(r.data);
 			});
 
-	}, [jsonValue]);
+	}, [jsonValue, purchaseHistoryRows, purchaseHistoryPage]);
+
+	useEffect(() => {
+		if (isAdmin) {
+			axios.get(jsonValue.serverAddress + "api/purchase-history/get/admin/" + localStorage.getItem("UIDtoken"))
+				.then((r) => {
+					let purchaseHistoryParsed = r.data.map((p) => JSON.parse(p));
+					setPurchaseHistory(purchaseHistoryParsed);
+				});
+		}
+
+		axios.get(jsonValue.serverAddress + "api/car/get/mostpopular/5")
+			.then((r) => {
+				let top5Parsed = r.data.map((p) => JSON.parse(p));
+				setTop5(top5Parsed);
+			});
+	}, [jsonValue, isAdmin]);
 
 	const handlePurchaseHistorySearchClick = () => {
 		setShowPurchaseHistorySearch(!showPurchaseHistorySearch);
@@ -43,98 +68,15 @@ function AdminPage() {
 		setPurchaseHistorySearch(e.target.value);
 	}
 
-	const purchaseHistory = [
-		{
-			"orderID": "#15267",
-			"dateFrom": "Mar 1, 2023",
-			"dateTo": "Mar 10, 2023",
-			"carID": "#1",
-			"locationID": "#2",
-			"price": "600,-",
-			"status": "Success"
-		},
-		{
-			"orderID": "#15267",
-			"dateFrom": "Mar 1, 2023",
-			"dateTo": "Mar 10, 2023",
-			"carID": "#1",
-			"locationID": "#2",
-			"price": "600,-",
-			"status": "Pending"
-		},
-		{
-			"orderID": "#15267",
-			"dateFrom": "Mar 1, 2023",
-			"dateTo": "Mar 10, 2023",
-			"carID": "#1",
-			"locationID": "#2",
-			"price": "600,-",
-			"status": "Rejected"
-		},
-		{
-			"orderID": "#15267",
-			"dateFrom": "Mar 1, 2023",
-			"dateTo": "Mar 10, 2023",
-			"carID": "#1",
-			"locationID": "#2",
-			"price": "600,-",
-			"status": "Success"
-		},
-		{
-			"orderID": "#15267",
-			"dateFrom": "Mar 1, 2023",
-			"dateTo": "Mar 10, 2023",
-			"carID": "#1",
-			"locationID": "#2",
-			"price": "600,-",
-			"status": "Pending"
-		},
-		{
-			"orderID": "#15267",
-			"dateFrom": "Mar 1, 2023",
-			"dateTo": "Mar 10, 2023",
-			"carID": "#1",
-			"locationID": "#2",
-			"price": "600,-",
-			"status": "Rejected"
-		},
-		{
-			"orderID": "#15267",
-			"dateFrom": "Mar 1, 2023",
-			"dateTo": "Mar 10, 2023",
-			"carID": "#1",
-			"locationID": "#2",
-			"price": "600,-",
-			"status": "Success"
-		},
-		{
-			"orderID": "#15267",
-			"dateFrom": "Mar 1, 2023",
-			"dateTo": "Mar 10, 2023",
-			"carID": "#1",
-			"locationID": "#2",
-			"price": "600,-",
-			"status": "Pending"
-		},
-		{
-			"orderID": "#15267",
-			"dateFrom": "Mar 1, 2023",
-			"dateTo": "Mar 10, 2023",
-			"carID": "#1",
-			"locationID": "#2",
-			"price": "600,-",
-			"status": "Rejected"
-		},
-		{
-			"orderID": "#15267",
-			"dateFrom": "Mar 1, 2023",
-			"dateTo": "Mar 10, 2023",
-			"carID": "#1",
-			"locationID": "#2",
-			"price": "600,-",
-			"status": "Success"
-		}
-	]
+	const handlePurchaseHistoryRowsChange = (e) => {
+		setPurchaseHistoryRows(e.target.value);
+	}
+
+	const handlePurchaseHistoryPageChange = (e) => {
+		setPurchaseHistoryPage(e.target.value - 1);
+	}
+
+
 
 	return (isAdmin &&
 		<div className="adminpage">
@@ -179,24 +121,25 @@ function AdminPage() {
 							<PieChart
 								width={220}
 								margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+								slotProps={{legend: {hidden: true}}}
 								series={[
 									{
 										data: [
-											{ value: 510, color: '#0D3559' },
-											{ value: 439, color: '#175D9C' },
-											{ value: 406, color: '#2185DE' },
-											{ value: 197, color: '#63A9E8' },
-											{ value: 78, color: '#A6CEF2' },
+											{ value: top5.length > 0 ? top5[0].Amount : 0, color: '#0D3559', label: top5.length > 0 ? top5[0].Maker + " " + top5[0].Model : null},
+											{ value: top5.length > 0 ? top5[1].Amount : 0, color: '#175D9C', label: top5.length > 0 ? top5[1].Maker + " " + top5[1].Model : null},
+											{ value: top5.length > 0 ? top5[2].Amount : 0, color: '#2185DE', label: top5.length > 0 ? top5[2].Maker + " " + top5[2].Model : null},
+											{ value: top5.length > 0 ? top5[3].Amount : 0, color: '#63A9E8', label: top5.length > 0 ? top5[3].Maker + " " + top5[3].Model : null},
+											{ value: top5.length > 0 ? top5[4].Amount : 0, color: '#A6CEF2', label: top5.length > 0 ? top5[4].Maker + " " + top5[4].Model : null},
 										],
 										innerRadius: 80,
 										outerRadius: 100,
 										cornerRadius: 5,
-										paddingAngle: 1
+										paddingAngle: 1,
 									},
 								]}
 							/>
 							<div className='adminCakeDiagramText'>
-								<h2>1630</h2>
+								<h2>{top5.length > 0 ? sumOfTop5(top5) : 0}</h2>
 								<p>Rental Car</p>
 							</div>
 						</div>
@@ -204,46 +147,46 @@ function AdminPage() {
 							<div className='adminTop5Item'>
 								<div className='adminTop5ItemLeft'>
 									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#0D3559" }} />
-									<div className='adminTop5ItemAmount'>Car 1</div>
+									<div className='adminTop5ItemAmount'>{top5.length > 1 ? top5[0].Maker + " " + top5[0].Model : null}</div>
 								</div>
 								<div className='adminTop5ItemRight'>
-									<p>510</p>
+									<p>{top5.length > 1 ? top5[0].Amount : 0}</p>
 								</div>
 							</div>
 							<div className='adminTop5Item'>
 								<div className='adminTop5ItemLeft'>
 									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#175D9C" }} />
-									<div className='adminTop5ItemAmount'>Car 2</div>
+									<div className='adminTop5ItemAmount'>{top5.length > 1 ? top5[1].Maker + " " + top5[1].Model : null}</div>
 								</div>
 								<div className='adminTop5ItemRight'>
-									<p>439</p>
+									<p>{top5.length > 1 ? top5[1].Amount : 0}</p>
 								</div>
 							</div>
 							<div className='adminTop5Item'>
 								<div className='adminTop5ItemLeft'>
 									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#2185DE" }} />
-									<div className='adminTop5ItemAmount'>Car 3</div>
+									<div className='adminTop5ItemAmount'>{top5.length > 1 ? top5[2].Maker + " " + top5[2].Model : null}</div>
 								</div>
 								<div className='adminTop5ItemRight'>
-									<p>406</p>
+									<p>{top5.length > 1 ? top5[2].Amount : 0}</p>
 								</div>
 							</div>
 							<div className='adminTop5Item'>
 								<div className='adminTop5ItemLeft'>
 									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#63A9E8" }} />
-									<div className='adminTop5ItemAmount'>Car 4</div>
+									<div className='adminTop5ItemAmount'>{top5.length > 1 ? top5[3].Maker + " " + top5[3].Model : null}</div>
 								</div>
 								<div className='adminTop5ItemRight'>
-									<p>197</p>
+									<p>{top5.length > 1 ? top5[3].Amount : 0}</p>
 								</div>
 							</div>
 							<div className='adminTop5Item'>
 								<div className='adminTop5ItemLeft'>
 									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#A6CEF2" }} />
-									<div className='adminTop5ItemAmount'>Car 5</div>
+									<div className='adminTop5ItemAmount'>{top5.length > 1 ? top5[4].Maker + " " + top5[4].Model : null}</div>
 								</div>
 								<div className='adminTop5ItemRight'>
-									<p>78</p>
+									<p>{top5.length > 1 ? top5[4].Amount : 0}</p>
 								</div>
 							</div>
 						</div>
@@ -267,8 +210,10 @@ function AdminPage() {
 				</div>
 				<ul className='adminTopPurchaseUl'>
 					<li>Order ID</li>
+					<li>Date Purchased</li>
 					<li>Date From</li>
 					<li>Date To</li>
+					<li>User ID</li>
 					<li>Car ID</li>
 					<li>Location ID</li>
 					<li>Price</li>
@@ -277,19 +222,21 @@ function AdminPage() {
 				{purchaseHistory.map((p, i) => {
 					return (
 						<ul className='adminTopPurchaseList' key={i}>
-							<li>{p.orderID}</li>
-							<li>{p.dateFrom}</li>
-							<li>{p.dateTo}</li>
-							<li>{p.carID}</li>
-							<li>{p.locationID}</li>
-							<li>{p.price}</li>
-							<li style={{ "color": statusColor(p.status) }}>{p.status}</li>
+							<li>{p.ID}</li>
+							<li>{p.PurchaseDate}</li>
+							<li>{p.DateFrom}</li>
+							<li>{p.DateTo}</li>
+							<li>{p.User}</li>
+							<li>{p.CarID}</li>
+							<li>{p.LocationID}</li>
+							<li>{p.Price}</li>
+							<li style={{ "color": statusColor(p.Status) }}>{p.Status}</li>
 						</ul>
 					)
 				})}
 				<div className='adminPurchaseHistoryBottom'>
 					<div className='adminPurchaseHistoryPerPage'>
-						<select>
+						<select onChange={handlePurchaseHistoryRowsChange}>
 							<option value="10">10</option>
 							<option value="15">15</option>
 							<option value="20">20</option>
@@ -304,8 +251,8 @@ function AdminPage() {
 					</div>
 
 					<div className='adminPurchaseHistoryPage'>
-						<select>
-							<option>1</option>
+						<select onChange={handlePurchaseHistoryPageChange}>
+							<option value={1}>1</option>
 						</select>
 						<p>of 1 pages</p>
 						<div className='adminPurchaseHistoryPageArrow'>
@@ -336,6 +283,14 @@ function statusColor(status) {
 	} else if (status === "Rejected") {
 		return "rgba(193, 11, 14, 0.8)";
 	}
+}
+
+function sumOfTop5(top5) {
+	let sum = 0;
+	for (let i = 0; i < top5.length; i++) {
+		sum += top5[i].Amount;
+	}
+	return sum;
 }
 
 export default AdminPage;

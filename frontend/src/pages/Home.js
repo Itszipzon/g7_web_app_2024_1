@@ -140,7 +140,7 @@ function Home() {
 						<div className="searchContentContainer" style={locationinputMarked ? { "display": "flex" } : { "display": "none" }}>
 							<ul className="searchContentHomeUl" ref={locationRef}>
 								{locationsearchItems.map((item, index) =>
-									<li className={"searchContentHomeLi " + ((index === locationSelected) ? "liSelected" : "")} key={item.LocationAddress} onClick={() => {
+									<li className={"searchContentHomeLi " + ((index === locationSelected) ? "liSelected" : "")} key={index + item.LocationAddress} onClick={() => {
 										handleLocationClick(item.LocationName);
 									}} >
 										<div className="searchHomeNameContainer">
@@ -181,6 +181,7 @@ function Home() {
 									<CarCard
 										src={jsonValue.serverAddress + "api/car/img/" + item}
 										name="VolksWagen Golf"
+										id={item}
 										body="Hatchback"
 										fuel="Diesel"
 										transmission="Manual"

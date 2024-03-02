@@ -9,17 +9,13 @@ function Header() {
 	const [activeHeader, setActiveHeader] = useState("");
 	const location = useLocation();
 
-	const backend = true;
-
 	const jsonData = require("./information.json");
 
 	useEffect(() => {
-		if (backend) {
-			axios.get(jsonData.serverAddress + "api/image/logo.png").then((e) => {
-				setLogo(e.data);
-			});
-		}
-	}, [jsonData.serverAddress, backend]);
+		axios.get(jsonData.serverAddress + "api/image/logo.png").then((e) => {
+			setLogo(e.data);
+		});
+	}, [jsonData.serverAddress]);
 
 	useEffect(() => {
 		setActiveHeader(window.location.pathname);
