@@ -309,6 +309,7 @@ public class CarApi {
       e.printStackTrace();
     }
 
+    System.out.println("Sending car: " + carId);
     return new ResponseEntity<>(jsonString, HttpStatus.OK);
   }
 
