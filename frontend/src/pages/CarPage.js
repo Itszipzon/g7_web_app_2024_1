@@ -12,6 +12,7 @@ function CarPage() {
   const [amountOfImages, setAmountOfImages] = useState(0);
   const [images, setImages] = useState([]);
 
+
   const [selectedImage, setSelectedImage] = useState(0);
   const [firstImage, setFirstImage] = useState(1);
   const [secondImage, setSecondImage] = useState(2);
@@ -109,6 +110,31 @@ function CarPage() {
           </div>
         </div>
       </div>
+      <div className='carPageInfo'>
+        <div className='carPageInfoText'>
+          <ul style={{"fontWeight" : "Bold", "fontSize" : "24px"}}>
+            <li>Maker:</li>
+            <li>Model:</li>
+            <li>Year:</li>
+            <li>Fuel type:</li>
+            <li>Transmission:</li>
+            <li>Number of seats:</li>
+            <li>Extra features:</li>
+          </ul>
+          <ul style={{"alignItems" : "flex-end", "fontSize" : "24px"}}>
+            <li>{car.Maker}</li>
+            <li>{car.Model}</li>
+            <li>{car.Year}</li>
+            <li>{car.Fuel}</li>
+            <li>{car.Transmission}</li>
+            <li>{car.Seats}</li>
+            <li>{car.Extras}</li>
+          </ul>
+        </div>
+        <div className='carPageInfoMap'>
+
+        </div>
+      </div>
     </div>
   )
 }
@@ -129,4 +155,10 @@ function prevImage(selectedImage, amountOfImages) {
   } else {
     return amountOfImages - 1;
   }
+}
+
+function handleCarExtras(extras) {
+  let extraArray = extras.split(",");
+  console.log(extraArray);
+  return extraArray;
 }
