@@ -48,7 +48,7 @@ function AdminPage() {
 			axios.get(jsonValue.serverAddress + "api/purchase-history/get/admin/" + localStorage.getItem("UIDtoken"))
 				.then((r) => {
 					let purchaseHistoryParsed = r.data.map((p) => JSON.parse(p));
-					setPurchaseHistory(purchaseHistoryParsed);
+					  setPurchaseHistory(purchaseHistoryParsed);
 				});
 		}
 
@@ -102,7 +102,7 @@ function AdminPage() {
 				<div className='adminStatsContainer'>
 					<h2>Revenue</h2>
 					<div className='adminRevenueContainer'>
-						<LineChart
+						{top5.length > 0 ? <LineChart
 							xAxis={[{ data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] }]}
 							series={[
 								{
@@ -112,24 +112,28 @@ function AdminPage() {
 								},
 							]}
 						/>
+					:
+					<h1 style={{"margin" : "Auto"}}>Loading...</h1>
+					}
 					</div>
 				</div>
 				<div className='adminStatsContainer'>
 					<h2>Top 5 Car Rental</h2>
 					<div className='adminTop5Container'>
 						<div className='adminCakeDiagram'>
-							<PieChart
+							{top5.length > 0 ?
+								<PieChart
 								width={220}
 								margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
 								slotProps={{legend: {hidden: true}}}
 								series={[
 									{
 										data: [
-											{ value: top5.length > 0 ? top5[0].Amount : 0, color: '#0D3559', label: top5.length > 0 ? top5[0].Maker + " " + top5[0].Model : null},
-											{ value: top5.length > 0 ? top5[1].Amount : 0, color: '#175D9C', label: top5.length > 0 ? top5[1].Maker + " " + top5[1].Model : null},
-											{ value: top5.length > 0 ? top5[2].Amount : 0, color: '#2185DE', label: top5.length > 0 ? top5[2].Maker + " " + top5[2].Model : null},
-											{ value: top5.length > 0 ? top5[3].Amount : 0, color: '#63A9E8', label: top5.length > 0 ? top5[3].Maker + " " + top5[3].Model : null},
-											{ value: top5.length > 0 ? top5[4].Amount : 0, color: '#A6CEF2', label: top5.length > 0 ? top5[4].Maker + " " + top5[4].Model : null},
+											{ value: top5[0].Amount, color: '#0D3559', label: top5.length > 0 ? top5[0].Maker + " " + top5[0].Model : null},
+											{ value: top5[1].Amount, color: '#175D9C', label: top5.length > 0 ? top5[1].Maker + " " + top5[1].Model : null},
+											{ value: top5[2].Amount, color: '#2185DE', label: top5.length > 0 ? top5[2].Maker + " " + top5[2].Model : null},
+											{ value: top5[3].Amount, color: '#63A9E8', label: top5.length > 0 ? top5[3].Maker + " " + top5[3].Model : null},
+											{ value: top5[4].Amount, color: '#A6CEF2', label: top5.length > 0 ? top5[4].Maker + " " + top5[4].Model : null},
 										],
 										innerRadius: 80,
 										outerRadius: 100,
@@ -138,58 +142,62 @@ function AdminPage() {
 									},
 								]}
 							/>
+							:
+							<h1>Loading...</h1>}
+							{top5.length > 0 &&
 							<div className='adminCakeDiagramText'>
-								<h2>{top5.length > 0 ? sumOfTop5(top5) : 0}</h2>
+								<h2>{sumOfTop5(top5)}</h2>
 								<p>Rental Car</p>
-							</div>
+							</div>}
 						</div>
+						{top5.length > 0 &&
 						<div className='adminTop5List'>
 							<div className='adminTop5Item'>
 								<div className='adminTop5ItemLeft'>
 									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#0D3559" }} />
-									<div className='adminTop5ItemAmount'>{top5.length > 1 ? top5[0].Maker + " " + top5[0].Model : null}</div>
+									<div className='adminTop5ItemAmount'>{top5[0].Maker + " " + top5[0].Model}</div>
 								</div>
 								<div className='adminTop5ItemRight'>
-									<p>{top5.length > 1 ? top5[0].Amount : 0}</p>
+									<p>{top5[0].Amount}</p>
 								</div>
 							</div>
 							<div className='adminTop5Item'>
 								<div className='adminTop5ItemLeft'>
 									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#175D9C" }} />
-									<div className='adminTop5ItemAmount'>{top5.length > 1 ? top5[1].Maker + " " + top5[1].Model : null}</div>
+									<div className='adminTop5ItemAmount'>{top5[1].Maker + " " + top5[1].Model}</div>
 								</div>
 								<div className='adminTop5ItemRight'>
-									<p>{top5.length > 1 ? top5[1].Amount : 0}</p>
+									<p>{top5[1].Amount}</p>
 								</div>
 							</div>
 							<div className='adminTop5Item'>
 								<div className='adminTop5ItemLeft'>
 									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#2185DE" }} />
-									<div className='adminTop5ItemAmount'>{top5.length > 1 ? top5[2].Maker + " " + top5[2].Model : null}</div>
+									<div className='adminTop5ItemAmount'>{top5[2].Maker + " " + top5[2].Model}</div>
 								</div>
 								<div className='adminTop5ItemRight'>
-									<p>{top5.length > 1 ? top5[2].Amount : 0}</p>
+									<p>{top5[2].Amount}</p>
 								</div>
 							</div>
 							<div className='adminTop5Item'>
 								<div className='adminTop5ItemLeft'>
 									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#63A9E8" }} />
-									<div className='adminTop5ItemAmount'>{top5.length > 1 ? top5[3].Maker + " " + top5[3].Model : null}</div>
+									<div className='adminTop5ItemAmount'>{top5[3].Maker + " " + top5[3].Model}</div>
 								</div>
 								<div className='adminTop5ItemRight'>
-									<p>{top5.length > 1 ? top5[3].Amount : 0}</p>
+									<p>{top5[3].Amount}</p>
 								</div>
 							</div>
 							<div className='adminTop5Item'>
 								<div className='adminTop5ItemLeft'>
 									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#A6CEF2" }} />
-									<div className='adminTop5ItemAmount'>{top5.length > 1 ? top5[4].Maker + " " + top5[4].Model : null}</div>
+									<div className='adminTop5ItemAmount'>{top5[4].Maker + " " + top5[4].Model}</div>
 								</div>
 								<div className='adminTop5ItemRight'>
-									<p>{top5.length > 1 ? top5[4].Amount : 0}</p>
+									<p>{top5[4].Amount}</p>
 								</div>
 							</div>
-						</div>
+						</div>}
 					</div>
 				</div>
 			</div>
@@ -219,7 +227,8 @@ function AdminPage() {
 					<li>Price</li>
 					<li>Status</li>
 				</ul>
-				{purchaseHistory.map((p, i) => {
+				{purchaseHistory.length > 0 ? 
+				purchaseHistory.map((p, i) => {
 					return (
 						<ul className='adminTopPurchaseList' key={i}>
 							<li>{p.ID}</li>
@@ -233,7 +242,10 @@ function AdminPage() {
 							<li style={{ "color": statusColor(p.Status) }}>{p.Status}</li>
 						</ul>
 					)
-				})}
+				})
+			:
+			<h1 style={{"marginLeft" : "calc(50% - 50px)"}}>Loading...</h1>
+			}
 				<div className='adminPurchaseHistoryBottom'>
 					<div className='adminPurchaseHistoryPerPage'>
 						<select onChange={handlePurchaseHistoryRowsChange}>
