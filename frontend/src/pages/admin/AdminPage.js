@@ -22,6 +22,21 @@ function AdminPage() {
 
 	const jsonValue = require('../../information.json');
 
+	const dateLabels = [
+		"01.01.2024",
+		"02.01.2024",
+		"03.01.2024",
+		"04.01.2024",
+		"05.01.2024",
+		"06.01.2024",
+		"07.01.2024",
+		"08.01.2024",
+		"09.01.2024",
+		"10.01.2024",
+		"11.01.2024",
+		"12.01.2024"
+	]
+
 	const handleActiveItemChange = (index) => {
 		setActiveItem(index);
 	}
@@ -103,7 +118,7 @@ function AdminPage() {
 					<h2>Revenue</h2>
 					<div className='adminRevenueContainer'>
 						{top5.length > 0 ? <LineChart
-							xAxis={[{ data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] }]}
+							xAxis={[{ scaleType: "point", data: dateLabels }]}
 							series={[
 								{
 									data: [0, 2, 5, 7, 9, 10, 12, 15, 18, 20, 22, 2],
