@@ -148,18 +148,22 @@
 .CarPage .imageHolder .prevImage {
   width: var(--arrow-size);
   height: var(--arrow-size);
+  position: absolute;
   background-color: rgba(100, 100, 100, 0.329);
   border-radius: 50%;
   margin-left: 10px;
+  margin-top: calc((-1)*(750px/2 - var(--arrow-size)));
 }
 
 .CarPage .imageHolder .nextImage {
   width: var(--arrow-size);
   height: var(--arrow-size);
+  margin-left: calc(796px - var(--arrow-size) - 10px);
+  position: absolute;
   display: flex;
   background-color: rgba(100, 100, 100, 0.329);
   border-radius: 50%;
-  margin-right: 10px;
+  margin-top: calc((-1)*(750px/2 - var(--arrow-size)));
 }
 
 .CarPage .imageHolder .prevImage svg{
@@ -186,6 +190,10 @@
   width: 100%;
   height: 100%;
   border-radius: 8px;
+}
+
+.CarPage .imageHolder img:hover {
+  cursor: pointer;
 }
 
 .CarPage .imageSelector {
