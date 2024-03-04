@@ -1,12 +1,209 @@
 .CarPage {
   width: 100%;
-  height: 1000px;
-  background-color: red;
   display: flex;
   align-items: center;
   flex-direction: column;
+  background-color: var(--main-background-color);
+  --arrow-size : 50px;
+  font-family: 'main';
 }
 
-.CarPage img{
-  width: 1250px;
+.CarPage .bigImageHolder{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none;
+}
+
+.CarPage .bigImage{
+  width: 60%;
+  height: 70%;
+  margin-top: -90px;
+}
+
+.CarPage .bigImage .bigImageExit{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(170, 170, 170, 0.178);
+  border-radius: 50%;
+  font-size: 35px;
+}
+
+.CarPage .bigImage .bigImageExit:hover{
+  background-color: rgba(150, 150, 150, 0.589);
+  cursor: pointer;
+}
+
+.CarPage .bigImage img{
+  width: 100%;
+  height: 100%;
+  object-fit:contain;
+  border-radius: 8px;
+}
+
+.CarPage .bigImage .bigImagePrev {
+  width: var(--arrow-size);
+  height: var(--arrow-size);
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: calc(50% - 45px - var(--arrow-size)/2);
+  margin-left: 20px;
+  background-color: rgba(170, 170, 170, 0.589);
+  border-radius: 50%;
+  z-index: 5;
+}
+
+.CarPage .bigImage .bigImageNext {
+  width: var(--arrow-size);
+  height: var(--arrow-size);
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: calc(50% - 45px - var(--arrow-size)/2);
+  margin-left: calc(60% - 50px - 20px);
+  background-color: rgba(170, 170, 170, 0.589);
+  border-radius: 50%;
+
+}
+
+.CarPage .bigImage .bigImagePrev svg{
+  height: auto;
+}
+
+.CarPage .bigImage .bigImageNext svg{
+  height: auto;
+}
+
+.CarPage .bigImage .bigImagePrev:hover {
+  cursor: pointer;
+  background-color: rgba(150, 150, 150, 0.589);
+
+}
+
+.CarPage .bigImage .bigImageNext:hover {
+  cursor: pointer;
+  background-color: rgba(150, 150, 150, 0.589);
+
+}
+
+.CarPage .carPageTop{
+  margin-top: 58px;
+  height: 649px;
+  width: 1066px;
+  border-radius: 8px;
+}
+
+.CarPage .carPageTop h1{
+  font-size: 32px;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.CarPage .imageHolder {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.CarPage .displayedImage {
+  width: 796px;
+  height: 596px;
+  justify-content: center;
+}
+
+.CarPage .displayedImage img{
+  width: 100%;
+  height: 100%;
+  object-fit:contain;
+  border-radius: 8px;
+  margin-top: 0;
+}
+
+.CarPage .imageButtonHolder {
+  position: absolute;
+  display: flex;
+  width: 796px;
+  height: 596px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.CarPage .imageHolder .prevImage {
+  width: var(--arrow-size);
+  height: var(--arrow-size);
+  background-color: rgba(100, 100, 100, 0.329);
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.CarPage .imageHolder .nextImage {
+  width: var(--arrow-size);
+  height: var(--arrow-size);
+  display: flex;
+  background-color: rgba(100, 100, 100, 0.329);
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.CarPage .imageHolder .prevImage svg{
+  height: auto;
+}
+
+.CarPage .imageHolder .nextImage svg{
+  height: auto;
+}
+
+.CarPage .imageHolder .prevImage:hover {
+  cursor: pointer;
+  background-color: rgba(100, 100, 100, 0.541);
+
+}
+
+.CarPage .imageHolder .nextImage:hover {
+  cursor: pointer;
+  background-color: rgba(100, 100, 100, 0.541);
+
+}
+
+.CarPage .imageHolder img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.CarPage .imageSelector {
+  height: 596px;
+  width: 255px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.CarPage .imageSelector .imageSelectorImage {
+  height: 191px;
+  width: 255px;
+}
+
+.CarPage .imageSelector img {
+  height: 100%;
+  width: 100%;
+  object-fit:contain;
+  border-radius: 8px;
 }
