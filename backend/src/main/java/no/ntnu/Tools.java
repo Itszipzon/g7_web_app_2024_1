@@ -1,5 +1,6 @@
 package no.ntnu;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Random;
 import no.ntnu.user.User;
@@ -63,6 +64,23 @@ public class Tools {
     }
 
     return stringBuilder.toString();
+  }
+
+  /**
+   * Returns the url to a resource.
+   *
+   * @param url to folder or file.
+   * @return the resource
+   */
+  public static URL getUrl(String url) {
+    if (System.getProperty("os.name").contains("Windows")) {
+      url = url.substring(1);
+      if (url.startsWith("ile:/")) {
+        url = url.replace("ile:/", "");
+      }
+    }
+    Main main = new Main();
+    return main.getResource(url);
   }
 
 }

@@ -169,13 +169,12 @@
     border-radius: 8px;
 }
 
-.adminpage .adminPurchaseHistorySearchButtonContainer {
+.adminpage .adminSearchButtonContainer {
     position: absolute;
-    left: calc(50% + 1065px/2);
-    margin-left: 10px;
+    left: calc(50% + 1085px/2);
 }
 
-.adminpage .adminPurchaseHistorySearchButton {
+.adminpage .adminSearchButton {
     height: 30px;
     width: 30px;
     border-radius: 8px;
@@ -185,16 +184,16 @@
     align-items: center;
 }
 
-.adminpage .adminPurchaseHistorySearchButton:hover {
+.adminpage .adminSearchButton:hover {
     cursor: pointer;
     background-color: rgba(167, 167, 167, 0.9);
 }
 
-.adminpage .adminPurchaseHistorySearchButton svg {
+.adminpage .adminSearchButton svg {
     height: 20px;
 }
 
-.adminpage .adminPurchaseHistorySearchButtonContainer input {
+.adminpage .adminSearchButtonContainer input {
     margin-top: 10px;
     background-color: #D9D9D9;
     border: none;

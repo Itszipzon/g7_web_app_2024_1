@@ -10,10 +10,11 @@ function AdminPage() {
 
 	const [activeItem, setActiveItem] = useState(0);
 	const [showPurchaseHistorySearch, setShowPurchaseHistorySearch] = useState(false);
+	const [showAdminPanelSearch, setShowAdminPanelSearch] = useState(false);
 
 	const [top5, setTop5] = useState([]);
 
-	const colors = ['#0D3559', '#175D9C', '#2185DE', '#63A9E8', '#A6CEF2'];
+	const [adminPanelSearch, setAdminPanelSearch] = useState("");
 
 	const [purchaseHistoryRows, setPurchaseHistoryRows] = useState(10);
 	const [purchaseHistoryPage, setPurchaseHistoryPage] = useState(0);
@@ -63,7 +64,7 @@ function AdminPage() {
 			axios.get(jsonValue.serverAddress + "api/purchase-history/get/admin/" + localStorage.getItem("UIDtoken"))
 				.then((r) => {
 					let purchaseHistoryParsed = r.data.map((p) => JSON.parse(p));
-					  setPurchaseHistory(purchaseHistoryParsed);
+					setPurchaseHistory(purchaseHistoryParsed);
 				});
 		}
 
@@ -73,6 +74,15 @@ function AdminPage() {
 				setTop5(top5Parsed);
 			});
 	}, [jsonValue, isAdmin]);
+
+	const handleAdminPanelSearchClick = () => {
+		setShowAdminPanelSearch(!showAdminPanelSearch);
+		setAdminPanelSearch("");
+	}
+
+	const handleAdminPanelSearchChange = (e) => {
+		setAdminPanelSearch(e.target.value);
+	}
 
 	const handlePurchaseHistorySearchClick = () => {
 		setShowPurchaseHistorySearch(!showPurchaseHistorySearch);
@@ -104,10 +114,24 @@ function AdminPage() {
 				</div>
 			</div>
 			<div className='adminContent'>
+				<div className='adminSearchButtonContainer'>
+					<div className='adminSearchButton' onClick={handleAdminPanelSearchClick}>
+						<svg fill="#ffffff" height="45px" width="45px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 490.4 490.4">
+							<g>
+								<path d="M484.1,454.796l-110.5-110.6c29.8-36.3,47.6-82.8,47.6-133.4c0-116.3-94.3-210.6-210.6-210.6S0,94.496,0,210.796
+			s94.3,210.6,210.6,210.6c50.8,0,97.4-18,133.8-48l110.5,110.5c12.9,11.8,25,4.2,29.2,0C492.5,475.596,492.5,463.096,484.1,454.796z
+			M41.1,210.796c0-93.6,75.9-169.5,169.5-169.5s169.6,75.9,169.6,169.5s-75.9,169.5-169.5,169.5S41.1,304.396,41.1,210.796z"/>
+							</g>
+						</svg>
+					</div>
+					<input value={adminPanelSearch} onChange={handleAdminPanelSearchChange} style={showAdminPanelSearch ? { "display": "block" } : { "display": "none" }} type='text' placeholder='Search...' />
+				</div>
 				{activeItem === 0 ? <h2>Change, add, hide and remove cars</h2> : ""}
 				{activeItem === 1 ? <h2>Change, add, hide and remove locations</h2> : ""}
 				{activeItem === 2 ? <h2>Administrate users</h2> : ""}
 				<div className='adminContentItemContainer'>
+
 					<div className='adminContentItem'>
 
 					</div>
@@ -127,9 +151,9 @@ function AdminPage() {
 								},
 							]}
 						/>
-					:
-					<h1 style={{"margin" : "Auto"}}>Loading...</h1>
-					}
+							:
+							<h1 style={{ "margin": "Auto" }}>Loading...</h1>
+						}
 					</div>
 				</div>
 				<div className='adminStatsContainer'>
@@ -138,88 +162,88 @@ function AdminPage() {
 						<div className='adminCakeDiagram'>
 							{top5.length > 0 ?
 								<PieChart
-								width={220}
-								margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-								slotProps={{legend: {hidden: true}}}
-								series={[
-									{
-										data: [
-											{ value: top5[0].Amount, color: '#0D3559', label: top5.length > 0 ? top5[0].Maker + " " + top5[0].Model : null},
-											{ value: top5[1].Amount, color: '#175D9C', label: top5.length > 0 ? top5[1].Maker + " " + top5[1].Model : null},
-											{ value: top5[2].Amount, color: '#2185DE', label: top5.length > 0 ? top5[2].Maker + " " + top5[2].Model : null},
-											{ value: top5[3].Amount, color: '#63A9E8', label: top5.length > 0 ? top5[3].Maker + " " + top5[3].Model : null},
-											{ value: top5[4].Amount, color: '#A6CEF2', label: top5.length > 0 ? top5[4].Maker + " " + top5[4].Model : null},
-										],
-										innerRadius: 80,
-										outerRadius: 100,
-										cornerRadius: 5,
-										paddingAngle: 1,
-									},
-								]}
-							/>
-							:
-							<h1>Loading...</h1>}
+									width={220}
+									margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+									slotProps={{ legend: { hidden: true } }}
+									series={[
+										{
+											data: [
+												{ value: top5[0].Amount, color: '#0D3559', label: top5.length > 0 ? top5[0].Maker + " " + top5[0].Model : null },
+												{ value: top5[1].Amount, color: '#175D9C', label: top5.length > 0 ? top5[1].Maker + " " + top5[1].Model : null },
+												{ value: top5[2].Amount, color: '#2185DE', label: top5.length > 0 ? top5[2].Maker + " " + top5[2].Model : null },
+												{ value: top5[3].Amount, color: '#63A9E8', label: top5.length > 0 ? top5[3].Maker + " " + top5[3].Model : null },
+												{ value: top5[4].Amount, color: '#A6CEF2', label: top5.length > 0 ? top5[4].Maker + " " + top5[4].Model : null },
+											],
+											innerRadius: 80,
+											outerRadius: 100,
+											cornerRadius: 5,
+											paddingAngle: 1,
+										},
+									]}
+								/>
+								:
+								<h1>Loading...</h1>}
 							{top5.length > 0 &&
-							<div className='adminCakeDiagramText'>
-								<h2>{sumOfTop5(top5)}</h2>
-								<p>Rental Car</p>
-							</div>}
+								<div className='adminCakeDiagramText'>
+									<h2>{sumOfTop5(top5)}</h2>
+									<p>Rental Car</p>
+								</div>}
 						</div>
 						{top5.length > 0 &&
-						<div className='adminTop5List'>
-							<div className='adminTop5Item'>
-								<div className='adminTop5ItemLeft'>
-									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#0D3559" }} />
-									<div className='adminTop5ItemAmount'>{top5[0].Maker + " " + top5[0].Model}</div>
+							<div className='adminTop5List'>
+								<div className='adminTop5Item'>
+									<div className='adminTop5ItemLeft'>
+										<div className='adminTop5ItemColor' style={{ "backgroundColor": "#0D3559" }} />
+										<div className='adminTop5ItemAmount'>{top5[0].Maker + " " + top5[0].Model}</div>
+									</div>
+									<div className='adminTop5ItemRight'>
+										<p>{top5[0].Amount}</p>
+									</div>
 								</div>
-								<div className='adminTop5ItemRight'>
-									<p>{top5[0].Amount}</p>
+								<div className='adminTop5Item'>
+									<div className='adminTop5ItemLeft'>
+										<div className='adminTop5ItemColor' style={{ "backgroundColor": "#175D9C" }} />
+										<div className='adminTop5ItemAmount'>{top5[1].Maker + " " + top5[1].Model}</div>
+									</div>
+									<div className='adminTop5ItemRight'>
+										<p>{top5[1].Amount}</p>
+									</div>
 								</div>
-							</div>
-							<div className='adminTop5Item'>
-								<div className='adminTop5ItemLeft'>
-									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#175D9C" }} />
-									<div className='adminTop5ItemAmount'>{top5[1].Maker + " " + top5[1].Model}</div>
+								<div className='adminTop5Item'>
+									<div className='adminTop5ItemLeft'>
+										<div className='adminTop5ItemColor' style={{ "backgroundColor": "#2185DE" }} />
+										<div className='adminTop5ItemAmount'>{top5[2].Maker + " " + top5[2].Model}</div>
+									</div>
+									<div className='adminTop5ItemRight'>
+										<p>{top5[2].Amount}</p>
+									</div>
 								</div>
-								<div className='adminTop5ItemRight'>
-									<p>{top5[1].Amount}</p>
+								<div className='adminTop5Item'>
+									<div className='adminTop5ItemLeft'>
+										<div className='adminTop5ItemColor' style={{ "backgroundColor": "#63A9E8" }} />
+										<div className='adminTop5ItemAmount'>{top5[3].Maker + " " + top5[3].Model}</div>
+									</div>
+									<div className='adminTop5ItemRight'>
+										<p>{top5[3].Amount}</p>
+									</div>
 								</div>
-							</div>
-							<div className='adminTop5Item'>
-								<div className='adminTop5ItemLeft'>
-									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#2185DE" }} />
-									<div className='adminTop5ItemAmount'>{top5[2].Maker + " " + top5[2].Model}</div>
+								<div className='adminTop5Item'>
+									<div className='adminTop5ItemLeft'>
+										<div className='adminTop5ItemColor' style={{ "backgroundColor": "#A6CEF2" }} />
+										<div className='adminTop5ItemAmount'>{top5[4].Maker + " " + top5[4].Model}</div>
+									</div>
+									<div className='adminTop5ItemRight'>
+										<p>{top5[4].Amount}</p>
+									</div>
 								</div>
-								<div className='adminTop5ItemRight'>
-									<p>{top5[2].Amount}</p>
-								</div>
-							</div>
-							<div className='adminTop5Item'>
-								<div className='adminTop5ItemLeft'>
-									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#63A9E8" }} />
-									<div className='adminTop5ItemAmount'>{top5[3].Maker + " " + top5[3].Model}</div>
-								</div>
-								<div className='adminTop5ItemRight'>
-									<p>{top5[3].Amount}</p>
-								</div>
-							</div>
-							<div className='adminTop5Item'>
-								<div className='adminTop5ItemLeft'>
-									<div className='adminTop5ItemColor' style={{ "backgroundColor": "#A6CEF2" }} />
-									<div className='adminTop5ItemAmount'>{top5[4].Maker + " " + top5[4].Model}</div>
-								</div>
-								<div className='adminTop5ItemRight'>
-									<p>{top5[4].Amount}</p>
-								</div>
-							</div>
-						</div>}
+							</div>}
 					</div>
 				</div>
 			</div>
 
 			<div className='adminPurchaseHistoryContainer'>
-				<div className='adminPurchaseHistorySearchButtonContainer'>
-					<div className='adminPurchaseHistorySearchButton' onClick={handlePurchaseHistorySearchClick}>
+				<div className='adminSearchButtonContainer'>
+					<div className='adminSearchButton' onClick={handlePurchaseHistorySearchClick}>
 						<svg fill="#ffffff" height="45px" width="45px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 490.4 490.4">
 							<g>
@@ -242,25 +266,25 @@ function AdminPage() {
 					<li>Price</li>
 					<li>Status</li>
 				</ul>
-				{purchaseHistory.length > 0 ? 
-				purchaseHistory.map((p, i) => {
-					return (
-						<ul className='adminTopPurchaseList' key={i}>
-							<li>{p.ID}</li>
-							<li>{p.PurchaseDate}</li>
-							<li>{p.DateFrom}</li>
-							<li>{p.DateTo}</li>
-							<li>{p.User}</li>
-							<li>{p.CarID}</li>
-							<li>{p.LocationID}</li>
-							<li>{p.Price}</li>
-							<li style={{ "color": statusColor(p.Status) }}>{p.Status}</li>
-						</ul>
-					)
-				})
-			:
-			<h1 style={{"marginLeft" : "calc(50% - 50px)"}}>Loading...</h1>
-			}
+				{purchaseHistory.length > 0 ?
+					purchaseHistory.map((p, i) => {
+						return (
+							<ul className='adminTopPurchaseList' key={i}>
+								<li>{p.ID}</li>
+								<li>{p.PurchaseDate}</li>
+								<li>{p.DateFrom}</li>
+								<li>{p.DateTo}</li>
+								<li>{p.User}</li>
+								<li>{p.CarID}</li>
+								<li>{p.LocationID}</li>
+								<li>{p.Price}</li>
+								<li style={{ "color": statusColor(p.Status) }}>{p.Status}</li>
+							</ul>
+						)
+					})
+					:
+					<h1 style={{ "marginLeft": "calc(50% - 50px)" }}>Loading...</h1>
+				}
 				<div className='adminPurchaseHistoryBottom'>
 					<div className='adminPurchaseHistoryPerPage'>
 						<select onChange={handlePurchaseHistoryRowsChange}>
