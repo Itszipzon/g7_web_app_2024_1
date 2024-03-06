@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import no.ntnu.DatabaseCon;
 import no.ntnu.Tools;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -298,7 +299,12 @@ public class CarApi {
         json.put("Fuel", result.getString("Fuel"));
         json.put("Transmission", result.getString("Transmission"));
         json.put("Seats", result.getInt("Seats"));
-        json.put("Extras", result.getString("Extra_Names"));
+        String[] extras = result.getString("Extra_Names").split(",");
+        JSONArray extrasArray = new JSONArray();
+        for (String e : extras) {
+          extrasArray.put(e);
+        }
+        json.put("Extras", extrasArray);
         jsonString = json.toString();
       }
 

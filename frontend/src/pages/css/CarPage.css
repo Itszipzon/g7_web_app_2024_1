@@ -126,13 +126,14 @@
     height: 596px;
     justify-content: center;
 
-    .displayedImage img {
+    img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       border-radius: 8px;
       margin-top: 0;
     }
+
   }
 
   .imageHolder {
@@ -233,6 +234,24 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+      }
+
+      .extrasLi:hover {
+        cursor:default;
+      }
+
+      .carExtras {
+        position: fixed;
+        height: fit-content;
+        padding: 2px;
+        width: 300px;
+        background-color: white;
+        border: 1px solid gray;
+        border-radius: 8px;
+      }
+
+      .carExtras ul li {
+        margin: 2px 0;
       }
     }
 
