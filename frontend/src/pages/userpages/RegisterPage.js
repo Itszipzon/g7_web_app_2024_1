@@ -179,45 +179,76 @@ function RegisterPage() {
 
 	useEffect(() => {
 		axios.get(jsonValue.serverAddress + "api/users/emails")
-		.then((r) => {
-			setEmails(r.data);
-		});
+			.then((r) => {
+				setEmails(r.data);
+			});
 	}, [jsonValue]);
 
+	useEffect(() => {
+		window.scrollTo({top: 0, behavior: "smooth"});
+	}, [errorMessage])
+
 	return (
-		<div className='RegisterPage'>
-			<div className='RegisterContainer'>
-				<h1>Register</h1>
-				<div className='RegisterForm'>
-					<input type='text' className='defaultRegisterInput' placeholder='Full Name' onChange={handleNameChange} />
-					<input type='text' className='defaultRegisterInput' placeholder='Email' onChange={handleEmailChange} />
-					<div className='RegisterPassword'>
-						<input type='password' onChange={handlePasswordChange} className='passwordInput defaultRegisterInput' placeholder='Password' />
-						<input type='password' onChange={handleRepeatPasswordChange} className='passwordRepeat defaultRegisterInput' placeholder='Repeat Password' />
+		<div className='RegisterPage' id='RegisterPage'>
+			<div className='registerContainer'>
+				<h1>Register.</h1>
+				<p color='red' id='errorMessage'>{errorMessage && 
+				errorMessage}</p>
+				<div className='registerForm' onSubmit={handleRegisterButtonClick}>
+					<div className='fullInput'>
+						<label>Full Name</label>
+						<input type='text' onChange={handleNameChange} value={name}/>
 					</div>
-					<div className='addressContainer'>
-						<input type='text' className='defaultRegisterInput' onChange={handleAddressChange} placeholder='Address' />
-						<div className='addressExtra'>
-							<input type='text' className='defaultRegisterInput' onChange={handlePostalCodeChange} placeholder='Postal Code' />
-							<input type='text' className='defaultRegisterInput' onChange={handleCityChange} placeholder='City' />
+					<div className='fullInput'>
+						<label>Email Address</label>
+						<input type='text' onChange={handleEmailChange} value={email}/>
+					</div>
+					<div className='halfInput'>
+						<div>
+							<label>Password</label>
+							<input type='password' onChange={handlePasswordChange} value={password}/>
 						</div>
-						<select onChange={handleCountryChange}>
-							<option value="">Select country...</option>
-							<option value="Norway">Norway</option>
-							<option value="Sweden">Sweden</option>
+						<div>
+							<label>Repeat Password</label>
+							<input type='password' onChange={handleRepeatPasswordChange} value={repeatPassword}/>
+						</div>
+					</div>
+					<div className='fullInput'>
+						<label>Country</label>
+						<select onChange={handleCountryChange} value={country}>
+							<option value="Switzerland">Switzerland</option>
 							<option value="Denmark">Denmark</option>
+							<option value="Sweden">Sweden</option>
+							<option value="Norway">Norway</option>
 							<option value="Finland">Finland</option>
 						</select>
 					</div>
-					<div className='phoneNumberContainer'>
-						<select className='phoneNumberSelect' value={countryCode} onChange={handleCountryCodeChange}>
-							<option value="">Option</option>
-							<option value="+47">+47</option>
-							<option value="+46">+46</option>
-							<option value="+45">+45</option>
-							<option value="+358">+358</option>
-						</select>
-						<input type='text' className='phoneNumberInput' onChange={handlePhoneNumberChange} placeholder='Phone number' />
+					<div className='fullInput'>
+						<label>Address</label>
+						<input type='text' onChange={handleAddressChange} value={address}/>
+					</div>
+					<div className='halfInput'>
+						<div>
+							<label>Postal Code</label>
+							<input type='text' onChange={handlePostalCodeChange} value={postalCode}/>
+						</div>
+						<div>
+							<label>City</label>
+							<input type='text' onChange={handleCityChange} value={city}/>
+						</div>
+					</div>
+					<div className='fullInput' >
+						<label>Phone Number</label>
+						<div className='phoneDiv'>
+							<select onChange={handleCountryCodeChange} value={countryCode}>
+								<option value={"+41"}>+41</option>
+								<option value={"+45"}>+45</option>
+								<option value={"+46"}>+46</option>
+								<option value={"+47"}>+47</option>
+								<option value={"+358"}>+358</option>
+							</select>
+							<input type='text' onChange={handlePhoneNumberChange} value={phoneNumber} />
+						</div>
 					</div>
 					<div className='termsContainer'>
 						<label className="termsContainerRegister">
@@ -226,13 +257,10 @@ function RegisterPage() {
 						</label>
 						<p>I agree to the <Link to={"/register?terms=" + terms} className='termslink'>terms and conditions</Link></p>
 					</div>
-					<div className='RegisterButtonContainer'>
-						<div className='RegisterButton' onClick={handleRegisterButtonClick}>
-							Register
-						</div>
+					<div className='buttonDiv'>
+						<button onClick={handleRegisterButtonClick}>Sign Up</button>
 					</div>
 				</div>
-				{errorMessage && <p className='errorMessage'>{errorMessage}</p>}
 			</div>
 		</div>
 	);
