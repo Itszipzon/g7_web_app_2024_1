@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './css/LoginPage.css';
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 function LoginPage() {
 	const [email, setEmail] = useState('');
@@ -54,11 +55,15 @@ function LoginPage() {
 						<input type='text' onChange={handlePasswordChange} value={password}/>
 					</div>
 
+					
 					<div className='login-button'>
 						<button onClick={onLoginButtonClick}>Login</button>
 
 					</div>
+					<div className='signup-text'>
+						<p>Don't have an account? <Link to={"/register"} className='signup-link'>Sign Up</Link></p>
 
+					</div>
 
                 </div>
                 
