@@ -38,31 +38,26 @@ function LoginPage() {
 	});
 
 	return (
-		<div className="login-page">
+		<div className="login-page" id= "login-page">
 			<div className='login-container'>
-                <div className='header-text'>
-                    <h1>Welcome Back!</h1>
-                    <div className='paragraph'>
-                        <p>Enter your credentials to login.</p>
-                    </div>
-                   
-                </div>
+                <h1>Welcome Back!</h1>
+				<p>Enter your credentials to login</p>
                 
                 <div className='login-form'>
-                    <div className='login-input'>
-                        <p>Email</p>
-                        <div className='email-input'>
-                            <input type="text" value={email} onChange={handleEmailChange} placeholder="Email" />
-                        </div>
-                        <p>Password</p>
-                        <div className='password-input'>
-                            <input type="password" value={password} onChange={handlePasswordChange} placeholder="Password" />
-                        </div>
-                        
-                        <div onClick={onLoginButtonClick} className='login-button'>
-                            Login
-                        </div>
-                    </div>
+
+					<div className='fullInput'>
+						<label>Email Address</label>
+						<input type='text' onChange={handleEmailChange} value={email}/>
+					</div>
+					<div className='fullInput'>
+						<label>Password</label>
+						<input type='text' onChange={handlePasswordChange} value={password}/>
+					</div>
+
+					<div className='login-button'>
+						<button onClick={onLoginButtonClick}>Login</button>
+
+					</div>
 
 
                 </div>
