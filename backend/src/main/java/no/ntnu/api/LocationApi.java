@@ -6,7 +6,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import no.ntnu.DatabaseCon;
+import no.ntnu.user.SessionManager;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,13 +23,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api")
 public class LocationApi {
 
+  @Autowired
+  private SessionManager sessionManager;
+
   /**
    * Returns all the locations.
    *
    * @return all the locations.
    */
-  @GetMapping("get/locations")
-  public ResponseEntity<List<String>> getLocations() {
+  @GetMapping("get/locations/{token}")
+  public ResponseEntity<List<String>> getLocations(@PathVariable String token) {
+
+    if (!sessionManager.getSessions().containsKey(token)
+        || !sessionManager.getSessions().get(token).isAdmin()) {
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
     List<String> jsonStringArray = new ArrayList<>();
 
     try {
@@ -48,6 +59,7 @@ public class LocationApi {
 
     } catch (SQLException e) {
       e.printStackTrace();
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);

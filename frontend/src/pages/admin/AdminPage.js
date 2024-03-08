@@ -24,6 +24,9 @@ function AdminPage() {
 	const [purchaseHistorySearch, setPurchaseHistorySearch] = useState("");
 	const [purchaseHistory, setPurchaseHistory] = useState([]);
 
+	const [cars, setCars] = useState([]);
+	const [locations, setLocations] = useState([]);
+
 	const jsonValue = require('../../information.json');
 
 	const dateLabels = [
@@ -44,6 +47,22 @@ function AdminPage() {
 	const handleActiveItemChange = (index) => {
 		setActiveItem(index);
 	}
+
+	useEffect(() => {
+		axios.get(jsonValue.serverAddress + "api/car/get/all/" + localStorage.getItem("UIDtoken"))
+			.then((r) => {
+				let carsParsed = r.data.map((p) => JSON.parse(p));
+				setCars(carsParsed);
+			});
+	}, [jsonValue]);
+
+	useEffect(() => {
+		axios.get(jsonValue.serverAddress + "api/get/locations/" + localStorage.getItem("UIDtoken"))
+			.then((r) => {
+				let locationsParsed = r.data.map((p) => JSON.parse(p));
+				setLocations(locationsParsed)
+			});
+	}, [jsonValue]);
 
 	useEffect(() => {
 		if (!localStorage.getItem("UIDtoken")) {
@@ -140,8 +159,60 @@ function AdminPage() {
 						<AddNewCar close={handleShowAddCarClick} />
 					</div>
 
+					{ activeItem === 0 &&
 					<div className='adminContentItem'>
-					</div>
+						<ul>
+							<li>Car ID</li>
+							<li>Maker</li>
+							<li>Model</li>
+							<li>Year</li>
+							<li>Fuel</li>
+							<li>Transmission</li>
+							<li>Seats</li>
+							<li>Body</li>
+						</ul>
+						<div className='adminItemContentList'>
+							{
+								cars.map((car, i) => {
+									return (
+										<ul key={i}>
+											<li>{car.ID}</li>
+											<li>{car.Maker}</li>
+											<li>{car.Model}</li>
+											<li>{car.Year}</li>
+											<li>{car.Fuel}</li>
+											<li>{car.Transmission}</li>
+											<li>{car.Seats}</li>
+											<li>{car.Body}</li>
+										</ul>
+									)
+								})}
+						</div>
+					</div>}
+
+					{ activeItem === 1 &&
+					<div className='adminContentItem'>
+						<ul>
+							<li>Location ID</li>
+							<li>Name</li>
+							<li>Address</li>
+							<li>IsBusiness</li>
+						</ul>
+						<div className='adminItemContentList'>
+							{
+								locations.map((location, i) => {
+									return (
+										<ul key={i}>
+											<li>{location.ID}</li>
+											<li>{location.Name}</li>
+											<li>{location.Address}</li>
+											<li>{location.Business ? "Yes" : "No"}</li>
+										</ul>
+									)
+								})}
+						</div>
+					</div>}
+
 				</div>
 				<div className='adminContentBottomButton'>
 					{activeItem === 0 ? <button onClick={handleShowAddCarClick}>Add new car</button> : ""}

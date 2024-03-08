@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import no.ntnu.DatabaseCon;
 import no.ntnu.Tools;
+import no.ntnu.user.SessionManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,54 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class CarApi {
+
+  @Autowired
+  private SessionManager manager;
+
+  /**
+   * Returns all the cars.
+   *
+   * @param token token.
+   * @return all the cars.
+   */
+  @GetMapping("car/get/all/{token}")
+  public ResponseEntity<List<String>> getOnlyCars(
+        @PathVariable String token) {
+
+    if (!manager.getSessions().containsKey(token) || !manager.getSessions().get(token).isAdmin()) {
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    List<String> array = new ArrayList<>();
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+
+      String query = "SELECT * FROM Car;";
+
+      ResultSet result = con.query(query);
+
+      while (result.next()) {
+        JSONObject json = new JSONObject();
+        json.put("ID", result.getInt("ID"));
+        json.put("Maker", result.getString("Maker"));
+        json.put("Model", result.getString("Model"));
+        json.put("Year", result.getInt("Year"));
+        json.put("Fuel", result.getString("Fuel"));
+        json.put("Transmission", result.getString("Transmission"));
+        json.put("Seats", result.getInt("Seats"));
+        json.put("Body", result.getString("Body"));
+        array.add(json.toString());
+      }
+
+      result.close();
+      con.close();
+      return new ResponseEntity<>(array, HttpStatus.OK);
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 
   /**
    * Returns all the cars.

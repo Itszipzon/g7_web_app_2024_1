@@ -121,23 +121,6 @@ function AddNewCar(
           axios.get(jsonValue.serverAddress + "api/car/get/"
             + maker + "/" + model + "/" + year).then((r) => {
 
-              const formData = new FormData();
-
-              /* const imageData = images.map((image, index) => ({
-                cid: r.data,
-                imageFile: image,
-                imageNumber: index,
-                imageFrom: imageFrom
-              })); */
-
-              /* axios.post(jsonValue.serverAddress + 'post/new/car/image', imageData).then(
-                (re) => {
-                  if (re.status === 200) {
-                    console.log('Image posted');
-                  }
-                }
-              ); */
-
               images.map((image, index) => {
                 let formData = new FormData();
                 formData.append('cid', r.data);
@@ -148,11 +131,11 @@ function AddNewCar(
                 axios.post(jsonValue.serverAddress + 'post/new/car/image', formData).then((r) => {
                   if (r.status === 200) {
                     console.log('Image posted');
-                    window.location.reload();
                   }
                 })
               });
 
+              window.location.reload();
             });
         }
       }
