@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.springframework.core.io.ClassPathResource;
 
 /**
  * Class to connect to a database.
@@ -27,14 +28,12 @@ public class DatabaseCon {
    * Connect to a database with default values from env file.
    */
   public DatabaseCon() {
-    System.out.println("resource: " + main.getResource("/static").toString());
-    System.out.println("correct: " + Main.getCorrectUrl(main.getResource("/static").toString()));
-    
-    env = Dotenv.configure().directory(Main.getCorrectUrl(
-      main.getResource("/static").toString()
-      ))
-    .filename(".env").load();
-    this.url = env.get("DATABASE_URL"); // jdbc:mysql://localhost:3307/testcarrental
+    String url = new ClassPathResource("static/").getPath();
+
+    env = Dotenv.configure().directory(url)
+      .filename(".env").load();
+
+    this.url = env.get("DATABASE_URL");
     this.dbUser = env.get("DATABASE_USERNAME");
     this.dbPassword = env.get("DATABASE_PASSWORD");
     this.con = null;

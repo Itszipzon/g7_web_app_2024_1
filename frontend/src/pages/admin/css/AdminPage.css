@@ -58,10 +58,42 @@
     font-weight: bold;
 }
 
+.adminpage .adminContentBottomButton {
+    width: 100%;
+    display: grid;
+    justify-content: center;
+}
+
+.adminpage .adminContent .adminContentBottomButton button {
+    background-color: var(--button-backround-color);
+    color: white;
+    border-radius: 8px;
+    margin-left: auto;
+    margin-top: 10px;
+    border: none;
+    padding: 10px 20px;
+}
+
+.adminpage .adminContent .adminContentBottomButton button:hover {
+    background-color: #266fac;
+    cursor: pointer;
+
+}
+
 .adminpage .adminContentItemContainer {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+.adminpage .adminContentItemContainer .addNewCar {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    height: 70%;
+    width: 70%;
 }
 
 .adminpage .adminContentItem {

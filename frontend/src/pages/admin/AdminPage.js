@@ -3,6 +3,7 @@ import './css/AdminPage.css';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { LineChart } from '@mui/x-charts/LineChart';
 import axios from "axios";
+import AddNewCar from '../../elements/AddNewCar';
 
 function AdminPage() {
 
@@ -11,6 +12,8 @@ function AdminPage() {
 	const [activeItem, setActiveItem] = useState(0);
 	const [showPurchaseHistorySearch, setShowPurchaseHistorySearch] = useState(false);
 	const [showAdminPanelSearch, setShowAdminPanelSearch] = useState(false);
+
+	const [showAddNewCar, setShowAddNewCar] = useState(false);
 
 	const [top5, setTop5] = useState([]);
 
@@ -101,7 +104,9 @@ function AdminPage() {
 		setPurchaseHistoryPage(e.target.value - 1);
 	}
 
-
+	const handleShowAddCarClick = () => {
+		setShowAddNewCar(!showAddNewCar);
+	}
 
 	return (isAdmin &&
 		<div className="adminpage">
@@ -131,10 +136,16 @@ function AdminPage() {
 				{activeItem === 1 ? <h2>Change, add, hide and remove locations</h2> : ""}
 				{activeItem === 2 ? <h2>Administrate users</h2> : ""}
 				<div className='adminContentItemContainer'>
+					<div className='addNewCar' style={showAddNewCar ? {"display" : "block"} : {"display" : "none"}}>
+						<AddNewCar close={handleShowAddCarClick} />
+					</div>
 
 					<div className='adminContentItem'>
-
 					</div>
+				</div>
+				<div className='adminContentBottomButton'>
+					{activeItem === 0 ? <button onClick={handleShowAddCarClick}>Add new car</button> : ""}
+					{activeItem === 1 ? <button>Add new location</button> : ""}
 				</div>
 			</div>
 			<div className='adminStatsHolder'>

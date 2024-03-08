@@ -1,0 +1,197 @@
+.AddNewCar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid darkgray;
+}
+
+.AddNewCar .closeButton {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  background-color: rgb(212, 212, 212);
+  margin-left: 95%;
+  margin-top: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.AddNewCar .closeButton:hover {
+  cursor: pointer;
+  background-color: rgb(200, 200, 200);
+}
+
+.AddNewCar .imageScreen {
+  position: fixed;
+  width: 70%;
+  height: 70%;
+  background-color: white;
+  border: 1px solid #D9D9D9;
+  border-radius: 8px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow-y: scroll;
+  display: flex;
+  align-items: center;
+}
+
+.AddNewCar .imageScreen .imageDiv {
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.AddNewCar .imageScreen .imageButtons{
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  gap: 20px;
+  margin-left: 20px;
+}
+
+.AddNewCar .imageScreen .imageButtons button{
+  width: fit-content;
+  background-color: var(--button-backround-color);
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+  height: 60px;
+  width: 60px;
+}
+
+.AddNewCar .imageScreen .imageButtons button:not(:disabled):hover{
+  cursor: pointer;
+  background-color: #266fac;
+}
+
+.AddNewCar .imageScreen .imageButtons button:disabled{
+  background-color: gray;
+}
+
+.AddNewCar .imageScreen input{
+  display: flex;
+  margin-left: calc(50% - 100px);
+  margin-top: 10px;
+}
+
+.AddNewCar .topDiv {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.AddNewCar .topDiv button {
+  position: absolute;
+  margin-left: 95%;
+  margin-top: 20px;
+  font-size: large;
+  font-weight: bold;
+  background-color: rgb(218, 218, 218);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  border: 1px solid darkgray;
+}
+
+.AddNewCar .topDiv button:hover {
+  cursor: pointer;
+  background-color: rgb(200, 200, 200);
+}
+
+.AddNewCar .newCarForm {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.newCarForm .inputDiv {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  gap: 10px;
+  width: 420px;
+}
+
+.newCarForm .inputDiv label{
+  font-size: 14px;
+}
+
+.newCarForm .inputDiv input{
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 24px;
+  padding: 5px;
+  border: 1px solid #D9D9D9;
+}
+
+.newCarForm .imageDiv {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.newCarForm .imageDiv button{
+  width: fit-content;
+  background-color: var(--button-backround-color);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  color: white;
+}
+
+.newCarForm .imageDiv button:hover{
+  cursor: pointer;
+  background-color: #266fac;
+}
+
+.newCarForm .inputDiv select{
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 24px;
+  padding: 5px;
+  border: 1px solid #D9D9D9;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.AddNewCar .buttonDiv {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.AddNewCar .buttonDiv button {
+  background-color: var(--button-backround-color);
+  color: white;
+  border-radius: 8px;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.AddNewCar .buttonDiv button:hover {
+  cursor: pointer;
+  background-color: #266fac;
+}

@@ -1,8 +1,11 @@
 package no.ntnu.dbtables;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Class to represent a car.
@@ -16,15 +19,16 @@ public class Car {
   private String fuelType;
   private String transmission;
   private int seats;
+  private String body;
   private LinkedList<String> extras;
-  private LinkedList<String> images;
+  private List<MultipartFile> images;
 
   /**
    * Constructor of a car.
    */
   public Car() {
     this.extras = new LinkedList<String>();
-    this.images = new LinkedList<String>();
+    this.images = new ArrayList<MultipartFile>();
   }
 
   public int getId() {
@@ -55,11 +59,15 @@ public class Car {
     return this.seats;
   }
 
+  public String getBody() {
+    return this.body;
+  }
+
   public LinkedList<String> getExtras() {
     return this.extras;
   }
 
-  public LinkedList<String> getImages() {
+  public List<MultipartFile> getImages() {
     return this.images;
   }
 
@@ -91,11 +99,19 @@ public class Car {
     this.seats = seats;
   }
 
+  public void setBody(String body) {
+    this.body = body;
+  }
+
   public void addExtras(String extras) {
     this.extras.add(extras);
   }
 
-  public void addImage(String image) {
+  public void setImages(List<MultipartFile> images) {
+    this.images = images;
+  }
+
+  public void addImage(MultipartFile image) {
     this.images.add(image);
   }
 

@@ -81,20 +81,18 @@
 
 .RegisterPage .registerContainer .registerForm .phoneDiv input {
     width: 100%;
-    padding-left: 100px;
+    padding-left: 96px;
 }
 
 .RegisterPage .registerContainer .registerForm .phoneDiv select {
     position: absolute;
-    padding: 10px 10px 9px 10px;
+    padding: 8px 8px 8px 8px;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
-    border: 1px solid #D9D9D9;
-    border-right: none;
-    border-top: none;
-    border-bottom: none;
+    border: none;
     font-size: 24px;
-    margin-top: 1px;
+    margin-top: 2px;
+    margin-left: 2px;
 }
 
 .RegisterPage .registerContainer .registerForm .buttonDiv {
