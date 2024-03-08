@@ -1,15 +1,11 @@
 package no.ntnu;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Random;
 import no.ntnu.user.User;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -110,9 +106,7 @@ public class Tools {
       Path filePath = Path.of(
           Tools.getCorrectUrl(path + "/" + carName + "/" + image.getOriginalFilename())
         );
-      if (System.getProperty("os.name").contains("Windows")) {
-
-      }
+      
       Files.write(filePath, bytes);
       return true;
     } catch (IOException e) {

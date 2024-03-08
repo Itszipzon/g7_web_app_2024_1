@@ -28,9 +28,14 @@ public class CarPost {
   public void newCar(@RequestBody Car car) {
 
     DatabaseCon con = new DatabaseCon();
-    String query = "INSERT INTO car (maker, model, year, fuel, transmission, seats, body) VALUES ('" + car.getMaker()
-        + "', '" + car.getModel() + "', " + car.getYear() + ", '" + car.getFuelType() + "', '" + car.getTransmission()
-        + "', " + car.getSeats() + ", '" + car.getBody() + "');";
+    String query = "INSERT INTO car (maker, model, year, fuel, transmission, seats, body) VALUES ('"
+        + car.getMaker()
+        + "', '" + car.getModel()
+        + "', " + car.getYear()
+        + ", '" + car.getFuelType()
+        + "', '" + car.getTransmission()
+        + "', " + car.getSeats()
+        + ", '" + car.getBody() + "');";
 
     con.update(query);
   }
