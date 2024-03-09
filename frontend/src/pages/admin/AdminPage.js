@@ -3,7 +3,7 @@ import './css/AdminPage.css';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { LineChart } from '@mui/x-charts/LineChart';
 import axios from "axios";
-import AddNewCar from '../../elements/AddNewCar';
+import AddNewCar from '../../elements/admin/AddNewCar';
 
 function AdminPage() {
 
@@ -176,14 +176,14 @@ function AdminPage() {
 								cars.map((car, i) => {
 									return (
 										<ul key={i}>
-											<li>{car.ID}</li>
-											<li>{car.Maker}</li>
-											<li>{car.Model}</li>
-											<li>{car.Year}</li>
-											<li>{car.Fuel}</li>
-											<li>{car.Transmission}</li>
-											<li>{car.Seats}</li>
-											<li>{car.Body}</li>
+											<li style={{maxWidth : "calc(100%/" + cars.length + ";"}}>{car.ID}</li>
+											<li style={{maxWidth : "calc(100%/" + cars.length + ";"}}>{car.Maker}</li>
+											<li style={{maxWidth : "calc(100%/" + cars.length + ";"}}>{car.Model}</li>
+											<li style={{maxWidth : "calc(100%/" + cars.length + ";"}}>{car.Year}</li>
+											<li style={{wimaxWidthdth : "calc(100%/" + cars.length + ";"}}>{car.Fuel}</li>
+											<li style={{maxWidth : "calc(100%/" + cars.length + ";"}}>{car.Transmission}</li>
+											<li style={{maxWidth : "calc(100%/" + cars.length + ";"}}>{car.Seats}</li>
+											<li style={{maxWidth : "calc(100%/" + cars.length + ";"}}>{car.Body}</li>
 										</ul>
 									)
 								})}
@@ -192,7 +192,7 @@ function AdminPage() {
 
 					{ activeItem === 1 &&
 					<div className='adminContentItem'>
-						<ul>
+						<ul className='itemUl'>
 							<li>Location ID</li>
 							<li>Name</li>
 							<li>Address</li>
@@ -203,10 +203,10 @@ function AdminPage() {
 								locations.map((location, i) => {
 									return (
 										<ul key={i}>
-											<li>{location.ID}</li>
-											<li>{location.Name}</li>
-											<li>{location.Address}</li>
-											<li>{location.Business ? "Yes" : "No"}</li>
+											<li style={{width : "calc(100%/" + locations.length + ";"}}>{location.ID}</li>
+											<li style={{width : "calc(100%/" + locations.length + ";"}}>{location.Name}</li>
+											<li style={{width : "calc(100%/" + locations.length + ";"}}>{location.Address}</li>
+											<li style={{width : "calc(100%/" + locations.length + ";"}}>{location.Business ? "Yes" : "No"}</li>
 										</ul>
 									)
 								})}

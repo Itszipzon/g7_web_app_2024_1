@@ -6,7 +6,7 @@ function AddNewCar(
   { close }
 ) {
 
-  const jsonValue = require("../information.json");
+  const jsonValue = require("../../information.json");
 
   const [maker, setMaker] = useState('');
   const [model, setModel] = useState('');
@@ -166,7 +166,9 @@ function AddNewCar(
       </div>
       <div className='topDiv'>
         <h1>Add new car</h1>
-        <button onClick={close}>X</button>
+        <div className='closeButton' onClick={close} >
+          X
+        </div>
       </div>
       <div className='newCarForm'>
         <div className='inputDiv'>

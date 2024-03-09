@@ -538,7 +538,7 @@ public class CarApi {
 
       query += ";";
       DatabaseCon con = new DatabaseCon();
-      System.out.println("\n" + query + "\n");
+      
       ResultSet result = con.query(query);
 
       while (result.next()) {

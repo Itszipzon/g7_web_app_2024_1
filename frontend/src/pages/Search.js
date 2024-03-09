@@ -136,6 +136,24 @@ function Search() {
 		updateURLParams({ body: trueValue });
 	};
 
+	const handleFuelChange = (e) => {
+		let fuelList = fuel.split(',');
+		const value = e.target.value;
+	
+		if (fuelList.includes(value)) {
+			fuelList = fuelList.filter(item => item !== value);
+		} else {
+			fuelList.push(value);
+		}
+	
+		let trueValue = fuelList.join(',');
+		if (trueValue.charAt(0) === ',') {
+			trueValue = trueValue.substring(1);
+		}
+		setFuel(trueValue);
+		updateURLParams({ fuel: trueValue });
+	};
+
   const handlePriceMinRangeChange = (e) => {
     const value = e.target.value;
     setPriceFrom(value);
@@ -222,17 +240,17 @@ function Search() {
 
 					<h1 style={{ "marginTop": "50px" }}>Fuel</h1>
 					<div className="checkBox">
-						<input type="checkbox" name="Petrol" value="petrol" />
+						<input onChange={handleFuelChange} type="checkbox" name="Petrol" value="petrol" />
 						<label htmlFor="Petrol">Petrol</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
-						<input type="checkbox" name="Diesel" value="diesel" />
+						<input onChange={handleFuelChange} type="checkbox" name="Diesel" value="diesel" />
 						<label htmlFor="Diesel">Diesel</label>
 						<label>(10)</label>
 					</div>
 					<div className="checkBox">
-						<input type="checkbox" name="Electric" value="electric" />
+						<input onChange={handleFuelChange} type="checkbox" name="Electric" value="electric" />
 						<label htmlFor="Electric">Electric</label>
 						<label>(10)</label>
 					</div>

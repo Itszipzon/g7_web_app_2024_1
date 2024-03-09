@@ -36,7 +36,8 @@ public class UserApi {
   public ResponseEntity<List<String>> getUsers(@PathVariable String token) {
     List<String> jsonStringArray = new ArrayList<>();
 
-    if (!sessionManager.getUser(token).isAdmin()) {
+    if (!sessionManager.getSessions().containsKey(token)
+        || !sessionManager.getUser(token).isAdmin()) {
       return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 

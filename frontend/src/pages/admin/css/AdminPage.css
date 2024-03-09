@@ -112,17 +112,17 @@
     margin-bottom: 0;
 }
 
-.adminpage .adminContentItem ul li:nth-child(1) {
+.adminpage .adminContentItem .itemUl li:nth-child(1) {
     border-top-left-radius: 8px;
 }
 
-.adminpage .adminContentItem ul li:nth-last-child(1) {
+.adminpage .adminContentItem .itemUl li:nth-last-child(1) {
     border-top-right-radius: 8px;
 }
 
 .adminpage .adminContentItem ul li {
-    padding: 20px;
-    width: 100%;
+    padding: 20px 0;
+    width: calc(100% / 3);
     text-align: center;
 }
 
@@ -140,7 +140,6 @@
     background-color: #F3F4F6;
     cursor: pointer;
 }
-
 .adminpage .adminStatsHolder {
     display: flex;
     gap: 13px;

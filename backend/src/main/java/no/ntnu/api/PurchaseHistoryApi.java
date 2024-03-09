@@ -39,7 +39,8 @@ public class PurchaseHistoryApi {
 
     List<String> purchaseHistory = new ArrayList<>();
 
-    if (token == null || !sessionManager.getUser(token).isAdmin()) {
+    if (!sessionManager.getSessions().containsKey(token)
+        || !sessionManager.getUser(token).isAdmin()) {
       return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
