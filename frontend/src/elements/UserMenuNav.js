@@ -7,6 +7,8 @@ function UserMenuNav({
   name = ""
 }) {
 
+  const jsonValue = require("../information.json");
+
   const handleLogOut = () => {
     axios.post(jsonValue.serverAddress + "post/login/user/logout", localStorage.getItem("UIDtoken"));
     localStorage.removeItem("UIDtoken");
