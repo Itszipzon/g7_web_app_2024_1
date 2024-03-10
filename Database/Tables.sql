@@ -36,7 +36,7 @@ CREATE TABLE Users (
     Terms BOOLEAN NOT NULL,
     IsGuest BOOLEAN NOT NULL DEFAULT 0,
     IsAdmin BOOLEAN NOT NULL DEFAULT 0,
-    DateCreated DATE DEFAULT CURRENT_DATE,
+    DateJoined DATE DEFAULT NOW(),
     CONSTRAINT guest_rule CHECK (
         (Password = '' OR Password IS NULL) AND IsGuest = 1 OR 
         (Password != '' AND Password IS NOT NULL AND IsGuest = 0)
