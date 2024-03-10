@@ -50,7 +50,7 @@ function AddNewCar(
   const handleImageUpload = (e) => {
     const files = e.target.files;
     const uploadedFilesShown = Array.from(files).map(file => URL.createObjectURL(file));
-    setShownImages([...shownImages, ...uploadedFilesShown]);
+    setShownImages(uploadedFilesShown);
     const uploadedFiles = Array.from(files);
     setImages(uploadedFiles);
   }
