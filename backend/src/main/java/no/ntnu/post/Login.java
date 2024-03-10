@@ -79,4 +79,19 @@ public class Login {
     return ResponseEntity.ok(token);
   }
 
+  /**
+   * Logs out a user.
+   *
+   * @param token token.
+   * @return a response entity containing the status.
+   */
+  @PostMapping("user/logout")
+  public ResponseEntity<String> logoutUser(@RequestBody String token) {
+    if (sessionManager.getSessions().containsKey(token)) {
+      sessionManager.removeSession(token);
+      return ResponseEntity.ok("Logged out");
+    }
+    return ResponseEntity.badRequest().body("User not found");
+  }
+
 }

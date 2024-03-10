@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import './css/UserMenuNav.css';
+import axios from 'axios';
 
 function UserMenuNav({
   isadmin = false,
@@ -7,6 +8,7 @@ function UserMenuNav({
 }) {
 
   const handleLogOut = () => {
+    axios.post(jsonValue.serverAddress + "post/login/user/logout", localStorage.getItem("UIDtoken"));
     localStorage.removeItem("UIDtoken");
     window.location.reload();
   }
