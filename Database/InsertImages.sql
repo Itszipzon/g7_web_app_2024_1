@@ -86,8 +86,8 @@ VALUES
   (4, "114_15504849.jpg", 12, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
   (4, "114_667590580.jpg", 13, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
   (4, "114_216908419.jpg", 14, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
-  (4, "114_216908419.jpg", 15, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
-  (4, "114_216908419.jpg", 16, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_955946852.jpg", 15, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
+  (4, "114_396537159.jpg", 16, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
   (4, "114_1184979430.jpg", 17, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
   (4, "114_383261537.jpg", 18, "https://www.finn.no/car/used/ad.html?finnkode=340408114"),
   (4, "114_163163648.jpg", 19, "https://www.finn.no/car/used/ad.html?finnkode=340408114");
