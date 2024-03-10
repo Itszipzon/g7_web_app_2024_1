@@ -109,6 +109,9 @@ public class ImageApi {
       case ".jpg":
         type = MediaType.IMAGE_JPEG;
         break;
+      case ".jpeg":
+        type = MediaType.IMAGE_JPEG;
+        break;
       case ".gif":
         type = MediaType.IMAGE_GIF;
         break;
