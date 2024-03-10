@@ -47,12 +47,7 @@ public class Login {
 
       while (result.next()) {
         User newUser = new User();
-        System.out.println("Password: " + user.getPassword() + "\nSalt: " + result.getString("salt")
-            + "\nHashedPassword: " + result.getString("Password"));
 
-        System.out.println("\nCheck: " 
-            + user.checkPassword(user.getPassword(), result.getString("salt"),
-            result.getString("Password")));
         if (user.checkPassword(user.getPassword(), result.getString("salt"),
             result.getString("Password"))) {
           id = result.getInt("ID");
@@ -70,7 +65,6 @@ public class Login {
           newUser.setAddress(address);
 
           token = Tools.generateUniqueUserToken(sessionManager.getSessions());
-          System.out.println("\nToken: " + token + "\n");
           sessionManager.addSession(token, newUser);
         }
 

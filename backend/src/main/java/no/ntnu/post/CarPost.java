@@ -69,7 +69,6 @@ public class CarPost {
     String maker = "";
     String model = "";
     try {
-      System.out.println("Getting car info");
       DatabaseCon con2 = new DatabaseCon();
       String query2 = "SELECT maker, model FROM car WHERE ID = " + cid + ";";
       ResultSet result = con2.query(query2);
@@ -87,9 +86,7 @@ public class CarPost {
     }
 
     String newCarName = maker + "_" + model.replace(" ", "_");
-    System.out.println("New car name: " + newCarName);
     if (Tools.addImage(newCarName, image)) {
-      System.out.println("Image added");
       con.update(query);
     } else {
       System.out.println("Could not add image");

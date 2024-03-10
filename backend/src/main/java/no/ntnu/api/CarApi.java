@@ -364,8 +364,6 @@ public class CarApi {
     } catch (SQLException e) {
       e.printStackTrace();
     }
-
-    System.out.println("Querrying car: " + carId);
     return new ResponseEntity<>(jsonString, HttpStatus.OK);
   }
 

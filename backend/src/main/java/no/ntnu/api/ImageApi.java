@@ -100,8 +100,6 @@ public class ImageApi {
     MediaType type = null;
     String fileType = imageName.substring(imageName.lastIndexOf("."));
     String carImgFolder = "static/img/car/" + carMaker + "_" + carModel.replace(" ", "_") + "/";
-
-    System.out.println("Querrying Car: " + carMaker + " " + carModel + "Image: " + imageName);
     Resource r = new ClassPathResource(carImgFolder + imageName);
 
     switch (fileType) {

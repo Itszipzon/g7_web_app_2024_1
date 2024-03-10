@@ -46,9 +46,6 @@ public class PurchaseHistoryApi {
 
     try {
 
-      System.out.println("Rows: " + rows);
-      System.out.println("Page: " + page);
-
       if (rows == null) {
         rows = "10";
       }
@@ -56,9 +53,6 @@ public class PurchaseHistoryApi {
       if (page == null) {
         page = "0";
       }
-
-      System.out.println("Rows: " + rows);
-      System.out.println("Page: " + page);
 
       String query = """
           SELECT
