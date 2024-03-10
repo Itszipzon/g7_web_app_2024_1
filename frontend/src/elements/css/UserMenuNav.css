@@ -1,0 +1,80 @@
+.user-menu-nav {
+  height: 100%;
+  width: 100%;
+  font-family: 'main';
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #D9D9D9;
+  border-radius: 8px;
+}
+
+.user-menu-nav .users {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.user-menu-nav .admin {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #D9D9D9;
+}
+
+.user-menu-nav button {
+  background-color: var(--button-backround-color);
+  border: none;
+  width: fit-content;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: 0.4s ease-in-out;
+}
+
+.user-menu-nav button:hover {
+  cursor: pointer;
+  background-color: #266fac;
+  border-radius: 15px;
+}
+
+.user-menu-nav .admin-menu {
+  margin-bottom: 10px;
+}
+
+.user-menu-nav .link {
+  display: inline-block;
+  text-decoration: none;
+  color: black;
+  font-family: 'main';
+  position: relative;
+}
+
+.user-menu-nav .link::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    width: 0;
+    height: 0;
+    border-bottom: 1px solid #000000;
+    transition: width 0.3s ease;
+}
+
+.user-menu-nav .link:hover::before {
+    width: 100%;
+}
+
+.user-menu-nav .user-logout-button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}

@@ -70,6 +70,20 @@ public class UserApi {
   }
 
   /**
+   * Returns the name of the user.
+   *
+   * @param token the token of the user.
+   * @return the name of the user.
+   */
+  @GetMapping("get/user/name/{token}")
+  public ResponseEntity<String> getUserName(@PathVariable String token) {
+    if (!sessionManager.hasSession(token)) {
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+    return new ResponseEntity<>(sessionManager.getUser(token).getName(), HttpStatus.OK);
+  }
+
+  /**
    * Returns if the user is an admin.
    *
    * @param token the token of the user.

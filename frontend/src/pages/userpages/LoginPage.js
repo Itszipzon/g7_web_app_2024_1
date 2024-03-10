@@ -35,8 +35,19 @@ function LoginPage() {
 	}
 
 	useEffect(() => {
-		localStorage.removeItem("UIDtoken");
-	});
+		if (localStorage.getItem("UIDtoken")) {
+			axios.get(jsonValue.serverAddress + "api/get/user/name/" + localStorage.getItem("UIDtoken")).then((r) => {
+				if (r.status === 200) {
+					window.location.href = "/";
+				} else {
+					localStorage.removeItem("UIDtoken");
+				}
+			})
+			.catch((e) => {
+				localStorage.removeItem("UIDtoken");
+			});
+		}
+	}, []);
 
 	return (
 		<div className="login-page" id= "login-page">
