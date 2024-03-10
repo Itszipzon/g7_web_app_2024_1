@@ -97,7 +97,7 @@ public class Tools {
       return false;
     }
 
-    pathBefore += "../../../../src/main/resources/static/img/car/";
+    pathBefore += "/../../../src/main/resources/static/img/car/";
 
     try {
 
