@@ -161,6 +161,11 @@ function AddNewCar(
       return;
     }
 
+    if (images.length < 4) {
+      alert('At least 4 images are required');
+      return;
+    }
+
     carData.maker = maker;
     carData.model = model;
     carData.year = year;
