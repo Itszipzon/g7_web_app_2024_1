@@ -91,10 +91,13 @@ public class Tools {
   public static boolean addImage(String carName, MultipartFile image) {
 
     String path = new Main().getResource("/static/img/car").getPath();
+    String pathBefore = new Main().getResource("/static").getPath();
 
     if (image.isEmpty()) {
       return false;
     }
+
+    pathBefore += "../../../../src/main/resources/static/img/car/";
 
     try {
 
@@ -103,11 +106,20 @@ public class Tools {
         Files.createDirectories((Path.of(Tools.getCorrectUrl(path + "/" + carName))));
       }
 
+      if (!Files.exists(Path.of(Tools.getCorrectUrl(pathBefore + "/" + carName)))) {
+        Files.createDirectories((Path.of(Tools.getCorrectUrl(pathBefore + "/" + carName))));
+      }
+
       Path filePath = Path.of(
           Tools.getCorrectUrl(path + "/" + carName + "/" + image.getOriginalFilename())
         );
       
+      Path filePathBefore = Path.of(
+          Tools.getCorrectUrl(pathBefore + "/" + carName + "/" + image.getOriginalFilename())
+        );
+      
       Files.write(filePath, bytes);
+      Files.write(filePathBefore, bytes);
       return true;
     } catch (IOException e) {
       e.printStackTrace();

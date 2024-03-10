@@ -2,6 +2,8 @@ package no.ntnu.post;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import no.ntnu.DatabaseCon;
 import no.ntnu.Tools;
 import no.ntnu.dbtables.Car;
@@ -31,11 +33,10 @@ public class CarPost {
     String query = "INSERT INTO car (maker, model, year, fuel, transmission, seats, body) VALUES ('"
         + car.getMaker()
         + "', '" + car.getModel()
-        + "', " + car.getYear()
-        + ", '" + car.getFuelType()
-        + "', '" + car.getTransmission()
-        + "', " + car.getSeats()
-        + ", '" + car.getBody() + "');";
+        + "', " + car.getYear() + ", '"
+        + car.getFuelType() + "', '"
+        + car.getTransmission()
+        + "', " + car.getSeats() + ", '" + car.getBody() + "');";
 
     con.update(query);
   }
@@ -53,14 +54,17 @@ public class CarPost {
       @RequestParam("imageFrom") String imageFrom) {
 
     DatabaseCon con = new DatabaseCon();
-    System.out.println("Image added to car with ID: "
+    System.out
+        .println("Image added to car with ID: "
         + cid + " and image number: "
         + imageNumber + " from: "
         + imageFrom);
 
     String query = "INSERT INTO images (cid, name, ImageNumber, ImageFromLink) VALUES ("
         + cid + ", '"
-        + image.getOriginalFilename() + "', " + imageNumber + ", '" + imageFrom + "');";
+        + image.getOriginalFilename() + "', "
+        + imageNumber + ", '"
+        + imageFrom + "');";
 
     String maker = "";
     String model = "";
@@ -91,6 +95,44 @@ public class CarPost {
       System.out.println("Could not add image");
     }
 
+  }
+
+  /**
+   * Adds extras to a car.
+   *
+   * @param cid The car id
+   * @param extras The extras to add
+   */
+  @PostMapping("new/car/extra")
+  public void newCarExtra(
+      @RequestParam("cid") int cid,
+      @RequestParam("extras") List<String> extras) {
+
+    List<Integer> eids = new ArrayList<>();
+
+    try {
+      DatabaseCon con = new DatabaseCon();
+      for (String e : extras) {
+
+        String query = "SELECT ID FROM extras WHERE Name = '" + e + "';";
+        ResultSet result = con.query(query);
+        if (result.next()) {
+          eids.add(result.getInt("ID"));
+        }
+
+        result.close();
+      }
+      con.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return;
+    }
+
+    DatabaseCon con = new DatabaseCon();
+    for (int eid : eids) {
+      String query = "INSERT INTO car_extra (cid, eid) VALUES (" + cid + ", " + eid + ");";
+      con.update(query);
+    }
   }
 
 }

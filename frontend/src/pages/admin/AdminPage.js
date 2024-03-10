@@ -176,14 +176,14 @@ function AdminPage() {
 								cars.map((car, i) => {
 									return (
 										<ul key={i}>
-											<li style={{maxWidth : "calc(100%/" + cars.length + ";"}}>{car.ID}</li>
-											<li style={{maxWidth : "calc(100%/" + cars.length + ";"}}>{car.Maker}</li>
-											<li style={{maxWidth : "calc(100%/" + cars.length + ";"}}>{car.Model}</li>
-											<li style={{maxWidth : "calc(100%/" + cars.length + ";"}}>{car.Year}</li>
-											<li style={{wimaxWidthdth : "calc(100%/" + cars.length + ";"}}>{car.Fuel}</li>
-											<li style={{maxWidth : "calc(100%/" + cars.length + ";"}}>{car.Transmission}</li>
-											<li style={{maxWidth : "calc(100%/" + cars.length + ";"}}>{car.Seats}</li>
-											<li style={{maxWidth : "calc(100%/" + cars.length + ";"}}>{car.Body}</li>
+											<li>{car.ID}</li>
+											<li>{car.Maker}</li>
+											<li>{car.Model}</li>
+											<li>{car.Year}</li>
+											<li>{car.Fuel}</li>
+											<li>{car.Transmission}</li>
+											<li>{car.Seats}</li>
+											<li>{car.Body}</li>
 										</ul>
 									)
 								})}
@@ -203,10 +203,10 @@ function AdminPage() {
 								locations.map((location, i) => {
 									return (
 										<ul key={i}>
-											<li style={{width : "calc(100%/" + locations.length + ";"}}>{location.ID}</li>
-											<li style={{width : "calc(100%/" + locations.length + ";"}}>{location.Name}</li>
-											<li style={{width : "calc(100%/" + locations.length + ";"}}>{location.Address}</li>
-											<li style={{width : "calc(100%/" + locations.length + ";"}}>{location.Business ? "Yes" : "No"}</li>
+											<li >{location.ID}</li>
+											<li >{location.Name}</li>
+											<li >{location.Address}</li>
+											<li >{location.Business ? "Yes" : "No"}</li>
 										</ul>
 									)
 								})}

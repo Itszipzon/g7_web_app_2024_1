@@ -20,7 +20,15 @@ function EditCar(
   </div>
 
   return(
-      {{carId === 0 ? }}
+      carId === 0 ?
+      <div className='carNotFound'>
+        <h1>Car not found</h1>
+      </div>
+      :
+      <div className='editCar'>
+
+      </div>
+
     )
 
 }

@@ -31,7 +31,7 @@
 
 .AddNewCar .imageScreen {
   position: fixed;
-  width: 70%;
+  width: 80%;
   height: 70%;
   background-color: white;
   border: 1px solid #D9D9D9;
@@ -39,20 +39,28 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  overflow-y: scroll;
   display: flex;
   align-items: center;
 }
 
-.AddNewCar .imageScreen .imageDiv {
+.AddNewCar .imageScreen .addImagesHolder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  overflow-y: scroll;
+  height: calc(100% - 70px);
+}
+
+.AddNewCar .addImagesHolder .imageDiv {
   height: 500px;
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin: 20px;
+  width: 1px;
 }
 
-.AddNewCar .imageScreen .imageButtons{
+.AddNewCar .addImagesHolder .imageButtons{
   width: 50px;
   display: flex;
   flex-direction: column;
@@ -62,7 +70,7 @@
   margin-left: 20px;
 }
 
-.AddNewCar .imageScreen .imageButtons button{
+.AddNewCar .addImagesHolder .imageButtons button{
   width: fit-content;
   background-color: var(--button-backround-color);
   border: none;
@@ -74,12 +82,12 @@
   width: 60px;
 }
 
-.AddNewCar .imageScreen .imageButtons button:not(:disabled):hover{
+.AddNewCar .addImagesHolder .imageButtons button:not(:disabled):hover{
   cursor: pointer;
   background-color: #266fac;
 }
 
-.AddNewCar .imageScreen .imageButtons button:disabled{
+.AddNewCar .addImagesHolder .imageButtons button:disabled{
   background-color: gray;
 }
 
@@ -87,6 +95,143 @@
   display: flex;
   margin-left: calc(50% - 100px);
   margin-top: 10px;
+}
+
+.AddNewCar .extrasScreen {
+  position: fixed;
+  width: 80%;
+  height: 70%;
+  background-color: white;
+  border: 1px solid #D9D9D9;
+  border-radius: 8px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  flex-direction: column;
+}
+
+.AddNewCar .extrasScreen .addNewExtraHolder {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #D9D9D9;
+  border-radius: 8px;
+  width: 70%;
+  height: 70%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.AddNewCar .extrasScreen .addNewExtraHolder .newExtraContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  height: 100%;
+}
+
+.AddNewCar .extrasScreen .addNewExtraHolder .inputDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+.AddNewCar .extrasScreen .addNewExtraHolder .inputDiv input {
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 24px;
+  padding: 5px;
+  border: 1px solid #D9D9D9;
+  margin-bottom: 20px;
+}
+
+.AddNewCar .extrasScreen .addNewExtraHolder .newExtraButton {
+  border-radius: 8px;
+  font-size: 24px;
+  padding: 5px;
+  color: white;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--button-backround-color);
+  height: 20px;
+  margin-bottom: 20px;
+}
+
+.AddNewCar .extrasScreen .addNewExtraHolder .newExtraButton:hover {
+  cursor: pointer;
+  background-color: #266fac;
+}
+
+.AddNewCar .extrasScreen .extrasSelectHolder {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.AddNewCar .extrasScreen .addExtraButtonHolder {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.AddNewCar .extrasScreen .addExtraButton {
+  border-radius: 8px;
+  font-size: 24px;
+  padding: 5px;
+  color: white;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--button-backround-color);
+  height: 20px;
+}
+
+.AddNewCar .extrasScreen .addExtraButton:hover {
+  cursor: pointer;
+  background-color: #266fac;
+}
+
+.AddNewCar .extrasScreen select {
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 24px;
+  padding: 5px;
+  border: 1px solid #D9D9D9;
+  
+}
+
+.AddNewCar .extrasScreen .addNewExtraButtonHolder {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.AddNewCar .extrasScreen .addNewExtraButtonHolder .addNewExtraButton {
+  border-radius: 8px;
+  font-size: 24px;
+  padding: 5px;
+  color: white;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--button-backround-color);
+  height: 20px;
+  margin-top: 20px;
+}
+
+.AddNewCar .extrasScreen .addNewExtraButtonHolder .addNewExtraButton:hover {
+  cursor: pointer;
+  background-color: #266fac;
 }
 
 .AddNewCar .topDiv {
@@ -120,27 +265,6 @@
   margin-bottom: 20px;
 }
 
-.newCarForm .inputDiv {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  gap: 10px;
-  width: 420px;
-}
-
-.newCarForm .inputDiv label{
-  font-size: 14px;
-}
-
-.newCarForm .inputDiv input{
-  background-color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 24px;
-  padding: 5px;
-  border: 1px solid #D9D9D9;
-}
-
 .newCarForm .imageDiv {
   width: 100%;
   display: flex;
@@ -160,6 +284,26 @@
 .newCarForm .imageDiv button:hover{
   cursor: pointer;
   background-color: #266fac;
+}
+
+.newCarForm .inputDiv {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  width: 420px;
+}
+
+.newCarForm .inputDiv label{
+  font-size: 14px;
+}
+
+.newCarForm .inputDiv input{
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 24px;
+  padding: 5px;
+  border: 1px solid #D9D9D9;
 }
 
 .newCarForm .inputDiv select{
