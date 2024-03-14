@@ -2,7 +2,17 @@ import { useEffect, useState } from 'react';
 import './css/EditCar.css';
 import axios from 'axios';
 
-function EditCar({ car, close }) {
+function EditCar({ car = {
+  ID: 0,
+  Maker: "",
+  Model: "",
+  Year: 0,
+  Images: [],
+  Fuel: "",
+  Transmission: "",
+  Seats: "",
+  Body: ""
+}, close }) {
 
   const jsonValue = require("../../information.json");
 
@@ -30,24 +40,24 @@ function EditCar({ car, close }) {
   const [changes, setChanges] = useState(false);
 
   useEffect(() => {
-    if (car && car.length !== 0) {
+    if (car && car.ID > 0) {
       setDefaultMaker(car.Maker);
       setDefaultModel(car.Model);
-      setDefaultYear(car.Year !== undefined ? car.Year.toString() : "");
+      setDefaultYear(car.Year.toString());
       setDefaultImages(car.Images);
       setDefaultFuel(car.Fuel);
       setDefaultTransmission(car.Transmission);
-      setDefaultSeats(car.Seats !== undefined ? car.Seats.toString() : "");
+      setDefaultSeats(car.Seats.toString());
       setDefaultBody(car.Body);
 
       setID(car.ID);
       setMaker(car.Maker);
       setModel(car.Model);
-      setYear(car.Year !== undefined ? car.Year.toString() : "");
+      setYear(car.Year.toString());
       setImages(car.Images);
       setFuel(car.Fuel);
       setTransmission(car.Transmission);
-      setSeats(car.Seats !== undefined ? car.Seats.toString() : "");
+      setSeats(car.Seats.toString());
       setBody(car.Body);
 
       axios.get(jsonValue.serverAddress + "api/get/car/imagecount/" + car.ID)

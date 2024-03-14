@@ -43,7 +43,6 @@ function Header() {
 		if (!inSession) {
 			axios.get(jsonData.serverAddress + "api/get/user/values/" + localStorage.getItem("UIDtoken")).then((r) => {
 				if (r.status === 200) {
-					console.log(r.data)
 					setName(r.data.Name);
 					setAdmin(r.data.IsAdmin);
 					setInSession(true);

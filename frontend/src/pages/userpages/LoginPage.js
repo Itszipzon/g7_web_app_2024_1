@@ -36,7 +36,7 @@ function LoginPage() {
 
 	useEffect(() => {
 		if (localStorage.getItem("UIDtoken")) {
-			axios.get(jsonValue.serverAddress + "api/get/user/name/" + localStorage.getItem("UIDtoken")).then((r) => {
+			axios.get(jsonValue.serverAddress + "api/get/user/values/" + localStorage.getItem("UIDtoken")).then((r) => {
 				if (r.status === 200) {
 					window.location.href = "/";
 				} else {

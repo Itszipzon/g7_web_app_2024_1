@@ -103,7 +103,11 @@
     transform: translate(-50%, -50%);
     z-index: 100;
     height: fit-content;
+    max-height: 90%;
+    overflow-y: scroll;
     width: 70%;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
 }
 
 .adminpage .adminContentItem {
@@ -131,9 +135,12 @@
 }
 
 .adminpage .adminContentItem ul li {
-    padding: 20px 0;
+    height: 60px;
     width: calc(100% / 3);
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .adminpage .adminContentItem ul li:hover {
