@@ -29,8 +29,18 @@ function Header() {
 		setShowUserMenu(false);
 	}, [location]);
 
+	useEffect(() =>  {
+		axios.get(jsonData.serverAddress + "api/get/user/name/" + localStorage.getItem("UIDtoken")).then((e) => {
+			setInSession(true);
+		})
+		.catch((e) => {
+			setInSession(false);
+			setName("");
+		});
+	}, [location, jsonData])
+
 	useEffect(() => {
-		if (localStorage.getItem("UIDtoken") !== null) {
+		if (inSession) {
 			axios.get(jsonData.serverAddress + "api/user/isadmin/" + localStorage.getItem("UIDtoken") ).then((r) => {
 				if (r.status === 200) {
 					setAdmin(r.data);
@@ -44,7 +54,7 @@ function Header() {
 			});
 		}
 		
-	}, [jsonData, location]);
+	}, [jsonData, inSession]);
 
 	const handleShowUserMenu = () => {
 		setShowUserMenu(!showUserMenu);
