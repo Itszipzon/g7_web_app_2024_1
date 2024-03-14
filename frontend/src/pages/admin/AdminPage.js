@@ -4,6 +4,7 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import { LineChart } from '@mui/x-charts/LineChart';
 import axios from "axios";
 import AddNewCar from '../../elements/admin/AddNewCar';
+import EditCar from '../../elements/admin/EditCar';
 
 function AdminPage() {
 
@@ -14,6 +15,10 @@ function AdminPage() {
 	const [showAdminPanelSearch, setShowAdminPanelSearch] = useState(false);
 
 	const [showAddNewCar, setShowAddNewCar] = useState(false);
+
+	const [showEditValues, setShowEditValues] = useState(false);
+
+	const [selectedCar, setSelectedCar] = useState({});
 
 	const [top5, setTop5] = useState([]);
 
@@ -97,6 +102,18 @@ function AdminPage() {
 			});
 	}, [jsonValue, isAdmin]);
 
+	const handleShowEditValues = () => {
+		setShowEditValues(!showEditValues);
+		if (showEditValues) {
+			setSelectedCar(null);
+		}
+	}
+
+	const handleCarClick = (car) => {
+		setSelectedCar(car);
+		handleShowEditValues();
+	}
+
 	const handleAdminPanelSearchClick = () => {
 		setShowAdminPanelSearch(!showAdminPanelSearch);
 		setAdminPanelSearch("");
@@ -159,6 +176,10 @@ function AdminPage() {
 						<AddNewCar close={handleShowAddCarClick} />
 					</div>
 
+					<div className='adminEditValues' style={showEditValues ? {"display" : "block"} : {"display" : "none"}}>
+						{activeItem === 0 ? <EditCar car={selectedCar} close={handleCarClick} /> : null}
+					</div>
+
 					{ activeItem === 0 &&
 					<div className='adminContentItem'>
 						<ul>
@@ -175,7 +196,7 @@ function AdminPage() {
 							{
 								cars.map((car, i) => {
 									return (
-										<ul key={i}>
+										<ul key={i} onClick={() => handleCarClick(car)}>
 											<li>{car.ID}</li>
 											<li>{car.Maker}</li>
 											<li>{car.Model}</li>
