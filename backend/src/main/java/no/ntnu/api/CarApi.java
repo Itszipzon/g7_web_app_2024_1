@@ -574,13 +574,19 @@ public class CarApi {
       DatabaseCon con = new DatabaseCon();
       String query = """
           SELECT
+            C.ID,
             C.Maker,
             C.Model,
-            COUNT(CC.ID) AS Amount
-          FROM
-            Car C
-          JOIN
-            CarClicks CC ON C.ID = CC.CID
+            C.Body,
+            C.Fuel,
+            C.Transmission,
+            C.Seats,
+            COUNT(CC.ID) AS Amount,
+            MIN(S.Price) AS Lowest_Price
+          FROM Car C
+          JOIN CarClicks CC ON C.ID = CC.CID
+          JOIN Storage S on C.ID = S.CID
+          JOIN Location L ON S.LID = L.ID
           WHERE CC.TimeStamp >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
           GROUP BY C.Maker, C.Model
           ORDER BY Amount DESC
@@ -591,8 +597,14 @@ public class CarApi {
 
       while (result.next()) {
         JSONObject json = new JSONObject();
+        json.put("ID", result.getInt("C.ID"));
         json.put("Maker", result.getString("C.Maker"));
         json.put("Model", result.getString("C.Model"));
+        json.put("Body", result.getString("C.Body"));
+        json.put("Fuel", result.getString("C.Fuel"));
+        json.put("Transmission", result.getString("C.Transmission"));
+        json.put("Seats", result.getString("C.Seats"));
+        json.put("Price", result.getString("Lowest_Price"));
         json.put("Amount", result.getInt("Amount"));
         jsonStringArray.add(json.toString());
       }

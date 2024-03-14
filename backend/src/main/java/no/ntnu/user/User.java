@@ -112,6 +112,34 @@ public class User {
     return this.address;
   }
 
+  /**
+   * Returns email in hidden format.
+   *
+   * @return email in hidden format.
+   */
+  public String getHiddenEmail() {
+    String hiddenEmail = "";
+    boolean foundAt = false;
+    for (int i = 0; i < this.email.length(); i++) {
+      if (i == 0) {
+        hiddenEmail += this.email.charAt(0);
+      }
+
+      if (this.email.charAt(i) != '@'
+          && !foundAt
+          && i < this.email.indexOf("@") - 5) {
+        hiddenEmail += "*";
+      }
+
+      if (i >= this.email.indexOf("@") - 4) {
+        hiddenEmail += this.email.charAt(i);
+      }
+
+    } 
+
+    return hiddenEmail;
+  }
+
   public void hashPassword() {
     this.hashedPassword = encoder.encode(this.password + this.salt);
   }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import no.ntnu.DatabaseCon;
 import no.ntnu.user.SessionManager;
+import no.ntnu.user.User;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -70,17 +71,23 @@ public class UserApi {
   }
 
   /**
-   * Returns the name of the user.
+   * Returns the values of the user.
    *
    * @param token the token of the user.
-   * @return the name of the user.
+   * @return the values of the user.
    */
-  @GetMapping("get/user/name/{token}")
+  @GetMapping("get/user/values/{token}")
   public ResponseEntity<String> getUserName(@PathVariable String token) {
-    if (!sessionManager.hasSession(token)) {
+    if (!sessionManager.hasSession(token) || token == null) {
       return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-    return new ResponseEntity<>(sessionManager.getUser(token).getName(), HttpStatus.OK);
+    User user = sessionManager.getUser(token);
+    JSONObject json = new JSONObject();
+    json.put("Name", user.getName());
+    json.put("IsAdmin", user.isAdmin());
+    json.put("Email", user.getHiddenEmail());
+
+    return new ResponseEntity<>(json.toString(), HttpStatus.OK);
   }
 
   /**

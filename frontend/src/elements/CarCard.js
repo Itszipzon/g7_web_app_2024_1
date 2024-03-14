@@ -4,7 +4,6 @@ import axios from "axios";
 import "./css/CarCard.css";
 
 function CarCard({
-	style = {},
 	className = "",
 	id = "",
 	src = "",
@@ -24,7 +23,7 @@ function CarCard({
 	}
 
 	return (
-		<div className="CarCard" style={style}>
+		<div className="CarCard">
 			<Link to={link} className={"carCardLink " + className} onClick={handleClick}>
 				<h1>{name}</h1>
 				<p>{body}</p>

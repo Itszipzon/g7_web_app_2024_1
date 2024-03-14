@@ -8,7 +8,7 @@ function Home() {
 
 	const locationRef = useRef(null);
 
-	const [popularCar, setPopularCar] = useState([1, 2, 3, 4]);
+	const [popularCar, setPopularCar] = useState([]);
 
 	const [locationinputMarked, setLocationinputMarked] = useState(false);
 	const [locationsearchItems, setLocationsearchItems] = useState([]);
@@ -44,6 +44,12 @@ function Home() {
 				const locationsParsed = response.data.map(l => JSON.parse(l));
 				setLocationDb(locationsParsed);
 			});
+
+			axios.get(jsonValue.serverAddress + "api/car/get/mostpopular/4")
+					.then((r) => {
+						let parsedPopularCars = r.data.map((d) => JSON.parse(d));
+						setPopularCar(parsedPopularCars);
+					});
 	}, [jsonValue]);
 
 	useEffect(() => {
@@ -175,19 +181,19 @@ function Home() {
 				<div className="homePopularContainer">
 					<div className="homePopularTitle">Popular cars</div>
 					<div className="homePopularContent">
-						{popularCar.map((item) => {
+						{popularCar.map((car) => {
 							return (
-								<div className="CarCards" key={item}>
+								<div className="CarCards" key={car}>
 									<CarCard
-										src={jsonValue.serverAddress + "api/car/img/" + item}
-										name="VolksWagen Golf"
-										id={item}
-										body="Hatchback"
-										fuel="Diesel"
-										transmission="Manual"
-										seats="5"
-										price="550"
-										link="/"
+										src={jsonValue.serverAddress + "api/car/img/" + car.ID}
+										name={car.Maker + " " + car.Model}
+										id={car.ID}
+										body={car.Body}
+										fuel={car.Fuel}
+										transmission={car.Transmission}
+										seats={car.Seats}
+										price={car.Price}
+										link={"/car/" + car.ID}
 									/>
 								</div>
 							);
