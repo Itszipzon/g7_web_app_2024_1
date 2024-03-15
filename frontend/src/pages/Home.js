@@ -183,7 +183,7 @@ function Home() {
 					<div className="homePopularContent">
 						{popularCar.map((car) => {
 							return (
-								<div className="CarCards" key={car}>
+								<div className="CarCards" key={car.ID}>
 									<CarCard
 										src={jsonValue.serverAddress + "api/car/img/" + car.ID}
 										name={car.Maker + " " + car.Model}
