@@ -3,6 +3,7 @@ package no.ntnu;
 import io.github.cdimascio.dotenv.Dotenv;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -30,8 +31,7 @@ public class DatabaseCon {
   public DatabaseCon() {
     String url = new ClassPathResource("static/").getPath();
 
-    env = Dotenv.configure().directory(url)
-      .filename(".env").load();
+    env = Dotenv.configure().directory(url).filename(".env").load();
 
     this.url = env.get("DATABASE_URL");
     this.dbUser = env.get("DATABASE_USERNAME");
@@ -43,7 +43,7 @@ public class DatabaseCon {
   /**
    * Connect to your database.
    *
-   * @param url to the database.
+   * @param url      to the database.
    * @param username for user on the database.
    * @param password for user on the database.
    */
@@ -71,7 +71,6 @@ public class DatabaseCon {
 
       return result;
 
-
     } catch (SQLException e) {
       e.printStackTrace();
       return null;
@@ -94,6 +93,22 @@ public class DatabaseCon {
 
     } catch (SQLException e) {
       e.printStackTrace();
+    }
+  }
+
+  /**
+   * Prepare a statement.
+   *
+   * @param query to be prepared.
+   * @return prepared statement.
+   */
+  public PreparedStatement prepareStatement(String query) {
+    try {
+      Connection con = DriverManager.getConnection(this.url, this.dbUser, this.dbPassword);
+      return con.prepareStatement(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
     }
   }
 
