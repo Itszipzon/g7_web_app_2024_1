@@ -35,10 +35,12 @@ public class PurchaseHistoryApi {
   @GetMapping(value = { "get/admin", "get/admin/{token}" })
   public ResponseEntity<List<String>> getAdminPurchaseHistory(
       @PathVariable(required = false) String token,
-      @RequestParam(required = false) int rows,
-      @RequestParam(required = false) int page) {
+      @RequestParam(required = false) String rows,
+      @RequestParam(required = false) String page) {
 
     List<String> purchaseHistory = new ArrayList<>();
+    int row = 0;
+    int pages = 0;
 
     if (!sessionManager.getSessions().containsKey(token)
         || !sessionManager.getUser(token).isAdmin()) {
@@ -47,8 +49,16 @@ public class PurchaseHistoryApi {
 
     try {
 
-      if (rows == 0) {
-        rows = 10;
+      if (page == null) {
+        pages = 0;
+      } else {
+        pages = Integer.parseInt(page);
+      }
+
+      if (rows == null) {
+        row = 10;
+      } else {
+        row = Integer.parseInt(rows);
       }
 
       String query = """
@@ -78,9 +88,9 @@ public class PurchaseHistoryApi {
 
       DatabaseCon con = new DatabaseCon();
       PreparedStatement st = con.prepareStatement(query);
-      st.setInt(1, rows);
-      st.setInt(2, page);
-      ResultSet result = con.query(query);
+      st.setInt(1, row);
+      st.setInt(2, pages);
+      ResultSet result = st.executeQuery();
 
       JSONObject json = new JSONObject();
 
@@ -97,6 +107,9 @@ public class PurchaseHistoryApi {
 
         purchaseHistory.add(json.toString());
       }
+
+      result.close();
+      st.close();
 
     } catch (SQLException e) {
       e.printStackTrace();

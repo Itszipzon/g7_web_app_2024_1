@@ -370,7 +370,7 @@ public class CarApi {
       }
 
       result.close();
-      con.close();
+      statement.close();
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -623,7 +623,7 @@ public class CarApi {
       }
 
       result.close();
-      con.close();
+      statement.close();
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -650,19 +650,24 @@ public class CarApi {
     
     try {
       DatabaseCon con = new DatabaseCon();
-      String query = "SELECT C.ID FROM Car C WHERE C.Maker = '"
-          + maker + "' AND C.Model = '"
-          + model + "' AND C.Year = "
-          + year + ";";
-
-      ResultSet result = con.query(query);
+      String query = """
+          SELECT C.ID FROM Car C WHERE 
+          C.Maker = ? 
+          AND C.Model = ?
+          AND C.Year = ?;
+          """;
+      PreparedStatement st = con.prepareStatement(query);
+      st.setString(1, maker);
+      st.setString(2, model);
+      st.setInt(3, year);
+      ResultSet result = st.executeQuery();
 
       while (result.next()) {
         id = result.getInt("ID");
       }
 
       result.close();
-      con.close();
+      st.close();
       
       if (id < 1) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -98,7 +98,7 @@ public class CarPost {
       }
 
       result.close();
-      con2.close();
+      st2.close();
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -140,8 +140,8 @@ public class CarPost {
         }
 
         result.close();
+        st.close();
       }
-      con.close();
     } catch (SQLException e) {
       e.printStackTrace();
       return;

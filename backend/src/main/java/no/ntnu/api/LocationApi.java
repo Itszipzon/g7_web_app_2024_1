@@ -123,7 +123,7 @@ public class LocationApi {
       }
 
       result.close();
-      con.close();
+      st.close();
 
     } catch (SQLException e) {
       e.printStackTrace();

@@ -97,7 +97,7 @@ public class ImageApi {
       }
 
       result.close();
-      con.close();
+      statement.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -148,7 +148,7 @@ public class ImageApi {
       }
 
       result.close();
-      con.close();
+      statement.close();
 
     } catch (SQLException e) {
       e.printStackTrace();
