@@ -43,9 +43,11 @@ function Search() {
 	
 		const queryParams = urlParams.toString();
 	
+		console.log(jsonValue.serverAddress + 'api/car/filters?' + queryParams);
 		axios.get(jsonValue.serverAddress + 'api/car/filters?' + queryParams)
 			.then((response) => {
 				const carsParsed = response.data.map((c) => JSON.parse(c));
+				console.log(carsParsed);
 				setCars(carsParsed);
 			})
 			.catch((error) => {
