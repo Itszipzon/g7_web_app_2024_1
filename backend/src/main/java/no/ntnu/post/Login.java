@@ -1,5 +1,6 @@
 package no.ntnu.post;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import no.ntnu.DatabaseCon;
@@ -34,9 +35,10 @@ public class Login {
     String token = "";
     try {
       DatabaseCon con = new DatabaseCon();
-      String query = "SELECT * FROM Users WHERE Email = '" + user.getEmail() + "';";
-
-      ResultSet result = con.query(query);
+      String query = "SELECT * FROM Users WHERE Email = ?;";
+      PreparedStatement statement = con.prepareStatement(query);
+      statement.setString(1, user.getEmail());
+      ResultSet result = statement.executeQuery();
 
       int id = 0;
       String emailFromDb = "";
@@ -69,6 +71,7 @@ public class Login {
         }
 
       }
+      System.out.println("Login values: " + user.getEmail() + "\n" + user.getPassword());
 
     } catch (SQLException e) {
       e.printStackTrace();

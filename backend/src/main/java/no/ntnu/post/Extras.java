@@ -1,5 +1,7 @@
 package no.ntnu.post;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import no.ntnu.DatabaseCon;
 import no.ntnu.user.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +26,12 @@ public class Extras {
    *
    * @param token user token to check if user is admin.
    * @param name the name of the extra.
+   * @throws SQLException sql exception.
    */
   @PostMapping("new/extra/{token}")
   public void newExtra(
       @PathVariable String token,  
-      @RequestParam("extra") String name) {
+      @RequestParam("extra") String name) throws SQLException {
 
     if (!sessionManager.getSessions().containsKey(token) 
         || !sessionManager.getSessions().get(token).isAdmin()) {
@@ -36,8 +39,10 @@ public class Extras {
     }
     
     DatabaseCon con = new DatabaseCon();
-    String query = "INSERT INTO extras (Name) VALUES ('" + name + "');";
-    con.update(query);
+    String query = "INSERT INTO extras (Name) VALUES (?);";
+    PreparedStatement st = con.prepareStatement(query);
+    st.setString(1, name);
+    st.executeUpdate();
   }
   
 }

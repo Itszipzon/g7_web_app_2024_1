@@ -1,5 +1,6 @@
 package no.ntnu.api;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,8 +35,8 @@ public class PurchaseHistoryApi {
   @GetMapping(value = { "get/admin", "get/admin/{token}" })
   public ResponseEntity<List<String>> getAdminPurchaseHistory(
       @PathVariable(required = false) String token,
-      @RequestParam(required = false) String rows,
-      @RequestParam(required = false) String page) {
+      @RequestParam(required = false) int rows,
+      @RequestParam(required = false) int page) {
 
     List<String> purchaseHistory = new ArrayList<>();
 
@@ -46,12 +47,8 @@ public class PurchaseHistoryApi {
 
     try {
 
-      if (rows == null) {
-        rows = "10";
-      }
-
-      if (page == null) {
-        page = "0";
+      if (rows == 0) {
+        rows = 10;
       }
 
       String query = """
@@ -75,12 +72,14 @@ public class PurchaseHistoryApi {
             Car C ON S.CID = C.ID
           JOIN
             Location L ON S.LID = L.ID
+          LIMIT ?
+          OFFSET ?;
           """;
 
-      query += "LIMIT " + rows
-        + " OFFSET " + page + ";";
-
       DatabaseCon con = new DatabaseCon();
+      PreparedStatement st = con.prepareStatement(query);
+      st.setInt(1, rows);
+      st.setInt(2, page);
       ResultSet result = con.query(query);
 
       JSONObject json = new JSONObject();
@@ -144,12 +143,13 @@ public class PurchaseHistoryApi {
           JOIN
             Location L ON S.LID = L.ID
           WHERE
-            P.UID = 
+            P.UID = ?;
           """;
-      query += sessionManager.getUser(token).getId() + ";";
 
 
-      ResultSet result = con.query(query);
+      PreparedStatement st = con.prepareStatement(query);
+      st.setInt(1, sessionManager.getUser(token).getId());
+      ResultSet result = st.executeQuery();
 
       while (result.next()) {
         JSONObject json = new JSONObject();

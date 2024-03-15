@@ -1,5 +1,6 @@
 package no.ntnu.api;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -88,20 +89,29 @@ public class LocationApi {
           + "LEFT JOIN PurchaseHistory P ON S.ID = P.SID";
 
       if (car != null && !car.isBlank()) {
-        String maker = car.split(" ")[0];
-        String model = car.substring(car.indexOf(" ", 1) + 1);
         if (car.split(" ").length > 1) {
-          query += " WHERE C.Maker LIKE '%" + maker + "%' AND C.Model LIKE '%" + model + "%';";
+          query += " WHERE C.Maker LIKE '%?%' AND C.Model LIKE '%?%';";
         } else {
-          query += " WHERE C.Maker LIKE '%" + maker + "%';";
+          query += " WHERE C.Maker LIKE '%?%';";
         }
       } else {
         query += ";";
       }
 
-      DatabaseCon con = new DatabaseCon();
 
-      ResultSet result = con.query(query);
+      DatabaseCon con = new DatabaseCon();
+      PreparedStatement st = con.prepareStatement(query);
+      if (car != null && !car.isBlank()) {
+        String maker = car.split(" ")[0];
+        String model = car.substring(car.indexOf(" ", 1) + 1);
+        if (car.split(" ").length > 1) {
+          st.setString(1, maker);
+          st.setString(2, model);
+        } else {
+          st.setString(1, maker);
+        }
+      }
+      ResultSet result = st.executeQuery();
 
       while (result.next()) {
         JSONObject json = new JSONObject();
