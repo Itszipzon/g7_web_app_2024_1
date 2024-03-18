@@ -164,10 +164,18 @@ public class CarApi {
       } else {
         query += ";";
       }
-
+      
       DatabaseCon con = new DatabaseCon();
+      ResultSet result = null;
 
-      ResultSet result = con.query(query);
+      if (location != null && !location.isBlank()) {
+        PreparedStatement statement = con.prepareStatement(query);
+        statement.setString(1, location);
+        result = statement.executeQuery();
+      } else {
+        result = con.query(query);
+      }
+
 
       while (result.next()) {
         JSONObject json = new JSONObject();
@@ -324,7 +332,7 @@ public class CarApi {
    * @return a car with given id.
    */
   @GetMapping("get/car/{carId}")
-  public ResponseEntity<String> getCarById(@PathVariable String carId) {
+  public ResponseEntity<String> getCarById(@PathVariable int carId) {
     String jsonString = "";
 
     try {
@@ -336,10 +344,12 @@ public class CarApi {
           + "FROM Car C "
           + "LEFT JOIN carExtras V ON C.ID = V.CID "
           + "LEFT JOIN Extras E ON V.EID = E.ID "
-          + "WHERE C.ID = " + carId + " "
+          + "WHERE C.ID = ? "
           + "GROUP BY C.ID, C.Maker, C.Model, C.Year, C.Fuel, C.Transmission, C.Seats;";
 
-      ResultSet result = con.query(query);
+      PreparedStatement statement = con.prepareStatement(query);
+      statement.setInt(1, carId);
+      ResultSet result = statement.executeQuery();
 
       while (result.next()) {
         JSONObject json = new JSONObject();
@@ -360,7 +370,7 @@ public class CarApi {
       }
 
       result.close();
-      con.close();
+      statement.close();
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -789,7 +799,7 @@ public class CarApi {
    * @return the most popular cars.
    */
   @GetMapping("car/get/mostpopular/{amount}")
-  public ResponseEntity<List<String>> getMostPopular(@PathVariable String amount) {
+  public ResponseEntity<List<String>> getMostPopular(@PathVariable int amount) {
     List<String> jsonStringArray = new ArrayList<>();
 
     try {
@@ -812,10 +822,12 @@ public class CarApi {
           WHERE CC.TimeStamp >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
           GROUP BY C.Maker, C.Model
           ORDER BY Amount DESC
-          LIMIT
-            """ + amount + ";";
+          LIMIT ?;""";
 
-      ResultSet result = con.query(query);
+      PreparedStatement statement = con.prepareStatement(query);
+      statement.setInt(1, amount);
+
+      ResultSet result = statement.executeQuery();
 
       while (result.next()) {
         JSONObject json = new JSONObject();
@@ -832,7 +844,7 @@ public class CarApi {
       }
 
       result.close();
-      con.close();
+      statement.close();
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -859,19 +871,24 @@ public class CarApi {
     
     try {
       DatabaseCon con = new DatabaseCon();
-      String query = "SELECT C.ID FROM Car C WHERE C.Maker = '"
-          + maker + "' AND C.Model = '"
-          + model + "' AND C.Year = "
-          + year + ";";
-
-      ResultSet result = con.query(query);
+      String query = """
+          SELECT C.ID FROM Car C WHERE 
+          C.Maker = ? 
+          AND C.Model = ?
+          AND C.Year = ?;
+          """;
+      PreparedStatement st = con.prepareStatement(query);
+      st.setString(1, maker);
+      st.setString(2, model);
+      st.setInt(3, year);
+      ResultSet result = st.executeQuery();
 
       while (result.next()) {
         id = result.getInt("ID");
       }
 
       result.close();
-      con.close();
+      st.close();
       
       if (id < 1) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

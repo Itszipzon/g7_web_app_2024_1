@@ -1,6 +1,8 @@
 package no.ntnu.post;
 
 import java.security.SecureRandom;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Base64;
 import no.ntnu.DatabaseCon;
 import no.ntnu.user.User;
@@ -22,9 +24,10 @@ public class Register {
    *
    * @param user the user to register
    * @return a response entity
+   * @throws SQLException sql exception.
    */
   @PostMapping("user")
-  public ResponseEntity<String> registerUser(@RequestBody User user) {
+  public ResponseEntity<String> registerUser(@RequestBody User user) throws SQLException {
     byte[] salt = new byte[16];
     SecureRandom random = new SecureRandom();
 
@@ -45,23 +48,25 @@ public class Register {
 
     newUser.hashPassword();
 
-    String query = "INSERT INTO Users (Name, Email, Password, Salt, Address, "
-        + "PhoneNumber, Terms, IsGuest, IsAdmin) VALUES ('"
-        + newUser.getName() + "', '"
-        + newUser.getEmail() + "', '"
-        + newUser.getHashedPassword() + "', '"
-        + saltString + "', '"
-        + newUser.getAddress() + "', '"
-        + newUser.getPhoneNumber() + "', "
-        + newUser.isTerms() + ", "
-        + newUser.isGuest() + ", "
-        + newUser.isAdmin() + ")";
+    String query = """
+      INSERT INTO Users (Name, Email, Password, Salt,
+        Address, PhoneNumber, Terms, IsGuest, IsAdmin) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """;
     
-    DatabaseCon db = new DatabaseCon();
+    DatabaseCon con = new DatabaseCon();
 
-    db.update(query);
-
-    
+    PreparedStatement st = con.prepareStatement(query);
+    st.setString(1, newUser.getName());
+    st.setString(2, newUser.getEmail());
+    st.setString(3, newUser.getHashedPassword());
+    st.setString(4, saltString);
+    st.setString(5, newUser.getAddress());
+    st.setString(6, newUser.getPhoneNumber());
+    st.setBoolean(7, newUser.isTerms());
+    st.setBoolean(8, newUser.isGuest());
+    st.setBoolean(9, newUser.isAdmin());
+    st.executeUpdate();
 
     return ResponseEntity.ok("User registered");
   }

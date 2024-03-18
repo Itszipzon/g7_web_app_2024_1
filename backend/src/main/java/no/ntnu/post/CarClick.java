@@ -1,5 +1,7 @@
 package no.ntnu.post;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import no.ntnu.DatabaseCon;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +22,17 @@ public class CarClick {
    *
    * @param carId the car id.
    * @return a response entity.
+   * @throws SQLException Sql Exception.
    */
   @PostMapping("click")
-  public ResponseEntity<String> clickCar(@RequestBody String carId) {
+  public ResponseEntity<String> clickCar(@RequestBody int carId) throws SQLException {
     DatabaseCon con = new DatabaseCon();
-    String query = "INSERT INTO CarClicks(CID, TimeStamp) VALUES(" + carId + ", NOW());";
-    con.update(query);
-    return new ResponseEntity<>(HttpStatus.OK);
+    String query = "INSERT INTO CarClicks(CID, TimeStamp) VALUES(?, NOW());";
+    PreparedStatement statement = con.prepareStatement(query);
+    statement.setInt(1, carId);
+    statement.executeUpdate();
 
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
 }

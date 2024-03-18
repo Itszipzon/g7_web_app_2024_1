@@ -1,5 +1,6 @@
 package no.ntnu.api;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class PurchaseHistoryApi {
       @RequestParam(required = false) String page) {
 
     List<String> purchaseHistory = new ArrayList<>();
+    int row = 0;
+    int pages = 0;
 
     if (!sessionManager.getSessions().containsKey(token)
         || !sessionManager.getUser(token).isAdmin()) {
@@ -46,12 +49,16 @@ public class PurchaseHistoryApi {
 
     try {
 
-      if (rows == null) {
-        rows = "10";
+      if (page == null) {
+        pages = 0;
+      } else {
+        pages = Integer.parseInt(page);
       }
 
-      if (page == null) {
-        page = "0";
+      if (rows == null) {
+        row = 10;
+      } else {
+        row = Integer.parseInt(rows);
       }
 
       String query = """
@@ -75,13 +82,15 @@ public class PurchaseHistoryApi {
             Car C ON S.CID = C.ID
           JOIN
             Location L ON S.LID = L.ID
+          LIMIT ?
+          OFFSET ?;
           """;
 
-      query += "LIMIT " + rows
-        + " OFFSET " + page + ";";
-
       DatabaseCon con = new DatabaseCon();
-      ResultSet result = con.query(query);
+      PreparedStatement st = con.prepareStatement(query);
+      st.setInt(1, row);
+      st.setInt(2, pages);
+      ResultSet result = st.executeQuery();
 
       JSONObject json = new JSONObject();
 
@@ -98,6 +107,9 @@ public class PurchaseHistoryApi {
 
         purchaseHistory.add(json.toString());
       }
+
+      result.close();
+      st.close();
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -144,12 +156,13 @@ public class PurchaseHistoryApi {
           JOIN
             Location L ON S.LID = L.ID
           WHERE
-            P.UID = 
+            P.UID = ?;
           """;
-      query += sessionManager.getUser(token).getId() + ";";
 
 
-      ResultSet result = con.query(query);
+      PreparedStatement st = con.prepareStatement(query);
+      st.setInt(1, sessionManager.getUser(token).getId());
+      ResultSet result = st.executeQuery();
 
       while (result.next()) {
         JSONObject json = new JSONObject();

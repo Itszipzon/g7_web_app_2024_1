@@ -1,6 +1,7 @@
 package no.ntnu.api;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import no.ntnu.DatabaseCon;
@@ -62,7 +63,7 @@ public class ImageApi {
    * @throws IOException IOException.
    */
   @GetMapping(value = { "car/img/{carId}", "car/img/{carId}/{imgNumber}" })
-  public ResponseEntity<Resource> carImages(@PathVariable String carId,
+  public ResponseEntity<Resource> carImages(@PathVariable int carId,
       @PathVariable(required = false) String imgNumber) throws IOException {
 
     String carMaker = "";
@@ -81,9 +82,13 @@ public class ImageApi {
           + "FROM Car C "
           + "JOIN Images I "
           + "ON C.ID = I.CID "
-          + "WHERE C.ID = '" + carId + "' " + "AND I.ImageNumber = " + imgNum + ";";
+          + "WHERE C.ID = ? " + "AND I.ImageNumber = ?;";
+      
+      PreparedStatement statement = con.prepareStatement(query);
+      statement.setInt(1, carId);
+      statement.setInt(2, imgNum);
 
-      ResultSet result = con.query(query);
+      ResultSet result = statement.executeQuery();
 
       while (result.next()) {
         imageName = (result.getString("I.Name"));
@@ -92,7 +97,7 @@ public class ImageApi {
       }
 
       result.close();
-      con.close();
+      statement.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -129,18 +134,21 @@ public class ImageApi {
    * @return amount of images a car has.
    */
   @GetMapping("get/car/imagecount/{carId}")
-  public ResponseEntity<Integer> getAmountOfImages(@PathVariable String carId) {
+  public ResponseEntity<Integer> getAmountOfImages(@PathVariable int carId) {
     int amount = 0;
     try {
       DatabaseCon con = new DatabaseCon();
-      ResultSet result = con.query("SELECT COUNT(*) FROM Images WHERE CID = " + carId + ";");
+      PreparedStatement statement = 
+          con.prepareStatement("SELECT COUNT(*) FROM Images WHERE CID = ?;");
+      statement.setInt(1, carId);
+      ResultSet result = statement.executeQuery();
 
       while (result.next()) {
         amount = result.getInt(1);
       }
 
       result.close();
-      con.close();
+      statement.close();
 
     } catch (SQLException e) {
       e.printStackTrace();
