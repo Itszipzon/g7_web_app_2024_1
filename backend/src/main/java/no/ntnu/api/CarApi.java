@@ -1,5 +1,6 @@
 package no.ntnu.api;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -538,6 +539,227 @@ public class CarApi {
       DatabaseCon con = new DatabaseCon();
       
       ResultSet result = con.query(query);
+
+      while (result.next()) {
+        JSONObject json = new JSONObject();
+        json.put("ID", result.getString("C.ID"));
+        json.put("Maker", result.getString("C.Maker"));
+        json.put("Model", result.getString("C.Model"));
+        json.put("Year", result.getInt("C.Year"));
+        json.put("Fuel", result.getString("C.Fuel"));
+        json.put("Transmission", result.getString("C.Transmission"));
+        json.put("Seats", result.getInt("C.Seats"));
+        json.put("Body", result.getString("C.Body"));
+        json.put("Price", result.getInt("Lowest_Price"));
+        json.put("Location", result.getString("L.Name"));
+        jsonStringArray.add(json.toString());
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
+  }
+
+  /**
+   * Returns all the cars with certain filters.
+   *
+   * @param maker        car maker.
+   * @param model        car model.
+   * @param year         car year.
+   * @param fuel         car fuel.
+   * @param transmission car transmission.
+   * @param seats        car seats.
+   * @param location     car location.
+   * @param pricefrom    car price from.
+   * @param priceto      car price to.
+   * @param datefrom     car date from.
+   * @param dateto       car date to.
+   * @param orderby      What you wanna order the list after.
+   * @param order Direction of the order.
+   * @return all the cars with certain filters.
+   */
+  @GetMapping("car/filters")
+  public ResponseEntity<List<String>> getCarFiltersPrepared(
+      @RequestParam(required = false) String maker,
+      @RequestParam(required = false) String model,
+      @RequestParam(required = false) String year,
+      @RequestParam(required = false) String fuel,
+      @RequestParam(required = false) String body,
+      @RequestParam(required = false) String transmission,
+      @RequestParam(required = false) String seats,
+      @RequestParam(required = false) String location,
+      @RequestParam(required = false) String pricefrom,
+      @RequestParam(required = false) String priceto,
+      @RequestParam(required = false) String datefrom,
+      @RequestParam(required = false) String dateto,
+      @RequestParam(required = false) String orderby,
+      @RequestParam(required = false) String order) {
+
+    
+    /* TODO: Implement prepared statement for lists like body and seats. */
+    List<String> jsonStringArray = new ArrayList<>();
+
+    try {
+
+      List<Object> params = new ArrayList<>();
+
+      String query = """
+        SELECT
+        c.ID,
+        c.Maker,
+        c.Model,
+        c.Year,
+        c.Fuel,
+        c.Transmission,
+        c.Seats,
+        c.Body,
+        GROUP_CONCAT(e.Name) AS Extras,
+        MIN(s.Price) AS Lowest_Price,
+        l.Name
+    FROM
+        Car c
+    JOIN
+        Storage s ON c.ID = s.CID
+    LEFT JOIN
+        CarExtras ce ON c.ID = ce.CID
+    LEFT JOIN
+        Extras e ON ce.EID = e.ID
+    JOIN
+        Location l ON s.LID = l.ID
+          """;
+      if (maker != null
+          || model != null
+          || year != null
+          || fuel != null
+          || transmission != null
+          || seats != null
+          || location != null
+          || pricefrom != null
+          || priceto != null
+          || datefrom != null
+          || dateto != null
+          || body != null) {
+            
+        query += " WHERE ";
+        if (maker != null) {
+          query += "C.Maker LIKE '%?%' AND ";
+          params.add(maker);
+        }
+        if (model != null) {
+          query += "C.Model LIKE '%?%' AND ";
+          params.add(model);
+        }
+        if (year != null) {
+          query += "C.Year = ? AND ";
+          params.add(year);
+        }
+        if (fuel != null) {
+          query += "C.Fuel IN (?) AND ";
+          params.add(Tools.convertStringListSql(fuel, ","));
+        }
+        if (transmission != null) {
+          query += "C.Transmission LIKE '%?%' AND ";
+          params.add(transmission);
+        }
+        if (seats != null) {
+          query += "C.Seats IN (?)";
+          params.add(seats);
+          if (seats.contains("6")) {
+            query += " OR C.Seats > 6";
+          }
+          query += " AND ";
+        }
+        if (location != null) {
+          query += "L.Name LIKE '%?%' AND ";
+          params.add(location);
+        }
+        if (pricefrom != null) {
+          query += "s.Price >= ? AND ";
+          params.add(pricefrom);
+        }
+        if (priceto != null) {
+          query += "s.Price <= ? AND ";
+          params.add(priceto);
+        }
+        if (datefrom != null) {
+          query += "? IS NOT BETWEEN P.StartDate AND P.EndDate AND ";
+          params.add(datefrom);
+        }
+        if (dateto != null) {
+          query += "? IS NOT BETWEEN P.StartDate AND P.EndDate AND ";
+          params.add(dateto);
+        }
+        if (body != null) {
+          query += "C.Body IN (?) AND ";
+          params.add(Tools.convertStringListSql(body, ","));
+        }
+        
+        query = query.substring(0, query.lastIndexOf("AND"));
+      }
+
+      query += "GROUP BY c.ID, c.Maker, c.Model, c.Year, c.Fuel, c.Transmission, c.Seats ";
+
+      if (orderby != null) {
+
+        String orderValue = "";
+        switch (orderby) {
+          case "maker":
+            orderValue = "C.Maker";
+            break;
+          case "model":
+            orderValue = "C.Model";
+            break;
+          case "year":
+            orderValue = "C.Year";
+            break;
+          case "seats":
+            orderValue = "C.Seats";
+            break;
+          case "price":
+            orderValue = "Lowest_Price";
+            break;
+          case "body":
+            orderValue = "C.Body";
+            break;
+          default:
+            orderValue = "C.Maker";
+            break;
+        }
+
+        query += " ORDER BY ? ";
+
+        params.add(orderValue);
+        
+      } else {
+        query += "ORDER BY C.Maker ";
+      }
+
+      if (order != null) {
+        if (order.equalsIgnoreCase("desc")) {
+          query += "DESC";
+        } else {
+          query += "ASC";
+        }
+      } else {
+        query += "ASC";
+      }
+
+      query += ";";
+      DatabaseCon con = new DatabaseCon();
+
+      PreparedStatement st = con.prepareStatement(query);
+
+      for (int i = 0; i < params.size(); i++) {
+        if (params.get(i) instanceof String) {
+          st.setString(i + 1, (String) params.get(i));
+        } else if (params.get(i) instanceof Integer) {
+          st.setInt(i + 1, (int) params.get(i));
+        }
+      }
+      
+      System.out.println(st.toString());
+      ResultSet result = st.executeQuery();
 
       while (result.next()) {
         JSONObject json = new JSONObject();
