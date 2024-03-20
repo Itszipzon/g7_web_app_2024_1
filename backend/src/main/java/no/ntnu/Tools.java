@@ -28,12 +28,24 @@ public class Tools {
     String newListString = "";
     for (var i = 0; i < listArray.length; i++) {
       if (i == 0) {
-        newListString += listArray[i] + "'";
+        newListString += listArray[i];
       } else if (i == listArray.length - 1) {
-        newListString += "'" + listArray[i];
+        if (i == 1) {
+          newListString += "','" + listArray[i];
+        } else {
+          newListString += ",'" + listArray[i];
+        }
+      } else if (i == 1) {
+        newListString += "','" + listArray[i] + "'";
+      } else {
+        newListString += ",'" + listArray[i] + "'";
+      }
+      /* 
+      } else if (i == listArray.length - 1) {
+        newListString += "'" + listArray[i]; *//* 
       } else {
         newListString += "'" + listArray[i] + "',";
-      }
+      } */
     }
 
     return newListString;
