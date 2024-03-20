@@ -27,8 +27,10 @@ public class Tools {
     String[] listArray = list.split(split);
     String newListString = "";
     for (var i = 0; i < listArray.length; i++) {
-      if (i == listArray.length - 1) {
-        newListString += "'" + listArray[i] + "'";
+      if (i == 0) {
+        newListString += listArray[i] + "'";
+      } else if (i == listArray.length - 1) {
+        newListString += "'" + listArray[i];
       } else {
         newListString += "'" + listArray[i] + "',";
       }

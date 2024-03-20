@@ -396,7 +396,7 @@ public class CarApi {
    * @param order Direction of the order.
    * @return all the cars with certain filters.
    */
-  @GetMapping("car/filters")
+/*   @GetMapping("car/filters")
   public ResponseEntity<List<String>> getCarFilters(@RequestParam(required = false) String maker,
       @RequestParam(required = false) String model,
       @RequestParam(required = false) String year,
@@ -569,7 +569,7 @@ public class CarApi {
       e.printStackTrace();
     }
     return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
-  }
+  } */
 
   /**
    * Returns all the cars with certain filters.
