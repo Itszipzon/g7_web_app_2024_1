@@ -112,6 +112,10 @@ public class DatabaseCon {
     }
   }
 
+  public Connection getConnection() throws SQLException {
+    return DriverManager.getConnection(this.url, this.dbUser, this.dbPassword);
+  }
+
   /**
    * Closing the statement and connection.
    */

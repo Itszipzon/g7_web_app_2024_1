@@ -161,7 +161,6 @@ function CarPage() {
             <li>{car.Fuel}</li>
             <li>{car.Transmission}</li>
             <li>{car.Seats}</li>
-            {console.log(carExtras)}
             <li className='extrasLi'
               style={{"textDecoration" : "underLine"}}
               onMouseEnter={carExtras.length > 1 ? handleExtrasOver : null} 

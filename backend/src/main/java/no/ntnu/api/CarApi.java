@@ -396,201 +396,8 @@ public class CarApi {
    * @param order Direction of the order.
    * @return all the cars with certain filters.
    */
-/*   @GetMapping("car/filters")
-  public ResponseEntity<List<String>> getCarFilters(@RequestParam(required = false) String maker,
-      @RequestParam(required = false) String model,
-      @RequestParam(required = false) String year,
-      @RequestParam(required = false) String fuel,
-      @RequestParam(required = false) String body,
-      @RequestParam(required = false) String transmission,
-      @RequestParam(required = false) String seats,
-      @RequestParam(required = false) String location,
-      @RequestParam(required = false) String pricefrom,
-      @RequestParam(required = false) String priceto,
-      @RequestParam(required = false) String datefrom,
-      @RequestParam(required = false) String dateto,
-      @RequestParam(required = false) String orderby,
-      @RequestParam(required = false) String order) {
-
-    List<String> jsonStringArray = new ArrayList<>();
-
-    try {
-
-      String query = """
-        SELECT
-        c.ID,
-        c.Maker,
-        c.Model,
-        c.Year,
-        c.Fuel,
-        c.Transmission,
-        c.Seats,
-        c.Body,
-        GROUP_CONCAT(e.Name) AS Extras,
-        MIN(s.Price) AS Lowest_Price,
-        l.Name
-    FROM
-        Car c
-    JOIN
-        Storage s ON c.ID = s.CID
-    LEFT JOIN
-        CarExtras ce ON c.ID = ce.CID
-    LEFT JOIN
-        Extras e ON ce.EID = e.ID
-    JOIN
-        Location l ON s.LID = l.ID
-          """;
-      if (maker != null
-          || model != null
-          || year != null
-          || fuel != null
-          || transmission != null
-          || seats != null
-          || location != null
-          || pricefrom != null
-          || priceto != null
-          || datefrom != null
-          || dateto != null
-          || body != null) {
-            
-        query += " WHERE ";
-        if (maker != null) {
-          query += "C.Maker LIKE '%" + maker + "%' AND ";
-        }
-        if (model != null) {
-          query += "C.Model LIKE '%" + model + "%' AND ";
-        }
-        if (year != null) {
-          query += "C.Year = " + year + " AND ";
-        }
-        if (fuel != null) {
-          query += "C.Fuel IN (" + Tools.convertStringListSql(fuel, ",") + ") AND ";
-        }
-        if (transmission != null) {
-          query += "C.Transmission LIKE '%" + transmission + "%' AND ";
-        }
-        if (seats != null) {
-          query += "C.Seats IN (" + seats + ")";
-      
-          if (seats.contains("6")) {
-            query += " OR C.Seats > 6";
-          }
-          query += " AND ";
-        }
-        if (location != null) {
-          query += "L.Name LIKE '%" + location + "%' AND ";
-        }
-        if (pricefrom != null) {
-          query += "s.Price >= " + pricefrom + " AND ";
-        }
-        if (priceto != null) {
-          query += "s.Price <= " + priceto + " AND ";
-        }
-        if (datefrom != null) {
-          query += "'" + datefrom + "' IS NOT BETWEEN P.StartDate AND P.EndDate AND ";
-        }
-        if (dateto != null) {
-          query += "'" + dateto + "' IS NOT BETWEEN P.StartDate AND P.EndDate AND ";
-        }
-        if (body != null) {
-          query += "C.Body IN (" + Tools.convertStringListSql(body, ",") + ") AND ";
-        }
-        
-        query = query.substring(0, query.lastIndexOf("AND"));
-      }
-
-      query += "GROUP BY c.ID, c.Maker, c.Model, c.Year, c.Fuel, c.Transmission, c.Seats ";
-
-      if (orderby != null) {
-
-        String orderValue = "";
-
-        switch (orderby) {
-          case "maker":
-            orderValue = "C.Maker";
-            break;
-          case "model":
-            orderValue = "C.Model";
-            break;
-          case "year":
-            orderValue = "C.Year";
-            break;
-          case "seats":
-            orderValue = "C.Seats";
-            break;
-          case "price":
-            orderValue = "Lowest_Price";
-            break;
-          case "body":
-            orderValue = "C.Body";
-            break;
-          default:
-            orderValue = "C.Maker";
-            break;
-        }
-
-        query += " ORDER BY " + orderValue + " ";
-        
-      } else {
-        query += "ORDER BY C.Maker ";
-      }
-
-      if (order != null) {
-        if (order.equalsIgnoreCase("desc")) {
-          query += "DESC";
-        } else {
-          query += "ASC";
-        }
-      } else {
-        query += "ASC";
-      }
-
-      query += ";";
-      DatabaseCon con = new DatabaseCon();
-      
-      ResultSet result = con.query(query);
-
-      while (result.next()) {
-        JSONObject json = new JSONObject();
-        json.put("ID", result.getString("C.ID"));
-        json.put("Maker", result.getString("C.Maker"));
-        json.put("Model", result.getString("C.Model"));
-        json.put("Year", result.getInt("C.Year"));
-        json.put("Fuel", result.getString("C.Fuel"));
-        json.put("Transmission", result.getString("C.Transmission"));
-        json.put("Seats", result.getInt("C.Seats"));
-        json.put("Body", result.getString("C.Body"));
-        json.put("Price", result.getInt("Lowest_Price"));
-        json.put("Location", result.getString("L.Name"));
-        jsonStringArray.add(json.toString());
-      }
-
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    return new ResponseEntity<>(jsonStringArray, HttpStatus.OK);
-  } */
-
-  /**
-   * Returns all the cars with certain filters.
-   *
-   * @param maker        car maker.
-   * @param model        car model.
-   * @param year         car year.
-   * @param fuel         car fuel.
-   * @param transmission car transmission.
-   * @param seats        car seats.
-   * @param location     car location.
-   * @param pricefrom    car price from.
-   * @param priceto      car price to.
-   * @param datefrom     car date from.
-   * @param dateto       car date to.
-   * @param orderby      What you wanna order the list after.
-   * @param order Direction of the order.
-   * @return all the cars with certain filters.
-   */
   @GetMapping("car/filters")
-  public ResponseEntity<List<String>> getCarFiltersPrepared(
+  public ResponseEntity<List<String>> getCarFilters(
       @RequestParam(required = false) String maker,
       @RequestParam(required = false) String model,
       @RequestParam(required = false) String year,
@@ -665,16 +472,16 @@ public class CarApi {
           params.add(year);
         }
         if (fuel != null) {
-          query += "C.Fuel IN (?) AND ";
-          params.add(Tools.convertStringListSql(fuel, ","));
+          query += "C.Fuel IN (" + Tools.getSqlListAmount(fuel, ",") + ") AND ";
+          Tools.convertStringListSql(fuel, ",").forEach(s -> params.add(s));
         }
         if (transmission != null) {
           query += "C.Transmission LIKE '%?%' AND ";
           params.add(transmission);
         }
         if (seats != null) {
-          query += "C.Seats IN (?)";
-          params.add(seats);
+          query += "C.Seats IN (" + Tools.getSqlListAmount(seats, ",") + ")";
+          Tools.convertStringListSql(seats, ",").forEach(s -> params.add(s));
           if (seats.contains("6")) {
             query += " OR C.Seats > 6";
           }
@@ -701,8 +508,8 @@ public class CarApi {
           params.add(dateto);
         }
         if (body != null) {
-          query += "C.Body IN (?) AND ";
-          params.add(Tools.convertStringListSql(body, ","));
+          query += "C.Body IN (" + Tools.getSqlListAmount(body, ",") + ") AND ";
+          Tools.convertStringListSql(body, ",").forEach(s -> params.add(s));
         }
         
         query = query.substring(0, query.lastIndexOf("AND"));
@@ -767,8 +574,6 @@ public class CarApi {
           st.setInt(i + 1, (int) params.get(i));
         }
       }
-      
-      System.out.println(st.toString());
       ResultSet result = st.executeQuery();
 
       while (result.next()) {

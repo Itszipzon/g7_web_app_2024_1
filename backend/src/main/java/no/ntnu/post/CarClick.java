@@ -25,14 +25,21 @@ public class CarClick {
    * @throws SQLException Sql Exception.
    */
   @PostMapping("click")
-  public ResponseEntity<String> clickCar(@RequestBody int carId) throws SQLException {
-    DatabaseCon con = new DatabaseCon();
-    String query = "INSERT INTO CarClicks(CID, TimeStamp) VALUES(?, NOW());";
-    PreparedStatement statement = con.prepareStatement(query);
-    statement.setInt(1, carId);
-    statement.executeUpdate();
+  public ResponseEntity<String> clickCar(@RequestBody String carId) throws SQLException {
+    try {
+      int id = Integer.parseInt(carId);
+      DatabaseCon con = new DatabaseCon();
+      String query = "INSERT INTO CarClicks(CID, TimeStamp) VALUES(?, NOW());";
+      PreparedStatement statement = con.prepareStatement(query);
+      statement.setInt(1, id);
+      statement.executeUpdate();
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    
 
-    return new ResponseEntity<>(HttpStatus.OK);
   }
 
 }

@@ -3,7 +3,9 @@ package no.ntnu;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import no.ntnu.user.User;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,10 +25,26 @@ public class Tools {
    * @param split The split character
    * @return The converted list
    */
-  public static String convertStringListSql(String list, String split) {
+  public static List<Object> convertStringListSql(String list, String split) {
     String[] listArray = list.split(split);
-    String newListString = "";
-    for (var i = 0; i < listArray.length; i++) {
+
+    try {
+      List<Object> intList = new ArrayList<>();
+      for (String s : listArray) {
+        intList.add(Integer.parseInt(s));
+      }
+
+      return intList;
+    } catch (Exception e) {
+      List<Object> stringObject = new ArrayList<>();
+      for (String s : listArray) {
+        stringObject.add(s);
+      }
+
+      return stringObject;
+    }
+
+    /*for (var i = 0; i < listArray.length; i++) {
       if (i == 0) {
         newListString += listArray[i];
       } else if (i == listArray.length - 1) {
@@ -40,15 +58,28 @@ public class Tools {
       } else {
         newListString += ",'" + listArray[i] + "'";
       }
-      /* 
-      } else if (i == listArray.length - 1) {
-        newListString += "'" + listArray[i]; *//* 
+    } */
+  }
+
+  /**
+   * Returns the amount of ? a query needs.
+   *
+   * @param list The query list.
+   * @param split the split string.
+   * @return the amount of ? a query needs.
+   */
+  public static String getSqlListAmount(String list, String split) {
+    String[] newList = list.split(split);
+    String finished = "";
+    for (int i = 0; i < newList.length; i++) {
+      if (i == newList.length - 1) {
+        finished += "?";
       } else {
-        newListString += "'" + listArray[i] + "',";
-      } */
+        finished += "?, ";
+      }
     }
 
-    return newListString;
+    return finished;
   }
 
   /**

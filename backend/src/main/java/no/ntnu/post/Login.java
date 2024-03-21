@@ -71,7 +71,6 @@ public class Login {
         }
 
       }
-      System.out.println("Login values: " + user.getEmail() + "\n" + user.getPassword());
 
     } catch (SQLException e) {
       e.printStackTrace();

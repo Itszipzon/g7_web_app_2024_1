@@ -19,6 +19,7 @@ function CarCard({
 	const jsonValue = require("../information.json");
 
 	const handleClick = () => {
+		console.log(id);
     axios.post(jsonValue.serverAddress + 'post/carclick/click', id);
 	}
 
